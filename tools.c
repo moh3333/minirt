@@ -6,7 +6,7 @@
 /*   By: mthamir <mthamir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/28 16:32:32 by mthamir           #+#    #+#             */
-/*   Updated: 2024/12/14 16:20:49 by mthamir          ###   ########.fr       */
+/*   Updated: 2024/12/14 17:12:13 by mthamir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -152,7 +152,7 @@ we need it to compare the direction of the two vectors */
 /* if the two vectors are unit theire dot product is actually the cosine of the ongle between them */
 double	Dot_product(t_tuple *a, t_tuple *b)
 {
-	return ((a->x * b->x) + (a->y * b->y) + (a->z * b->z));
+	return ((a->x * b->x) + (a->y * b->y) + (a->z * b->z) + (a->w * b->w));
 }
 
 /* cross product if "a" and "b" are vector the cross product is "a"^"b" return another vector
@@ -269,34 +269,54 @@ t_matrix	*multiply_matrixs(t_matrix *a, t_matrix *b)
 t_tuple *tuple_matrix_multi(t_matrix *mtx, t_tuple *tpl)
 {
 	t_tuple *ret;
+	t_tuple *tmp;
 	double arr[4];
-	double result[4];
-	int i[2];
+	int j = 0;
 
-	i[0] = 0;
-	arr[0] = tpl->x;
-	arr[1] = tpl->y;
-	arr[2] = tpl->z;
-	arr[3] = tpl->w;
-	ret = malloc (sizeof(t_tuple));
-	if (!ret)
-		return (NULL);
-	while (i[1] < 4)
+	j = 0;
+	while (j < 4)
 	{
-		i[0] = 0;
-		while (i[0] < 4)
-		{
-			result[i[1]] += (mtx->matrix[i[1]][i[0]] * arr[i[0]]);
-			(i[0])++;
-		}
-		(i[1])++;
+		tmp = creat_p_v(mtx->matrix[j][0], mtx->matrix[j][1],\
+		mtx->matrix[j][2], mtx->matrix[j][3]);
+		arr[j] = Dot_product(tmp, tpl);
+		j++;
 	}
-	ret->x = result[0];
-	ret->y = result[1];
-	ret->z = result[2];
-	ret->w = result[3];
+	ret = creat_p_v(arr[0], arr[1], arr[2], arr[3]);
 	return (ret);
 }
+
+// t_tuple *tuple_matrix_multi(t_matrix *mtx, t_tuple *tpl)
+// {
+// 	t_tuple *ret;
+// 	double arr[4];
+// 	double result[4];
+// 	int i[2];
+
+// 	i[0] = 0;
+// 	arr[0] = tpl->x;
+// 	arr[1] = tpl->y;
+// 	arr[2] = tpl->z;
+// 	arr[3] = tpl->w;
+// 	ret = malloc (sizeof(t_tuple));
+// 	if (!ret)
+// 		return (NULL);
+// 	while (i[1] < 4)
+// 	{
+// 		i[0] = 0;
+// 		while (i[0] < 4)
+// 		{
+// 			result[i[1]] += (mtx->matrix[i[1]][i[0]] * arr[i[0]]);
+// 			(i[0])++;
+// 		}
+// 		(i[1])++;
+// 	}
+// 	ret->x = result[0];
+// 	ret->y = result[1];
+// 	ret->z = result[2];
+// 	ret->w = result[3];
+// 	return (ret);
+// }
+
 
 /*multiply a matrice by a tuple test */
 
@@ -447,3 +467,4 @@ t_tuple *tuple_matrix_multi(t_matrix *mtx, t_tuple *tpl)
 // 		proj = tick(env, proj);
 // 	}
 // }
+/* waiting */
