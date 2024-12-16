@@ -6,7 +6,7 @@
 /*   By: mthamir <mthamir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/28 16:32:32 by mthamir           #+#    #+#             */
-/*   Updated: 2024/12/14 17:12:13 by mthamir          ###   ########.fr       */
+/*   Updated: 2024/12/16 16:45:52 by mthamir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -208,6 +208,8 @@ t_color *colors_scalar_multiply(t_color *a, double scalar)
 	return (ret);
 }
 
+/* checks if two matrix are equals*/
+
 int equal_matrix(t_matrix *a, t_matrix *b, int base)
 {
 	int i;
@@ -228,6 +230,8 @@ int equal_matrix(t_matrix *a, t_matrix *b, int base)
 	return (1);
 }
 
+/*helper function that help multiplying two matrixs */
+
 double	get_element(t_matrix *a, t_matrix *b, int row, int col)
 {
 	double result;
@@ -242,6 +246,8 @@ double	get_element(t_matrix *a, t_matrix *b, int row, int col)
 	} 
 	return (result);
 }
+
+/*multiplying two matrixs gives another matrix */
 
 t_matrix	*multiply_matrixs(t_matrix *a, t_matrix *b)
 {
@@ -266,6 +272,36 @@ t_matrix	*multiply_matrixs(t_matrix *a, t_matrix *b)
 	return (ret);
 }
 
+/* identity matrix multipliyng by any matrix it gives the same matrix */
+
+t_matrix *identity_matrix(void)
+{
+	int i;
+	int j;
+	t_matrix *a;
+
+	i = 0;
+	a = malloc(sizeof(t_matrix));
+	if (!a)
+		return (NULL);
+	while (i < 4)
+	{
+		j = 0;
+		while (j < 4)
+		{
+			if (i == j)
+				a->matrix[i][j] = 1;
+			else
+				a->matrix[i][j] = 0;
+			j++;
+		}
+		i++;
+	}
+	return (a);
+}
+
+/* multipling a matrix by  tuple creat another tuple */
+
 t_tuple *tuple_matrix_multi(t_matrix *mtx, t_tuple *tpl)
 {
 	t_tuple *ret;
@@ -285,38 +321,410 @@ t_tuple *tuple_matrix_multi(t_matrix *mtx, t_tuple *tpl)
 	return (ret);
 }
 
-// t_tuple *tuple_matrix_multi(t_matrix *mtx, t_tuple *tpl)
-// {
-// 	t_tuple *ret;
-// 	double arr[4];
-// 	double result[4];
-// 	int i[2];
+/*transpose take a matrix and change its rows to collomns and its collomns to rows */
 
-// 	i[0] = 0;
-// 	arr[0] = tpl->x;
-// 	arr[1] = tpl->y;
-// 	arr[2] = tpl->z;
-// 	arr[3] = tpl->w;
-// 	ret = malloc (sizeof(t_tuple));
-// 	if (!ret)
-// 		return (NULL);
-// 	while (i[1] < 4)
-// 	{
-// 		i[0] = 0;
-// 		while (i[0] < 4)
-// 		{
-// 			result[i[1]] += (mtx->matrix[i[1]][i[0]] * arr[i[0]]);
-// 			(i[0])++;
-// 		}
-// 		(i[1])++;
-// 	}
-// 	ret->x = result[0];
-// 	ret->y = result[1];
-// 	ret->z = result[2];
-// 	ret->w = result[3];
-// 	return (ret);
+t_matrix *transpose(t_matrix *a)
+{
+	t_matrix *ret;
+	int i;
+	int j;
+
+	i = 0;
+	ret = malloc(sizeof(t_matrix));
+	if (!ret)
+		return (NULL);
+	while (i < 4)
+	{
+		j = 0;
+		while (j < 4)
+		{
+			ret->matrix[j][i] = a->matrix[i][j];
+			j++;
+		}
+		i++;
+	}
+	return (ret);
+}
+
+/* get determinant of 2*2 matrix */
+
+double determinant_2(t_2_2 *a)
+{
+	return(subtruct( multiply(a->matrix[0][0], a->matrix[1][1]),\
+		 multiply(a->matrix[0][1], a->matrix[1][0])));
+}
+
+
+
+/* submatrix 3*3 remove a collamn and a row from a  4*4 matrix */
+
+t_3_3 *submatrix_3(t_matrix *a, int row, int col)
+{
+	t_3_3 *d;
+	int i[4];
+
+	d = (t_3_3 *)malloc (sizeof(t_3_3));
+	if (!d)
+		return (NULL);
+	i[0] = 0;
+	i[2] = 0;
+	while (i[0] < 4 && i[2] < 3)
+	{
+		if (i[0] == row)
+			(i[0])++;
+		i[1] = 0;
+		i[3] = 0;
+		while (i[1] < 4 && i[3] < 3)
+		{
+			if (i[1] == col)
+				(i[1])++;
+			d->matrix[i[2]][i[3]] = a->matrix[i[0]][i[1]] ;
+			(i[1])++;
+			(i[3])++;
+		}
+		(i[0])++;
+		(i[2])++;
+	}
+	return (d);
+}
+
+/* submatrix 2*2 remove a collamn and a row from a 3*3 matrix */
+
+t_2_2 *submatrix_2(t_3_3 *a, int row, int col)
+{
+	t_2_2 *d;
+	int i[4];
+
+	d = (t_2_2 *)malloc (sizeof(t_3_3));
+	if (!d)
+		return (NULL);
+	i[0] = 0;
+	i[2] = 0;
+	while (i[0] < 3 && i[2] < 2)
+	{
+		if (i[0] == row)
+			(i[0])++;
+		i[1] = 0;
+		i[3] = 0;
+		while (i[1] < 3 && i[3] < 2)
+		{
+			if (i[1] == col)
+				(i[1])++;
+			d->matrix[i[2]][i[3]] = a->matrix[i[0]][i[1]] ;
+			(i[1])++;
+			(i[3])++;
+		}
+		(i[0])++;
+		(i[2])++;
+	}
+	return (d);
+}
+
+/* is the determinant of a 3*3 submatrix after removing a row and col */
+
+double	ft_minor(t_3_3 *a, int row, int col)
+{
+	return (determinant_2(submatrix_2(a, row, col)));
+}
+
+/* get the cofactor sign depending on the case the row and col removed share in the matrix */
+
+double cofactor_sign(int r, int c)
+{
+	if ((!(r % 2) && (c % 2)) || ((r % 2) && (!(c % 2))))
+		return (-1);
+	return (1);
+}
+
+/* gettin the cofactor of the 3*3 matrix */
+
+double cofactor_3(t_3_3 *a, int row , int col )
+{
+	return ((ft_minor(a, row , col) * cofactor_sign(row, col)));
+}
+
+/*getting the determinant of the 3*3 matrix u have the choice to work with the cols o rows
+u will get the same  result  */
+double determinant_3(t_3_3 *a)
+{
+	return ((cofactor_3(a, 0, 0) * a->matrix[0][0]) + \
+		(cofactor_3(a, 0, 1) * a->matrix[0][1]) + \
+		(cofactor_3(a, 0, 2) * a->matrix[0][2]));
+}
+
+double	cofactor(t_matrix *a, int row , int col)
+{
+	return ((determinant_3(submatrix_3(a, row, col))) * cofactor_sign(row, col));
+}
+
+double determinant(t_matrix *a)
+{
+	return ((cofactor(a, 0, 0) * a->matrix[0][0]) + \
+		(cofactor(a, 0, 1) * a->matrix[0][1]) + \
+		(cofactor(a, 0, 2) * a->matrix[0][2]) + \
+		(cofactor(a, 0, 3) * a->matrix[0][3]));
+}
+
+/*checks the matrix inverbility is it return 0 mean thats not invertible */
+double invertible(t_matrix *a)
+{
+	return (determinant(a));
+}
+
+int main()
+{
+	t_matrix a;
+
+	a.matrix[0][0] = -2;
+	a.matrix[0][1] = -8;
+	a.matrix[0][2] = 3;
+	a.matrix[0][3] = 5;
+
+	a.matrix[1][0] = -3;
+	a.matrix[1][1] = 1;
+	a.matrix[1][2] = 7;
+	a.matrix[1][3] = 3;
+
+	a.matrix[2][0] = 1;
+	a.matrix[2][1] = 2;
+	a.matrix[2][2] = -9;
+	a.matrix[2][3] = 6;
+
+	a.matrix[3][0] = -6;
+	a.matrix[3][1] = 7;
+	a.matrix[3][2] = 7;
+	a.matrix[3][3] = -9;
+	printf("%.0f\n", cofactor(&a, 0, 0));
+	printf("%.0f\n", cofactor(&a, 0, 1));
+	printf("%.0f\n", cofactor(&a, 0, 2));
+	printf("%.0f\n", cofactor(&a, 0, 3));
+	printf("%.0f\n", determinant(&a));
+
+}
+
+/*waiting */
+
+/*testing the determinant of the 3*3 matrix */
+// int main()
+// {
+// 	t_3_3 a;
+
+// 	a.matrix[0][0] = 1;
+// 	a.matrix[0][1] = 2;
+// 	a.matrix[0][2] = 6;
+
+// 	a.matrix[1][0] = -5;
+// 	a.matrix[1][1] = 8;
+// 	a.matrix[1][2] = -4;
+
+// 	a.matrix[2][0] = 2;
+// 	a.matrix[2][1] = 6;
+// 	a.matrix[2][2] = 4;
+
+// 	double r = cofactor_3(&a, 0, 0);
+// 	double r1 = cofactor_3(&a, 1, 0);
+// 	double r2 = cofactor_3(&a, 2, 0);
+// 	// double r3 = determinant_2(submatrix_2(&a));
+// 	printf("%.0f\n", r);
+// 	printf("%.0f\n", r1);
+// 	printf("%.0f\n", r2);
+// 	printf("%.0f\n", determinant_3(&a));
+// 	printf("%.0f\n", (((r*a.matrix[0][0])+(r1*a.matrix[1][0])+(r2*a.matrix[2][0]))));
 // }
 
+/* testing the minor of the 3*3 matrix */
+// int main()
+// {
+// 	t_3_3 a;
+
+// 	a.matrix[0][0] = 3;
+// 	a.matrix[0][1] = 5;
+// 	a.matrix[0][2] = 0;
+
+// 	a.matrix[1][0] = 2;
+// 	a.matrix[1][1] = -1;
+// 	a.matrix[1][2] = -7;
+
+// 	a.matrix[2][0] = 6;
+// 	a.matrix[2][1] = -1;
+// 	a.matrix[2][2] = 5;
+
+// 	double r = ft_minor(&a, 1, 0);
+// 	printf("%.0f\n", r);
+// }
+
+/* testing submatrix 2 and 3 */
+
+// int main()
+// {
+// 	t_matrix a;
+
+// 	a.matrix[0][0] = -6;
+// 	a.matrix[0][1] = 1;
+// 	a.matrix[0][2] = 1;
+// 	a.matrix[0][3] = 6;
+
+// 	a.matrix[1][0] = -8;
+// 	a.matrix[1][1] = 5;
+// 	a.matrix[1][2] = 8;
+// 	a.matrix[1][3] = 6;
+
+// 	a.matrix[2][0] = -1;
+// 	a.matrix[2][1] = 0;
+// 	a.matrix[2][2] = 8;
+// 	a.matrix[2][3] = 2;
+
+// 	a.matrix[3][0] = -7;
+// 	a.matrix[3][1] = -1;
+// 	a.matrix[3][2] = -1;
+// 	a.matrix[3][3] = 1;
+
+// 	t_3_3 *h = submatrix_3(&a, 2, 1);
+
+// 	int i, j;
+// 	i = 0;
+// 	while (i < 3)
+// 	{
+// 		j = 0;
+// 		while (j < 3)
+// 		{
+// 			printf("  %.0f |", h->matrix[i][j]);
+// 			j++;
+// 		}
+// 		printf("\n");
+// 		i++;
+// 	} 
+// 	printf("\n");
+// 	t_2_2 *d = submatrix_2(h, 0, 2);
+// 	i = 0;
+// 	while (i < 2)
+// 	{
+// 		j = 0;
+// 		while (j < 2)
+// 		{
+// 			printf("  %.0f |", d->matrix[i][j]);
+// 			j++;
+// 		}
+// 		printf("\n");
+// 		i++;
+// 	} 
+// }
+
+
+
+/* determinant of 2*2 matrix test */
+// int main()
+// {
+// 	t_2_2 *a;
+// 	a = malloc(sizeof(t_2_2));
+// 	a->matrix[0][0] = 1;
+// 	a->matrix[0][1] = 5;
+// 	a->matrix[1][0] = -3;
+// 	a->matrix[1][1] = 2;
+// 	printf("%.0f\n", determinant_2(a));
+// }
+
+/* transpose test */
+
+// int main()
+// {
+// 	t_matrix a;
+
+// 	a.matrix[0][0] = 1;
+// 	a.matrix[0][1] = 2;
+// 	a.matrix[0][2] = 3;
+// 	a.matrix[0][3] = 4;
+
+// 	a.matrix[1][0] = 2;
+// 	a.matrix[1][1] = 4;
+// 	a.matrix[1][2] = 4;
+// 	a.matrix[1][3] = 2;
+
+// 	a.matrix[2][0] = 8;
+// 	a.matrix[2][1] = 6;
+// 	a.matrix[2][2] = 4;
+// 	a.matrix[2][3] = 1;
+
+// 	a.matrix[3][0] = 0;
+// 	a.matrix[3][1] = 0;
+// 	a.matrix[3][2] = 0;
+// 	a.matrix[3][3] = 1;
+
+// 	int i = 0;
+// 	int j = 0;
+// 	while (i < 4){
+// 		j = 0;
+// 		while (j < 4){
+// 			printf(" %.0f  |", a.matrix[i][j]);
+// 			j++;
+// 		}
+// 		printf("\n");
+// 		i++;
+// 	}
+// 	printf("_____________\n");
+// 	t_matrix *ret = transpose(&a);
+// 	i = 0;
+// 	j = 0;
+// 	while (i < 4){
+// 		j = 0;
+// 		while (j < 4){
+// 			printf(" %.0f  |", ret->matrix[i][j]);
+// 			j++;
+// 		}
+// 		printf("\n");
+// 		i++;
+// 	}
+// }
+
+/*multiply a identity matrice by a tuple and by a matrix test */
+
+// int main()
+// {
+// 	t_matrix a;
+// 	t_tuple b;
+
+// 	a.matrix[0][0] = 1;
+// 	a.matrix[0][1] = 2;
+// 	a.matrix[0][2] = 3;
+// 	a.matrix[0][3] = 4;
+
+// 	a.matrix[1][0] = 2;
+// 	a.matrix[1][1] = 4;
+// 	a.matrix[1][2] = 4;
+// 	a.matrix[1][3] = 2;
+
+// 	a.matrix[2][0] = 8;
+// 	a.matrix[2][1] = 6;
+// 	a.matrix[2][2] = 4;
+// 	a.matrix[2][3] = 1;
+
+// 	a.matrix[3][0] = 0;
+// 	a.matrix[3][1] = 0;
+// 	a.matrix[3][2] = 0;
+// 	a.matrix[3][3] = 1;
+
+// 	b.x = 1;
+// 	b.y = 2;
+// 	b.z = 3;
+// 	b.w = 1;
+
+// 	t_tuple *re = tuple_matrix_multi(identity_matrix(), &b);
+// 	printf("%.0f\n%.0f\n%.0f\n%.0f\n", re->x, re->y, re->z, re->w);
+// 	printf("__________________________________________\n");
+// 	t_matrix *ret = multiply_matrixs(&a, identity_matrix());
+
+// 	int i = 0;
+// 	int j = 0;
+// 	while (i < 4){
+// 		j = 0;
+// 		while (j < 4){
+// 			printf(" %.0f  |", ret->matrix[i][j]);
+// 			j++;
+// 		}
+// 		printf("\n");
+// 		i++;
+// 	}
+// }
 
 /*multiply a matrice by a tuple test */
 

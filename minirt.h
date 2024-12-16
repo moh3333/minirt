@@ -6,7 +6,7 @@
 /*   By: mthamir <mthamir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/28 15:23:22 by mthamir           #+#    #+#             */
-/*   Updated: 2024/12/13 17:33:59 by mthamir          ###   ########.fr       */
+/*   Updated: 2024/12/16 15:52:03 by mthamir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,5 +37,14 @@ typedef struct s_tuple	{
 typedef struct s_matrix{
 	double matrix[4][4];
 }	t_matrix;
+
+typedef struct s_2_2{
+	double matrix[2][2];
+}	t_2_2;
+
+typedef struct s_3_3{
+	double matrix[3][3];
+}	t_3_3;
+
 
 #endif
