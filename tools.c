@@ -6,7 +6,7 @@
 /*   By: mthamir <mthamir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/28 16:32:32 by mthamir           #+#    #+#             */
-/*   Updated: 2024/12/16 16:45:52 by mthamir          ###   ########.fr       */
+/*   Updated: 2024/12/19 18:53:27 by mthamir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,16 +111,10 @@ t_tuple *scalar_multply(t_tuple *a, double scalar)
 	return (ret);
 }
 
-/* calcul square of a number */
-double n_square(double num)
-{
-	return (num * num);
-}
-
 /* calculer magnitude of a vector (or its lengh) */
 double magnitude(t_tuple *a)
 {
-	return (sqrt((n_square(a->x) + n_square(a->y) + n_square(a->z))));
+	return (sqrt((pow(a->x, 2) + pow(a->y, 2) + pow(a->z, 2))));
 }
 
 /* check if its a unit vector */
@@ -144,7 +138,7 @@ t_tuple *Normalize(t_tuple *a)
 	ret->x = (a->x / v);
 	ret->y = (a->y / v);
 	ret->z = (a->z / v);
-	ret->w = (a->w / v);
+	ret->w = a->w;
 	return (ret);
 }
 /* if "a" and "b" are vector the dot product is "a"."b" return a number 
@@ -210,22 +204,20 @@ t_color *colors_scalar_multiply(t_color *a, double scalar)
 
 /* checks if two matrix are equals*/
 
-int equal_matrix(t_matrix *a, t_matrix *b, int base)
+int equal_matrix(t_matrix *a, t_matrix *b)
 {
 	int i;
 	int j;
 
-	i = 0;
-	while (i < base)
+	i = -1;
+	while (++i < 4)
 	{
-		j = 0;
-		while (j < base)
+		j = -1;
+		while (++j < 4)
 		{
 			if (!is_equal(a->matrix[i][j], b->matrix[i][j]))
 				return (0);
-			j++;
 		}
-		i++;
 	}
 	return (1);
 }
@@ -238,12 +230,9 @@ double	get_element(t_matrix *a, t_matrix *b, int row, int col)
 	int i;
 
 	result = 0;
-	i = 0;
-	while (i < 4)
-	{
+	i = -1;
+	while (++i < 4)
 		result += (a->matrix[row][i] * b->matrix[i][col]);
-		i++;
-	} 
 	return (result);
 }
 
@@ -255,19 +244,15 @@ t_matrix	*multiply_matrixs(t_matrix *a, t_matrix *b)
 	int j;
 	t_matrix *ret;
 
-	i = 0; 
+	i = -1; 
 	ret = malloc (sizeof(t_matrix));
 	if (!ret)
 		return (NULL);
-	while (i < 4)
+	while (++i < 4)
 	{
-		j = 0;
-		while (j < 4)
-		{
+		j = -1;
+		while (++j < 4)
 			ret->matrix[i][j] = get_element(a, b, i, j);
-			j++;
-		}
-		i++;
 	}
 	return (ret);
 }
@@ -280,22 +265,20 @@ t_matrix *identity_matrix(void)
 	int j;
 	t_matrix *a;
 
-	i = 0;
+	i = -1;
 	a = malloc(sizeof(t_matrix));
 	if (!a)
 		return (NULL);
-	while (i < 4)
+	while (++i < 4)
 	{
-		j = 0;
-		while (j < 4)
+		j = -1;
+		while (++j < 4)
 		{
 			if (i == j)
 				a->matrix[i][j] = 1;
 			else
 				a->matrix[i][j] = 0;
-			j++;
 		}
-		i++;
 	}
 	return (a);
 }
@@ -307,15 +290,14 @@ t_tuple *tuple_matrix_multi(t_matrix *mtx, t_tuple *tpl)
 	t_tuple *ret;
 	t_tuple *tmp;
 	double arr[4];
-	int j = 0;
+	int j;
 
-	j = 0;
-	while (j < 4)
+	j = -1;
+	while (++j < 4)
 	{
 		tmp = creat_p_v(mtx->matrix[j][0], mtx->matrix[j][1],\
 		mtx->matrix[j][2], mtx->matrix[j][3]);
 		arr[j] = Dot_product(tmp, tpl);
-		j++;
 	}
 	ret = creat_p_v(arr[0], arr[1], arr[2], arr[3]);
 	return (ret);
@@ -329,19 +311,15 @@ t_matrix *transpose(t_matrix *a)
 	int i;
 	int j;
 
-	i = 0;
+	i = -1;
 	ret = malloc(sizeof(t_matrix));
 	if (!ret)
 		return (NULL);
-	while (i < 4)
+	while (++i < 4)
 	{
-		j = 0;
-		while (j < 4)
-		{
+		j = -1;
+		while (++j < 4)
 			ret->matrix[j][i] = a->matrix[i][j];
-			j++;
-		}
-		i++;
 	}
 	return (ret);
 }
@@ -366,24 +344,20 @@ t_3_3 *submatrix_3(t_matrix *a, int row, int col)
 	d = (t_3_3 *)malloc (sizeof(t_3_3));
 	if (!d)
 		return (NULL);
-	i[0] = 0;
-	i[2] = 0;
-	while (i[0] < 4 && i[2] < 3)
+	i[0] = -1;
+	i[2] = -1;
+	while (++(i[0]) < 4 && ++(i[2]) < 3)
 	{
 		if (i[0] == row)
-			(i[0])++;
-		i[1] = 0;
-		i[3] = 0;
-		while (i[1] < 4 && i[3] < 3)
+			++(i[0]);
+		i[1] = -1;
+		i[3] = -1;
+		while (++(i[1]) < 4 && ++(i[3]) < 3)
 		{
 			if (i[1] == col)
-				(i[1])++;
+				++(i[1]);
 			d->matrix[i[2]][i[3]] = a->matrix[i[0]][i[1]] ;
-			(i[1])++;
-			(i[3])++;
 		}
-		(i[0])++;
-		(i[2])++;
 	}
 	return (d);
 }
@@ -398,24 +372,20 @@ t_2_2 *submatrix_2(t_3_3 *a, int row, int col)
 	d = (t_2_2 *)malloc (sizeof(t_3_3));
 	if (!d)
 		return (NULL);
-	i[0] = 0;
-	i[2] = 0;
-	while (i[0] < 3 && i[2] < 2)
+	i[0] = -1;
+	i[2] = -1;
+	while (++(i[0]) < 3 && ++(i[2]) < 2)
 	{
 		if (i[0] == row)
-			(i[0])++;
-		i[1] = 0;
-		i[3] = 0;
-		while (i[1] < 3 && i[3] < 2)
+			++(i[0]);
+		i[1] = -1;
+		i[3] = -1;
+		while (++(i[1]) < 3 && ++(i[3]) < 2)
 		{
 			if (i[1] == col)
-				(i[1])++;
+				++(i[1]);
 			d->matrix[i[2]][i[3]] = a->matrix[i[0]][i[1]] ;
-			(i[1])++;
-			(i[3])++;
 		}
-		(i[0])++;
-		(i[2])++;
 	}
 	return (d);
 }
@@ -471,36 +441,249 @@ double invertible(t_matrix *a)
 	return (determinant(a));
 }
 
+/* get th inverse of a matrix */
+t_matrix *inverse(t_matrix *a)
+{
+	t_matrix *ret;
+	int i;
+	int j;
+	double det;
+
+	if (!invertible(a))
+		return (a);
+	det = determinant(a);
+	ret = malloc(sizeof(t_matrix));
+	if (!ret)
+		return (NULL);
+	i = -1;
+	while (++i < 4)
+	{
+		j = -1;
+		while (++j < 4)
+			ret->matrix[i][j] = (cofactor(a, i, j) / det);
+	}
+	return (transpose(ret));
+}
+
+/* get the translation matrix we need to translate a point */
+
+t_matrix *transl_matrix(double x, double y, double z)
+{
+	t_matrix *ret;
+
+	ret = identity_matrix();
+	ret->matrix[0][3] = x;
+	ret->matrix[1][3] = y;
+	ret->matrix[2][3] = z;
+	return (ret);
+}
+
+/* get the scalling matrix */
+t_matrix *scal_matrix(double x, double y, double z)
+{
+	t_matrix *ret;
+
+	ret = identity_matrix();
+	ret->matrix[0][0] = x;
+	ret->matrix[1][1] = y;
+	ret->matrix[2][2] = z;
+	return (ret);
+}
+
+double radians(double degrees)
+{
+	return ((degrees / 180) * π);
+}
+
+/* translate  point */
+t_tuple *translation(t_tuple *point, t_matrix *tr_mtx)
+{
+	return (tuple_matrix_multi(tr_mtx, point));
+}
+
+/* scall point */
+t_tuple *scalling(t_tuple *point, t_matrix *scal_mtx)
+{
+	return (tuple_matrix_multi(scal_mtx, point));
+}
+
+/* rotat a vector or a point to an axis x y or z */
+t_matrix *rotat_matrix(double radians, char axis)
+{
+	t_matrix *ret;
+	int r[2];
+
+	r[0] = 0;
+	r[1] = 0;
+	ret = identity_matrix();
+	if (axis == 'x' && ++(r[0]) && ++(r[0]) && ++(r[1]))
+		;
+	else if (axis == 'y' && ++(r[1]) && ++(r[1]))
+		;
+	else if (axis == 'z' && ++(r[1]))
+		;
+	ret->matrix[r[0]][r[0]] = cos(radians);
+	ret->matrix[r[1]][r[1]] = ret->matrix[r[0]][r[0]];
+	if (axis == 'z')
+	{
+		ret->matrix[r[1]][r[0]] = sin(radians);
+		ret->matrix[r[0]][r[1]] = -(ret->matrix[r[1]][r[0]]);
+	}
+	else
+	{
+		ret->matrix[r[0]][r[1]] = sin(radians);
+		ret->matrix[r[1]][r[0]] = -(ret->matrix[r[0]][r[1]]);
+	}
+	return (ret);
+}
+
+t_matrix *skewing_matrix(double *arr)
+{
+	t_matrix *ret;
+
+	ret = identity_matrix();
+	ret->matrix[0][1] = arr[0];
+	ret->matrix[0][2] = arr[1];
+	ret->matrix[1][0] = arr[2];
+	ret->matrix[1][2] = arr[3];
+	ret->matrix[2][0] = arr[4];
+	ret->matrix[2][1] = arr[5];
+	return (ret);
+}
+
 int main()
 {
-	t_matrix a;
-
-	a.matrix[0][0] = -2;
-	a.matrix[0][1] = -8;
-	a.matrix[0][2] = 3;
-	a.matrix[0][3] = 5;
-
-	a.matrix[1][0] = -3;
-	a.matrix[1][1] = 1;
-	a.matrix[1][2] = 7;
-	a.matrix[1][3] = 3;
-
-	a.matrix[2][0] = 1;
-	a.matrix[2][1] = 2;
-	a.matrix[2][2] = -9;
-	a.matrix[2][3] = 6;
-
-	a.matrix[3][0] = -6;
-	a.matrix[3][1] = 7;
-	a.matrix[3][2] = 7;
-	a.matrix[3][3] = -9;
-	printf("%.0f\n", cofactor(&a, 0, 0));
-	printf("%.0f\n", cofactor(&a, 0, 1));
-	printf("%.0f\n", cofactor(&a, 0, 2));
-	printf("%.0f\n", cofactor(&a, 0, 3));
-	printf("%.0f\n", determinant(&a));
-
+	t_matrix *s = rotat_matrix(radians(90), 'x');
+	t_matrix *b = scal_matrix(5,5,5);
+	t_matrix *c = transl_matrix(10,5,7);
+	t_tuple *a = tuple_matrix_multi(multiply_matrixs(c, multiply_matrixs(b, s)), creat_p_v(1,0,1,1));
+	printf("x == %.5f\n", a->x);
+	printf("y == %.5f\n", a->y);
+	printf("z == %.5f\n", a->z);
+	printf("w == %.5f\n", a->w);
+	
 }
+/* testing the skeewing (shearing ) transformation */
+// int main()
+// {
+// 	double arr[6] = {0,0,0,0,0,1};
+// 	t_tuple *a = tuple_matrix_multi(skewing_matrix(arr), creat_p_v(2,3,4,1));
+// 	printf("x == %.5f\n", a->x);
+// 	printf("y == %.5f\n", a->y);
+// 	printf("z == %.5f\n", a->z);
+// 	printf("w == %.5f\n", a->w);
+
+// }
+
+/* testing rotat a vector or point around an axis x y or z */
+// int main()
+// {
+// 	t_tuple *a = tuple_matrix_multi((rotat_matrix(radians(45), 'z')), creat_p_v(0,1,0,1));
+// 	printf("x == %.5f\n", a->x);
+// 	printf("y == %.5f  ====  %.5f\n", a->y , (sqrt(2) / 2));
+// 	printf("z == %.5f\n", a->z);
+// 	printf("w == %.5f\n", a->w);
+// }
+
+/* testing scalling a vector or point it affect to both of them by a scallar matrix */
+// int main()
+// {
+	// t_tuple *r = scalling(creat_p_v(2,3,4,1), scal_matrix(-1,1,1));
+	// printf("%.0f\n%.0f\n%.0f\n%.0f\n", r->x, r->y, r->z, r->w);
+	/* scalling by inverse */
+	// t_tuple *r = scalling(creat_p_v(-4,6,8,1), inverse(scal_matrix(2,3,4)));
+	// printf("%.0f\n%.0f\n%.0f\n%.0f\n", r->x, r->y, r->z, r->w);
+// }
+
+/*test translate a point or vector but it does not affect with vectors && by transalte matrix and its inverse  */
+// int main()
+// {
+// 	t_tuple *r = translat_point(creat_p_v(-3,4,5,1), inverse(transl_matrix(5,-3,2)));
+// 	printf("%.0f\n%.0f\n%.0f\n%.0f\n", r->x, r->y, r->z, r->w);
+// }
+/* testing the inverse of matrixs */
+
+// int main()
+// {
+// 	t_matrix a;
+// 	t_matrix b;
+
+// 	a.matrix[0][0] = 3;
+// 	a.matrix[0][1] = -9;
+// 	a.matrix[0][2] = 7;
+// 	a.matrix[0][3] = 3;
+
+// 	a.matrix[1][0] = 3;
+// 	a.matrix[1][1] = -8;
+// 	a.matrix[1][2] = 2;
+// 	a.matrix[1][3] = -9;
+
+// 	a.matrix[2][0] = -4;
+// 	a.matrix[2][1] = 4;
+// 	a.matrix[2][2] = 4;
+// 	a.matrix[2][3] = 1;
+
+// 	a.matrix[3][0] = -6;
+// 	a.matrix[3][1] = 5;
+// 	a.matrix[3][2] = -1;
+// 	a.matrix[3][3] = 1;
+// /*__________________________________*/
+
+// 	b.matrix[0][0] = 8;
+// 	b.matrix[0][1] = 2;
+// 	b.matrix[0][2] = 2;
+// 	b.matrix[0][3] = 2;
+
+// 	b.matrix[1][0] = 3;
+// 	b.matrix[1][1] = -1;
+// 	b.matrix[1][2] = 7;
+// 	b.matrix[1][3] = 0;
+
+// 	b.matrix[2][0] = 7;
+// 	b.matrix[2][1] = 0;
+// 	b.matrix[2][2] = 5;
+// 	b.matrix[2][3] = 4;
+
+// 	b.matrix[3][0] = 6;
+// 	b.matrix[3][1] = -2;
+// 	b.matrix[3][2] = 0;
+// 	b.matrix[3][3] = 5;
+	// t_matrix *d = multiply_matrixs(&b, &a);
+	// int i = 0;
+	// int j = 0;
+	// while (i < 4)
+	// {
+	// 	j = 0;
+	// 	while (j < 4)
+	// 	{
+	// 		printf("%.5f  |", d->matrix[i][j]);
+	// 		j++;
+	// 	}
+	// 	printf("\n");
+	// 	i++;
+	// }
+	// printf("\n");
+	// t_matrix *ret = multiply_matrixs( d, inverse(&a));
+	// i = 0;
+	// j = 0;
+	// while (i < 4)
+	// {
+	// 	j = 0;
+	// 	while (j < 4)
+	// 	{
+	// 		printf("%.5f  |", ret->matrix[i][j]);
+	// 		j++;
+	// 	}
+	// 	printf("\n");
+	// 	i++;
+	// }
+	// if (equal_matrix(&a, multiply_matrixs(multiply_matrixs(&a, &b), inverse(&b))))
+	// 	printf("vereything works as expected \n");
+	// else
+	// 	printf("rak ghir katkhawer\n");
+	
+
+// }
 
 /*waiting */
 
@@ -707,14 +890,26 @@ int main()
 // 	b.y = 2;
 // 	b.z = 3;
 // 	b.w = 1;
-
-// 	t_tuple *re = tuple_matrix_multi(identity_matrix(), &b);
+// 	t_matrix *iden = identity_matrix();
+// 	iden->matrix[0][1] = 6;
+// 	t_tuple *re = tuple_matrix_multi(iden, &b);
+// 	int i = 0;
+// 	int j = 0;
+// 	while (i < 4){
+// 		j = 0;
+// 		while (j < 4){
+// 			printf(" %.0f  |", iden->matrix[i][j]);
+// 			j++;
+// 		}
+// 		printf("\n");
+// 		i++;
+// 	}
 // 	printf("%.0f\n%.0f\n%.0f\n%.0f\n", re->x, re->y, re->z, re->w);
 // 	printf("__________________________________________\n");
 // 	t_matrix *ret = multiply_matrixs(&a, identity_matrix());
 
-// 	int i = 0;
-// 	int j = 0;
+// 	i = 0;
+// 	j = 0;
 // 	while (i < 4){
 // 		j = 0;
 // 		while (j < 4){
@@ -863,16 +1058,22 @@ int main()
 
 // int main()
 // {
-
-// 	void *mlx = mlx_init();
-// 	void *window = mlx_new_window(mlx, 2000, 2000, "TEST");
 // 	t_projectile *proj = creat_proj(creat_p_v(0, 1, 0, 1), Normalize(creat_p_v(1, 1, 0, 0)));
 // 	t_envirement *env = creat_env(creat_p_v(0, -0.1, 0, 0), creat_p_v(-0.01, 0, 0, 0));
 // 	int ti = 0;
-// 	while (proj->position->y > 0)
+// 	while (1)
 // 	{
 // 		ti++;
+// 		printf("proj y == %.5f\n", proj->position->y);
+// 		printf("proj x == %.5f\n", proj->position->x);
+// 		printf("proj z == %.5f\n", proj->position->z);
+// 		printf("volecity y == %.5f\n", proj->velocity->y);
+// 		printf("volecity x == %.5f\n", proj->velocity->x);
+// 		printf("volecity z == %.5f\n", proj->velocity->z);
 // 		proj = tick(env, proj);
+// 		printf("\n");
+// 		sleep(1);
 // 	}
+// 	printf("the projectile touch the ground");
 // }
 /* waiting */

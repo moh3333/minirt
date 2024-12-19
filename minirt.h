@@ -6,7 +6,7 @@
 /*   By: mthamir <mthamir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/28 15:23:22 by mthamir           #+#    #+#             */
-/*   Updated: 2024/12/16 15:52:03 by mthamir          ###   ########.fr       */
+/*   Updated: 2024/12/19 15:28:22 by mthamir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,9 +17,8 @@
 #include <math.h>
 #include <mlx.h>
 
-#ifndef EPSILON
-	#define	EPSILON 0.00001
-#endif
+#define	EPSILON 0.00001
+#define	π 3.1415926535
 
 typedef struct s_color	{
 	double r;
