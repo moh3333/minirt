@@ -6,7 +6,7 @@
 /*   By: mthamir <mthamir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/28 16:32:32 by mthamir           #+#    #+#             */
-/*   Updated: 2024/12/22 11:55:27 by mthamir          ###   ########.fr       */
+/*   Updated: 2024/12/26 19:47:32 by mthamir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ int ispoint(t_tuple *a)
 }
 
 /* compare two floating point number we use a constant  */
-int equal(double a, double b)
+int isequal(double a, double b)
 {
 	return ((fabs(a-b) < EPSILON));
 }
@@ -58,7 +58,7 @@ double	mul(double a, double b)
 }
 
 /* divide two floating point number */
-double	div(double a, double b)
+double	divi(double a, double b)
 {
 	return (a / b);
 }
@@ -111,10 +111,14 @@ t_tuple *scalar(t_tuple *a, double scalar)
 	return (ret);
 }
 
+double	sq(double num)
+{
+	return(pow(num, 2));
+}
 /* calculer magnitude of a vector (or its lengh) */
 double magnitude(t_tuple *a)
 {
-	return (sqrt((pow(a->x, 2) + pow(a->y, 2) + pow(a->z, 2))));
+	return (sqrt((sq(a->x) + sq(a->y) + sq(a->z))));
 }
 
 /* check if its a unit vector */
@@ -146,7 +150,7 @@ wec need it to ompare the direction of the two vectors */
 /* if the two vectors are unit theire dot product is actually the cosine of the ongle between them */
 double	Dot_p(t_tuple *a, t_tuple *b)
 {
-	return ((a->x * b->x) + (a->y * b->y) + (a->z * b->z) + (a->w * b->w));
+	return ((a->x * b->x) + (a->y * b->y) + (a->z * b->z));
 }
 
 /* cross product if "a" and "b" are vector the cross product is "a"^"b" return another vector
@@ -565,10 +569,10 @@ t_ray *ray(t_tuple *origine, t_tuple *direction)
 
 t_tuple *position(t_ray *ray, double distance)
 {
-	return (tuples_A_S(ray->o , scalar_multply(ray->d, distance), '+'));
+	return (tpl_o(ray->o , scalar(ray->d, distance), '+'));
 }
 
-t_spher *spher(t_tuple *center, double raduis)
+t_spher *spher(t_tuple *center, double raduis, int id)
 {
 	t_spher *ret;
 
@@ -577,18 +581,83 @@ t_spher *spher(t_tuple *center, double raduis)
 		return (NULL);
 	ret->c = center;
 	ret->r = raduis;
+	ret->id = id;
 	return (ret);
 }
 
-double *intersection(t_ray *ray, t_spher *spher)
+double near_far(double a, double b, char t, double *count)
 {
-	
-	
+	if ( a < 0 && b < 0 && ++(*count) && (a != b) && ++(*count))
+	{
+		if (isequal(a, b) && t == 'n')
+			return (b);
+		if (isequal(a, b) && t == 'f')
+			return (a);
+	}
+	else if ( a > 0 && b < 0 && ++(*count))
+	{
+		if (t == 'n')
+			return (a);
+		else if (t == 'f')
+			return (b);
+	}
+	else if ( a < 0 && b > 0 && ++(*count))
+	{
+		if (t == 'n')
+			return (b);
+		else if (t == 'f')
+		return (a);
+	}
+	else if ( a > 0 && b > 0)
+	{
+		if (t == 'n')
+			return (a);
+		else if (t == 'f')
+			return (b);
+	}
+	return (0);
+}
+
+t_intersect	*intersect(t_ray *ray, t_spher *spher, t_tuple *p)
+{
+	t_intersect *inter;
+	double		arr[4];
+	double dot;
+	t_tuple *point;
+
+	point =  tpl_o(p, spher->c, '-');
+	dot = Dot_p(point, point);
+	inter = malloc(sizeof(sizeof(t_intersect)));
+	if (!inter)
+		return (NULL);
+	arr[0] = Dot_p(ray->ud, ray->ud);
+	arr[1] = 2 * (Dot_p(ray->ud, point));
+	arr[2] = (dot - sq(spher->r));
+	arr[3] = sq(arr[1]) - (4 * (arr[0] * arr[2]));
+	inter->intersect = 1;
+	inter->type = SPH;
+	inter->object = spher;
+	inter->near = near_far((-arr[1] + sqrt(arr[3])) / (2 * (arr[0])),(-arr[1] - sqrt(arr[3])) / (2 * (arr[0])), 'n', &inter->count);
+	inter->far = near_far((-arr[1] + sqrt(arr[3])) / (2 * (arr[0])),(-arr[1] - sqrt(arr[3])) / (2 * (arr[0])), 'f', &inter->count);
+	inter->ray = ray;
+	if (arr[3] < 0 || ((-arr[1] + sqrt(arr[3])) / (2 * (arr[0])) < 0 \
+		&& (-arr[1] - sqrt(arr[3])) / (2 * (arr[0])) < 0))
+		return (NULL);
+	return (inter);
 }
 
 int main()
 {
-	t_ray *r = ray(cpv(0,0,5,1), cpv(0,0,1,0));
-	t_spher *sph = spher(cpv(0,0,0,1), 2);
-	
+	t_tuple *point =  cpv(0,1,-5,1);
+	t_tuple *vec =  cpv(0,0,1,0);
+	t_ray *r = ray(point, vec);
+	t_spher *sph = spher(cpv(0,0,0,1), 1, 0);
+	t_intersect *i = NULL;
+	i = intersect(r , sph, point);
+	if (!i)
+		return (printf("no hits"), 1);
+	printf("intersert %.2d\n",  i->intersect);
+	printf("type %.2d\n",  i->type);
+	printf("near %.2f\n",  i->near);
+	printf("far %.2f\n",  i->far);
 }

@@ -6,7 +6,7 @@
 /*   By: mthamir <mthamir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/28 15:23:22 by mthamir           #+#    #+#             */
-/*   Updated: 2024/12/22 11:54:12 by mthamir          ###   ########.fr       */
+/*   Updated: 2024/12/26 19:48:03 by mthamir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,9 @@
 
 #define	EPSILON 0.00001
 #define	π 3.1415926535
+#define SPH 1
+
+
 
 typedef struct s_color	{
 	double r;
@@ -54,16 +57,29 @@ typedef struct s_ray
 
 typedef struct s_spher
 {
-	double r;
-	t_tuple *c;
+	double	r;
+	int		id;
+	t_tuple	*c;
 
 }	t_spher;
+
+typedef struct s_intersect
+{
+	bool intersect;
+	t_ray *ray;
+	double near;
+	double far;
+	int	type;
+	void *object;
+	double count;
+}  t_intersect;
+
 /* creat a point or a vector */
 t_tuple	*cpv(double x, double y, double z, int p_v);
 /* checks if its a point or a vector if true(1) its point else its vector */
 int ispoint(t_tuple *a);
 /* checks if two floating point number are equal or not if true(1) are equal else not*/
-int equal(double a, double b);
+int isequal(double a, double b);
 /* add two floating point number */
 double	add(double a, double b);
 /* subtract two floating point number */
@@ -71,7 +87,7 @@ double	sub(double a, double b);
 /* multiply two floating point number */
 double	mul(double a, double b);
 /* divide two floating point number */
-double	div(double a, double b);
+double	divi(double a, double b);
 /* operation between two tuples addition and subtraction */
 t_tuple *tpl_o(t_tuple *a, t_tuple *b , char op);
 /*get the opposite vector of a given one */
@@ -143,7 +159,12 @@ t_matrix *skew_mat(double *arr);
 t_ray *ray(t_tuple *origine, t_tuple *direction);
 /* shows how far the ray travels in (x distance) seconds  (Computing a point from a distance)*/
 t_tuple *position(t_ray *ray, double distance);
-
+/* creat a sphere with given enter and raduis */
+t_spher *spher(t_tuple *center, double raduis, int id);
+/* decide wich of the intersection points near and far */
+double	near_far(double a, double b, char f, double *count);
+/* check rays sphere intersection and fill the t_intersect struct with object type and object and intersection points */
+t_intersect	*intersect(t_ray *ray, t_spher *spher, t_tuple *p);
 
 
 
