@@ -620,3 +620,20 @@ distance  traveled,  and  then  add  that  to  the  ray’s  origin. */
 // 	printf("the projectile touch the ground");
 // }
 /* waiting */
+
+
+/* ray sphere intersection */
+// int main()
+// {
+// 	t_tuple *point =  cpv(0,0,-5,1);
+// 	t_tuple *vec =  cpv(0,0,1,0);
+// 	t_ray *r = ray(point, vec);
+// 	t_spher *sph = spher(cpv(0,0,0,1), 1, 0);
+// 	t_intersect *i = NULL;
+// 	i = intersect(r , sph, point);
+// 	if (!i)
+// 		return (printf("no hits"), 1);
+// 	printf("intersert %.2d\n",  i->intersect);
+// 	printf("near %.2f\n",  i->t[0]);
+// 	printf("far %.2f\n",  i->t[1]);
+// }

@@ -6,7 +6,7 @@
 #    By: mthamir <mthamir@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/12/12 17:40:42 by mthamir           #+#    #+#              #
-#    Updated: 2024/12/26 17:17:11 by mthamir          ###   ########.fr        #
+#    Updated: 2025/01/04 17:35:22 by mthamir          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,8 +14,7 @@ NAME := minirt
 
 CC := cc
 
-FLAGS = -W
-FLAGS := -Wall -Wextra -Werror -I/Users/$(shell whoami)/Desktop/gitminirt/MLX42/include/MLX42
+FLAGS :=  -Wall -Wextra -Werror -fsanitize=address -I/Users/$(shell whoami)/Desktop/gitminirt/MLX42/include/MLX42
 
 MLX		=	MLX42/libmlx42.a
 

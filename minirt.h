@@ -6,7 +6,7 @@
 /*   By: mthamir <mthamir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/28 15:23:22 by mthamir           #+#    #+#             */
-/*   Updated: 2024/12/26 19:48:03 by mthamir          ###   ########.fr       */
+/*   Updated: 2025/01/04 16:44:20 by mthamir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,11 +15,14 @@
 
 #include <libc.h>
 #include <math.h>
+#include <stdarg.h>
 #include <MLX42.h>
+
 
 #define	EPSILON 0.00001
 #define	π 3.1415926535
 #define SPH 1
+#define LAST_P 
 
 
 
@@ -59,23 +62,30 @@ typedef struct s_spher
 {
 	double	r;
 	int		id;
+	t_matrix *transform;
 	t_tuple	*c;
 
 }	t_spher;
 
 typedef struct s_intersect
 {
-	bool intersect;
 	t_ray *ray;
-	double near;
-	double far;
-	int	type;
 	void *object;
-	double count;
+	double t;
 }  t_intersect;
 
+typedef struct s_camera
+{
+	t_ray *cam_ray;
+	double fov;
+	double aspect_ratio;
+	double win_hight;
+	double win_width;
+}			t_camera;
+
+
 /* creat a point or a vector */
-t_tuple	*cpv(double x, double y, double z, int p_v);
+t_tuple	*cpv(double x, double y, double z, double p_v);
 /* checks if its a point or a vector if true(1) its point else its vector */
 int ispoint(t_tuple *a);
 /* checks if two floating point number are equal or not if true(1) are equal else not*/
@@ -161,10 +171,9 @@ t_ray *ray(t_tuple *origine, t_tuple *direction);
 t_tuple *position(t_ray *ray, double distance);
 /* creat a sphere with given enter and raduis */
 t_spher *spher(t_tuple *center, double raduis, int id);
-/* decide wich of the intersection points near and far */
-double	near_far(double a, double b, char f, double *count);
 /* check rays sphere intersection and fill the t_intersect struct with object type and object and intersection points */
-t_intersect	*intersect(t_ray *ray, t_spher *spher, t_tuple *p);
+t_intersect	*intersect(t_ray *ray, t_spher *spher);
+t_ray *transform(t_ray *t, t_matrix *mat);
 
 
 

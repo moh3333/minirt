@@ -6,7 +6,7 @@
 /*   By: mthamir <mthamir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/28 16:32:32 by mthamir           #+#    #+#             */
-/*   Updated: 2024/12/26 19:47:32 by mthamir          ###   ########.fr       */
+/*   Updated: 2025/01/04 18:06:18 by mthamir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 /*if p_v is (1) creat point if its 0 creat vector */
 
-t_tuple *cpv(double x, double y, double z, int p_v)
+t_tuple *cpv(double x, double y, double z, double p_v)
 {
 	t_tuple *a;
 
@@ -300,7 +300,7 @@ t_tuple *tup_mat_mul(t_matrix *mtx, t_tuple *tpl)
 	{
 		tmp = cpv(mtx->matrix[j][0], mtx->matrix[j][1],\
 		mtx->matrix[j][2], mtx->matrix[j][3]);
-		arr[j] = Dot_p(tmp, tpl);
+		arr[j] = (tmp->x * tpl->x) + (tmp->y * tpl->y) + (tmp->z * tpl->z) + (tmp->w * tpl->w);
 	}
 	ret = cpv(arr[0], arr[1], arr[2], arr[3]);
 	return (ret);
@@ -576,88 +576,176 @@ t_spher *spher(t_tuple *center, double raduis, int id)
 {
 	t_spher *ret;
 
-	ret = malloc (sizeof(spher));
+	ret = malloc (sizeof(t_spher));
 	if (!ret)
 		return (NULL);
 	ret->c = center;
 	ret->r = raduis;
 	ret->id = id;
+	ret->transform = i_mat();
 	return (ret);
 }
 
-double near_far(double a, double b, char t, double *count)
+static double *eq_inter(t_ray *ray1 , t_spher *spher)
 {
-	if ( a < 0 && b < 0 && ++(*count) && (a != b) && ++(*count))
-	{
-		if (isequal(a, b) && t == 'n')
-			return (b);
-		if (isequal(a, b) && t == 'f')
-			return (a);
-	}
-	else if ( a > 0 && b < 0 && ++(*count))
-	{
-		if (t == 'n')
-			return (a);
-		else if (t == 'f')
-			return (b);
-	}
-	else if ( a < 0 && b > 0 && ++(*count))
-	{
-		if (t == 'n')
-			return (b);
-		else if (t == 'f')
-		return (a);
-	}
-	else if ( a > 0 && b > 0)
-	{
-		if (t == 'n')
-			return (a);
-		else if (t == 'f')
-			return (b);
-	}
-	return (0);
-}
+	double		*arr;
 
-t_intersect	*intersect(t_ray *ray, t_spher *spher, t_tuple *p)
+	arr = malloc (4 * sizeof (double));
+	if (!arr)
+		return (NULL);
+	arr[0] = Dot_p(ray1->d, ray1->d);
+	arr[1] = 2 * (Dot_p(ray1->o, ray1->d));
+	arr[2] = (Dot_p(ray1->o, ray1->o) - sq(spher->r));
+	arr[3] = sq(arr[1]) - (4 * (arr[0] * arr[2]));
+	return (arr);
+}
+t_intersect	*intersect(t_ray *ray, t_spher *spher)
 {
 	t_intersect *inter;
-	double		arr[4];
-	double dot;
-	t_tuple *point;
+	t_ray *ray1;
+	double *arr;
+	double t1;
+	double t2;
 
-	point =  tpl_o(p, spher->c, '-');
-	dot = Dot_p(point, point);
-	inter = malloc(sizeof(sizeof(t_intersect)));
+	ray1 = transform(ray, inverse(spher->transform));
+	arr = eq_inter(ray1, spher);
+	if (!arr)
+		return (NULL);
+	inter = malloc(sizeof(t_intersect));
 	if (!inter)
 		return (NULL);
-	arr[0] = Dot_p(ray->ud, ray->ud);
-	arr[1] = 2 * (Dot_p(ray->ud, point));
-	arr[2] = (dot - sq(spher->r));
-	arr[3] = sq(arr[1]) - (4 * (arr[0] * arr[2]));
-	inter->intersect = 1;
-	inter->type = SPH;
+	t1 = (-arr[1] - sqrt(arr[3])) / (2 * (arr[0]));
+	t2 = (-arr[1] + sqrt(arr[3])) / (2 * (arr[0]));
+	if (t1 < 0 && t2 < 0)
+		return(NULL);
+	if (t1 >= 0 && t2 >= 0)
+	{
+		if (t1 > t2)
+			inter->t = t2;
+		else if (t1 < t2)
+			inter->t = t1;
+	}
+	if (t1 < 0 && t2 >= 0)
+		inter->t = t2;
+	if (t2 < 0 && t1 >= 0)
+		inter->t = t1;
+	else if (t1 >= 0 && t2 < 0)
+		inter->t = t2;
+	else if (t1 > t2 && t2 >= 0)
+		inter->t = t2;
+	else if (t1 < t2 && t1 >= 0)
+		inter->t = t1;
+	else if (t1 == t2 && t1 >= 0)
+		inter->t = t1;
+	printf("%f   %f\n", t1, t2);
 	inter->object = spher;
-	inter->near = near_far((-arr[1] + sqrt(arr[3])) / (2 * (arr[0])),(-arr[1] - sqrt(arr[3])) / (2 * (arr[0])), 'n', &inter->count);
-	inter->far = near_far((-arr[1] + sqrt(arr[3])) / (2 * (arr[0])),(-arr[1] - sqrt(arr[3])) / (2 * (arr[0])), 'f', &inter->count);
-	inter->ray = ray;
-	if (arr[3] < 0 || ((-arr[1] + sqrt(arr[3])) / (2 * (arr[0])) < 0 \
-		&& (-arr[1] - sqrt(arr[3])) / (2 * (arr[0])) < 0))
+	inter->ray = ray1;
+	if (arr[3] < 0)
 		return (NULL);
 	return (inter);
 }
 
+double *intersections(int num, ...)
+{
+	va_list a;
+	double *arr;
+	int i;
+
+	i = -1;
+	arr = malloc (num * sizeof(double));
+	if (!arr)
+		return (NULL);
+	va_start(a, num);
+	while (++i < num)
+		arr[i] = va_arg(a, double);
+	return (arr);
+}
+double ft_max(double *arr, int num)
+{
+	int i;
+	double max;
+
+	i = -1;
+	max = -1;
+	while (++i < num)
+	{
+		if (arr[i] > max)
+			max = arr[i];
+	}
+	return (max);
+}
+
+double hit_p(double *arr, int num)
+{
+	int i;
+	double min;
+
+	i = -1;
+	min = ft_max(arr, num);
+	if (min < 0)
+		return (-2147483648);
+	if (min == 0)
+		return (min);
+	while (++i < num)
+	{
+		if (arr[i] < min)
+			min = arr[i];
+	}
+	return (min);
+}
+
+t_ray *transform(t_ray *t, t_matrix *mat)
+{
+	t_ray *ra;
+
+	ra = malloc(sizeof(t_ray));
+	if (!ra)
+		return (NULL);
+	ra->o = tup_mat_mul(mat, t->o);
+	ra->d = tup_mat_mul(mat , t->d);
+	ra->ud = Normalize(ra->d);
+	return (ra);
+}
+void	set_tranform(t_spher *sph, t_matrix *mat)
+{
+	*sph->transform = *mat;
+}
+
+void Normalize_direction(t_camera **camera, double x, double y)
+{
+	(*camera)->cam_ray->d->x = (2 * ((x + 0.5) / (*camera)->win_width - 1) \
+		* tan(radians((*camera)->fov / 2)) * (*camera)->aspect_ratio);
+	(*camera)->cam_ray->d->y = (2 * ((y + 0.5) / (*camera)->win_hight - 1) \
+		* tan(radians((*camera)->fov / 2)));
+}
+
 int main()
 {
-	t_tuple *point =  cpv(0,1,-5,1);
-	t_tuple *vec =  cpv(0,0,1,0);
-	t_ray *r = ray(point, vec);
-	t_spher *sph = spher(cpv(0,0,0,1), 1, 0);
-	t_intersect *i = NULL;
-	i = intersect(r , sph, point);
-	if (!i)
-		return (printf("no hits"), 1);
-	printf("intersert %.2d\n",  i->intersect);
-	printf("type %.2d\n",  i->type);
-	printf("near %.2f\n",  i->near);
-	printf("far %.2f\n",  i->far);
+	t_camera *camera = malloc(sizeof(t_camera));
+	double x = 0;
+	double y = 0;
+	// t_intersect *inter;
+	camera->win_hight = 1000;
+	camera->win_width = 1000;
+	camera->fov = 90;
+	camera->aspect_ratio = camera->win_width / camera->win_hight;
+	camera->cam_ray = ray(cpv(0, 0, -1, 1), cpv(0, 0, 5, 1));
+	void *mlx = mlx_init(1000, 1000, "testing minirt", 1);
+	mlx_image_t *image = mlx_new_image(mlx, camera->win_width, camera->win_hight);
+	// t_tuple *centre = cpv(0,0,-5,1);
+	// t_spher *sph = spher(centre, 1, 1);
+	while (y < camera->win_hight - 1)
+	{
+		x = 0;
+		while (x < camera->win_width - 1)
+		{
+			double px = (2 * ((x + 0.5) / (double)camera->win_width) - 1) * tan(camera->fov / 2.0 * M_PI / 180.0) * camera->aspect_ratio;
+            double py = (1 - 2 * ((y + 0.5) / (double)camera->win_hight)) * tan(camera->fov / 2.0 * M_PI / 180.0);
+			mlx_put_pixel(image, px, py, 0xFFFFFF);
+			x++;
+		}
+		y++;
+	}
+	mlx_image_to_window(mlx, image, 0, 0);
+	mlx_loop(mlx);
 }
