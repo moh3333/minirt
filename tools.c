@@ -6,11 +6,75 @@
 /*   By: mthamir <mthamir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/28 16:32:32 by mthamir           #+#    #+#             */
-/*   Updated: 2025/01/04 18:06:18 by mthamir          ###   ########.fr       */
+/*   Updated: 2025/01/08 17:38:58 by mthamir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minirt.h"
+
+void *ft_malloc(size_t size)
+{
+	void *ret = malloc(size);
+	bzero(ret, size);
+	return (ret);
+}
+
+double **new_2_2()
+{
+	double **ret;
+
+	ret = ft_malloc(sizeof(double *) * 2);
+	if (!ret)
+		return (NULL);
+	ret[0] = ft_malloc(sizeof(double ) * 2);
+	if (!ret[0])
+		return (NULL);
+	ret[1] = ft_malloc(sizeof(double ) * 2);
+	if (!ret[1])
+		return (NULL);
+	return (ret);
+}
+
+double **new_3_3()
+{
+	double **ret;
+
+	ret = ft_malloc(sizeof(double *) * 3);
+	if (!ret)
+		return (NULL);
+	ret[0] = ft_malloc(sizeof(double ) * 3);
+	if (!ret[0])
+		return (NULL);
+	ret[1] = ft_malloc(sizeof(double ) * 3);
+	if (!ret[1])
+		return (NULL);
+	ret[2] = ft_malloc(sizeof(double ) * 3);
+	if (!ret[2])
+		return (NULL);
+	return (ret);
+}
+
+double **new_4_4()
+{
+	double **ret;
+
+	ret = ft_malloc(sizeof(double *) * 4);
+	if (!ret)
+		return (NULL);
+	ret[0] = ft_malloc(sizeof(double ) * 4);
+	if (!ret[0])
+		return (NULL);
+	ret[1] = ft_malloc(sizeof(double ) * 4);
+	if (!ret[1])
+		return (NULL);
+	ret[2] = ft_malloc(sizeof(double ) * 4);
+	if (!ret[2])
+		return (NULL);
+	ret[3] = ft_malloc(sizeof(double ) * 4);
+	if (!ret[3])
+		return (NULL);
+	return (ret);
+}
 
 /*if p_v is (1) creat point if its 0 creat vector */
 
@@ -18,7 +82,7 @@ t_tuple *cpv(double x, double y, double z, double p_v)
 {
 	t_tuple *a;
 
-	a = malloc(sizeof(t_tuple));
+	a = ft_malloc(sizeof(t_tuple));
 	if (!a)
 		return (NULL);
 	a->x = x;
@@ -69,11 +133,13 @@ t_tuple *tpl_o(t_tuple *a, t_tuple *b , char op)
 	t_tuple *ret;
 	double	(*f)(double p1, double p2);
 
+	f = NULL;
+	ret = NULL;
 	if(op == '+')
 		f = add;
 	else if(op == '-')
 		f = sub;
-	ret = malloc (sizeof(t_tuple));
+	ret = ft_malloc (sizeof(t_tuple));
 	if (!ret)
 		return (NULL);
 	ret->x = f(a->x, b->x);
@@ -87,7 +153,7 @@ t_tuple *opp(t_tuple *a)
 {
 	t_tuple *opp;
 
-	opp = malloc (sizeof (t_tuple));
+	opp = ft_malloc (sizeof (t_tuple));
 	if (!opp)
 		return (NULL);
 	opp->x = -a->x;
@@ -101,13 +167,13 @@ t_tuple *scalar(t_tuple *a, double scalar)
 {
 	t_tuple *ret;
 
-	ret = malloc(sizeof (t_tuple));
+	ret = ft_malloc(sizeof (t_tuple));
 	if (!ret)
 		return (NULL);
 	ret->x = (mul(a->x, scalar));
 	ret->y = (mul(a->y, scalar));
 	ret->z = (mul(a->z, scalar));
-	ret->w = (mul(a->w, scalar));
+	ret->w = a->w;
 	return (ret);
 }
 
@@ -133,7 +199,7 @@ t_tuple *Normalize(t_tuple *a)
 	t_tuple *ret;
 	double v;
 
-	ret = malloc (sizeof (t_tuple));
+	ret = ft_malloc (sizeof (t_tuple));
 	if (!ret)
 		return (NULL);
 	v = magnitude(a);
@@ -159,7 +225,7 @@ t_tuple *Cross_p(t_tuple *a, t_tuple *b)
 {
 	t_tuple *ret;
 
-	ret = malloc(sizeof(t_tuple));
+	ret = ft_malloc(sizeof(t_tuple));
 	if (!ret)
 		return (NULL);
 	ret->x = ((a->y * b->z) - (a->z * b->y));
@@ -176,13 +242,14 @@ t_color *colors_operation(t_color *a, t_color *b, char op)
 	t_color *ret;
 	double (*f) (double a, double b);
 
+	f = NULL;
 	if (op == '+')
 		f = add;
 	else if (op == '-')
 		f = sub;
 	else if (op == '/')
 		f = mul;
-	ret = malloc(sizeof(t_color));
+	ret = ft_malloc(sizeof(t_color));
 	if (!ret)
 		return (NULL);
 	ret->r = f(a->r, b->r);
@@ -197,7 +264,7 @@ t_color *color_s_mul(t_color *a, double scalar)
 {
 	t_color *ret;
 
-	ret = malloc(sizeof(t_color));
+	ret = ft_malloc(sizeof(t_color));
 	if (!ret)
 		return (NULL);
 	ret->r = mul(a->r, scalar);
@@ -247,9 +314,10 @@ t_matrix	*mul_mat(t_matrix *a, t_matrix *b)
 	t_matrix *ret;
 
 	i = -1; 
-	ret = malloc (sizeof(t_matrix));
+	ret = ft_malloc (sizeof(t_matrix));
 	if (!ret)
 		return (NULL);
+	ret->matrix = new_4_4();
 	while (++i < 4)
 	{
 		j = -1;
@@ -269,9 +337,10 @@ t_matrix *i_mat(void)
 	t_matrix *a;
 
 	i = -1;
-	a = malloc(sizeof(t_matrix));
+	a = ft_malloc(sizeof(t_matrix));
 	if (!a)
 		return (NULL);
+	a->matrix = new_4_4();
 	while (++i < 4)
 	{
 		j = -1;
@@ -315,9 +384,10 @@ t_matrix *transpose(t_matrix *a)
 	int j;
 
 	i = -1;
-	ret = malloc(sizeof(t_matrix));
+	ret = ft_malloc(sizeof(t_matrix));
 	if (!ret)
 		return (NULL);
+	ret->matrix = new_4_4();
 	while (++i < 4)
 	{
 		j = -1;
@@ -335,32 +405,45 @@ double det_2(t_2_2 *a)
 		 mul(a->matrix[0][1], a->matrix[1][0])));
 }
 
+void get_sub(double *a, double **d, int col)
+{
+	int p = 0;
+	int s = 0;
 
+	while (p < 4)
+	{
+		if (p == col && col < 3)
+			p++;
+		if (p == col && col == 3)
+			break;
+		(*d)[s] = a[p];
+		s++;
+		p++;
+	}
+}
 
 /* submatrix 3*3 remove a collamn and a row from a  4*4 matrix */
 
 t_3_3 *sub_m3(t_matrix *a, int row, int col)
 {
 	t_3_3 *d;
-	int i[4];
+	int i, j;
 
-	d = (t_3_3 *)malloc (sizeof(t_3_3));
+	d = (t_3_3 *)ft_malloc (sizeof(t_3_3));
 	if (!d)
 		return (NULL);
-	i[0] = -1;
-	i[2] = -1;
-	while (++(i[0]) < 4 && ++(i[2]) < 3)
+	d->matrix = new_3_3();
+	i = 0;
+	j = 0;
+	while (i < 4)
 	{
-		if (i[0] == row)
-			++(i[0]);
-		i[1] = -1;
-		i[3] = -1;
-		while (++(i[1]) < 4 && ++(i[3]) < 3)
-		{
-			if (i[1] == col)
-				++(i[1]);
-			d->matrix[i[2]][i[3]] = a->matrix[i[0]][i[1]] ;
-		}
+		if (i == row && row < 3)
+			i++;
+		if (i == row && row == 3)
+			break;
+		get_sub(a->matrix[i], &d->matrix[j], col);
+		i++;
+		j++;
 	}
 	return (d);
 }
@@ -372,23 +455,28 @@ t_2_2 *sub_m2(t_3_3 *a, int row, int col)
 	t_2_2 *d;
 	int i[4];
 
-	d = (t_2_2 *)malloc (sizeof(t_3_3));
+	d = (t_2_2 *)ft_malloc (sizeof(t_3_3));
 	if (!d)
 		return (NULL);
-	i[0] = -1;
-	i[2] = -1;
-	while (++(i[0]) < 3 && ++(i[2]) < 2)
+	d->matrix = new_2_2();
+	i[0] = 0;
+	i[2] = 0;
+	while ((i[0]) < 3 && (i[2]) < 2)
 	{
 		if (i[0] == row)
 			++(i[0]);
-		i[1] = -1;
-		i[3] = -1;
-		while (++(i[1]) < 3 && ++(i[3]) < 2)
+		i[1] = 0;
+		i[3] = 0;
+		while ((i[1]) < 3 && (i[3]) < 2)
 		{
 			if (i[1] == col)
 				++(i[1]);
 			d->matrix[i[2]][i[3]] = a->matrix[i[0]][i[1]] ;
+			i[1]++;
+			i[3]++;
 		}
+		i[0]++;
+		i[2]++;
 	}
 	return (d);
 }
@@ -427,7 +515,8 @@ double det_3(t_3_3 *a)
 
 double	cofactor(t_matrix *a, int row , int col)
 {
-	return ((det_3(sub_m3(a, row, col))) * cof_sign(row, col));
+	t_3_3 *sub = sub_m3(a, row, col);
+	return ((det_3(sub)) * cof_sign(row, col));
 }
 
 double determinant(t_matrix *a)
@@ -455,9 +544,10 @@ t_matrix *inverse(t_matrix *a)
 	if (!invertible(a))
 		return (a);
 	det = determinant(a);
-	ret = malloc(sizeof(t_matrix));
+	ret = ft_malloc(sizeof(t_matrix));
 	if (!ret)
 		return (NULL);
+	ret->matrix = new_4_4();
 	i = -1;
 	while (++i < 4)
 	{
@@ -558,7 +648,7 @@ t_ray *ray(t_tuple *origine, t_tuple *direction)
 {
 	t_ray *ret;
 
-	ret = malloc (sizeof(t_ray));
+	ret = ft_malloc (sizeof(t_ray));
 	if (!ret)
 		return (NULL);
 	ret->o = origine;
@@ -576,13 +666,14 @@ t_spher *spher(t_tuple *center, double raduis, int id)
 {
 	t_spher *ret;
 
-	ret = malloc (sizeof(t_spher));
+	ret = ft_malloc (sizeof(t_spher));
 	if (!ret)
 		return (NULL);
 	ret->c = center;
 	ret->r = raduis;
 	ret->id = id;
 	ret->transform = i_mat();
+	ret->material = material();
 	return (ret);
 }
 
@@ -590,59 +681,51 @@ static double *eq_inter(t_ray *ray1 , t_spher *spher)
 {
 	double		*arr;
 
-	arr = malloc (4 * sizeof (double));
+	arr = ft_malloc (4 * sizeof (double));
 	if (!arr)
 		return (NULL);
 	arr[0] = Dot_p(ray1->d, ray1->d);
-	arr[1] = 2 * (Dot_p(ray1->o, ray1->d));
+	arr[1] = 2.0 * (Dot_p(ray1->o, ray1->d));
 	arr[2] = (Dot_p(ray1->o, ray1->o) - sq(spher->r));
 	arr[3] = sq(arr[1]) - (4 * (arr[0] * arr[2]));
 	return (arr);
 }
-t_intersect	*intersect(t_ray *ray, t_spher *spher)
+double *new_t()
+{
+	double *ret = ft_malloc(sizeof(double ) * 2);
+	if(!ret)
+		return (NULL);
+	return (ret);
+}
+
+t_intersect	*intersect(t_ray *ray, t_spher *sph)
 {
 	t_intersect *inter;
 	t_ray *ray1;
 	double *arr;
-	double t1;
-	double t2;
 
-	ray1 = transform(ray, inverse(spher->transform));
-	arr = eq_inter(ray1, spher);
+	ray1 = transform(ray, inverse(sph->transform));
+	arr = eq_inter(ray1, sph);
 	if (!arr)
 		return (NULL);
-	inter = malloc(sizeof(t_intersect));
+	inter = ft_malloc(sizeof(t_intersect));
 	if (!inter)
 		return (NULL);
-	t1 = (-arr[1] - sqrt(arr[3])) / (2 * (arr[0]));
-	t2 = (-arr[1] + sqrt(arr[3])) / (2 * (arr[0]));
-	if (t1 < 0 && t2 < 0)
-		return(NULL);
-	if (t1 >= 0 && t2 >= 0)
-	{
-		if (t1 > t2)
-			inter->t = t2;
-		else if (t1 < t2)
-			inter->t = t1;
-	}
-	if (t1 < 0 && t2 >= 0)
-		inter->t = t2;
-	if (t2 < 0 && t1 >= 0)
-		inter->t = t1;
-	else if (t1 >= 0 && t2 < 0)
-		inter->t = t2;
-	else if (t1 > t2 && t2 >= 0)
-		inter->t = t2;
-	else if (t1 < t2 && t1 >= 0)
-		inter->t = t1;
-	else if (t1 == t2 && t1 >= 0)
-		inter->t = t1;
-	printf("%f   %f\n", t1, t2);
-	inter->object = spher;
+	inter->t = new_t();
+	inter->t[0] = (-arr[1] - sqrt(arr[3])) / (2 * (arr[0]));
+	inter->t[1] = (-arr[1] + sqrt(arr[3])) / (2 * (arr[0]));
+	inter->object = sph;
 	inter->ray = ray1;
 	if (arr[3] < 0)
 		return (NULL);
 	return (inter);
+}
+
+double hit(double *arr)
+{
+	if (arr[0] < 0 && arr[1] < 0)
+		return (0);
+	return (1);
 }
 
 double *intersections(int num, ...)
@@ -652,7 +735,7 @@ double *intersections(int num, ...)
 	int i;
 
 	i = -1;
-	arr = malloc (num * sizeof(double));
+	arr = ft_malloc (num * sizeof(double));
 	if (!arr)
 		return (NULL);
 	va_start(a, num);
@@ -698,7 +781,7 @@ t_ray *transform(t_ray *t, t_matrix *mat)
 {
 	t_ray *ra;
 
-	ra = malloc(sizeof(t_ray));
+	ra = ft_malloc(sizeof(t_ray));
 	if (!ra)
 		return (NULL);
 	ra->o = tup_mat_mul(mat, t->o);
@@ -711,41 +794,195 @@ void	set_tranform(t_spher *sph, t_matrix *mat)
 	*sph->transform = *mat;
 }
 
-void Normalize_direction(t_camera **camera, double x, double y)
+t_tuple *normal_at(t_spher *sph, t_tuple *point)
 {
-	(*camera)->cam_ray->d->x = (2 * ((x + 0.5) / (*camera)->win_width - 1) \
-		* tan(radians((*camera)->fov / 2)) * (*camera)->aspect_ratio);
-	(*camera)->cam_ray->d->y = (2 * ((y + 0.5) / (*camera)->win_hight - 1) \
-		* tan(radians((*camera)->fov / 2)));
+	t_tuple *object_p;
+	t_tuple *object_normal;
+	t_tuple *world_normal;
+
+	object_p = tup_mat_mul(inverse(sph->transform), point);
+	object_normal = tpl_o(object_p, cpv(0,0,0,1), '-');
+	world_normal = tup_mat_mul(transpose(inverse(sph->transform)), object_normal);
+	world_normal->w = 0;
+	return (Normalize(world_normal));
 }
 
+t_tuple *reflect(t_tuple *in, t_tuple *normal)
+{
+	return (tpl_o(in, (scalar(normal, mul(Dot_p(in, normal), 2))), '-'));
+}
+
+t_light *light_source(t_tuple *position, t_color *color, double brightness)
+{
+	t_light *light;
+
+	light = ft_malloc(sizeof(t_light));
+	if (!light)
+		return (NULL);
+	light->position = position;
+	light->brightness = brightness;
+	light->color = color;
+	return (light);
+}
+
+t_material *material()
+{
+	t_material *mate = ft_malloc(sizeof(t_material));
+
+	mate->ambiant = 0.1;
+	mate->diffuse = 0.9;
+	mate->specular = 0.9;
+	mate->shininess = 200.0;
+	return (mate);
+}
+double get_color(t_color *color)
+{
+	double color_in_double;
+	double r_norm = color->r / 255.0;
+	double g_norm = color->g / 255.0;
+	double b_norm = color->b / 255.0;
+
+	color_in_double = (r_norm * sq(256.0)) + (g_norm * 256.0) + b_norm;
+	return (color_in_double);
+}
+
+// double lighting(t_lighting *lighting)
+// {
+// 	t_color *effective_color;
+// 	t_color *ambiant;
+// 	t_tuple *light_vec;
+// 	t_tuple *reflect_vec;
+// 	double reflect_dot_camera;
+// 	double factor;
+// 	double light_dot_normal;
+
+// 	effective_color = color_s_mul(lighting->material->color, lighting->light->brightness);
+// 	light_vec = Normalize(tpl_o(lighting->light->position, lighting->point, '-'));
+// 	ambiant = color_s_mul(effective_color, lighting->material->ambiant);
+// 	light_dot_normal = Dot_p(light_vec, lighting->normal_vec);
+// 	if (light_dot_normal < 0)
+// 	{
+// 		lighting->material->diffuse = BLACK;
+// 		lighting->material->specular = BLACK;
+// 	}
+// 	else
+// 	{
+// 		lighting->material->diffuse = get_color(color_s_mul(effective_color, mul(lighting->material->diffuse, light_dot_normal)));
+// 		reflect_vec = reflect(opp(light_vec), lighting->normal_vec);
+// 		reflect_dot_camera = Dot_p(reflect_vec, lighting->camera->cam_ray->d);
+// 		if (reflect_dot_camera <= 0)
+// 			lighting->material->specular = BLACK;
+// 		else
+// 		{
+// 			factor = pow(reflect_dot_camera, lighting->material->shininess);
+// 			lighting->material->specular = mul(lighting->light->brightness, lighting->material->specular * factor);
+
+// 		}
+// 	}
+// 	return (lighting->material->ambiant + lighting->material->diffuse + lighting->material->specular);
+// }
+double li(t_material *m, t_light *light, t_tuple *point, t_tuple *eyev, t_tuple *normalv)
+{
+	double effective_color = get_color(m->color) * light->brightness;
+	t_tuple *lightv = Normalize(tpl_o(light->position, point, '-'));
+	double ambiant = effective_color * m->ambiant;
+	double light_dot_normal = Dot_p(lightv, normalv);
+	double diffuse = 0;
+	double specular = 0;
+	double factor = 0;
+	if (light_dot_normal < 0){
+		diffuse = 0;
+		specular = 0;
+	}
+	else{
+		diffuse = effective_color * m->diffuse * light_dot_normal;
+	}
+	t_tuple *reflectv = reflect(opp(lightv), normalv);
+	double reflect_dot_eye = Dot_p(reflectv, eyev);
+	if(reflect_dot_eye <= 0)
+		specular = 0;
+	else{
+		factor = pow(reflect_dot_eye, m->shininess);
+		specular = light->brightness * m->specular * factor;
+	}
+	return (ambiant+diffuse+specular);
+}
+
+double get_closest(double *t)
+{
+	if (t[0] < 0 && t[1] > 0)
+		return (t[1]);
+	else if (t[1] < 0 && t[0] > 0)
+		return (t[0]);
+	else if (t[0] > 0 && t[1] > 0)
+	{
+		if (t[0] < t[1])
+			return (t[0]);
+		else if (t[0] > t[1])
+			return (t[1]);
+		else if (t[0] == t[1])
+			return (t[1]);
+	}
+	return (0);
+}
+
+// int main()
+// {
+// 	// t_material *m = material();
+// 	// m->color = malloc(sizeof(t_color));
+// 	// m->color->r = 255;
+// 	// m->color->g = 0;
+// 	// m->color->b = 0;
+// 	// t_color *color = ft_malloc(sizeof(t_color));
+// 	// color->r = 1;
+// 	// color->g = 1;
+// 	// color->b = 1;
+// 	// t_light *light = light_source(cpv(0,10,-10,1), color, 1);
+// 	// double result = li(m, light, cpv(0,0,0,1) , cpv(0,0,-1,0),cpv(0, -(sqrt(2)/2), -(sqrt(2)/2), 0));
+// 	// t_color *f = malloc(sizeof(t_color));
+// 	// f->r = 1.6364;
+// 	// f->g = 1.6364;
+// 	// f->b = 1.6364;
+// 	// double dd = get_color(f);
+// 	// printf("double %.5f\n", result);
+// 	// printf("double %.5f\n", dd);
+// }
+
+// int main()
+// {
+// 	t_tuple *s = reflect(cpv(0,-1,0,0), cpv(sqrt(2)/2.0,(sqrt(2)/2.0), 0,0));
+// 	printf("%.5f\n%.5f\n%.5f\n", s->x, s->y, s->z);
+// }
+int32_t ft_pixel(int32_t r, int32_t g, int32_t b, int32_t a)
+{
+    return (r << 24 | g << 16 | b << 8 | a);
+}
 int main()
 {
-	t_camera *camera = malloc(sizeof(t_camera));
-	double x = 0;
-	double y = 0;
-	// t_intersect *inter;
-	camera->win_hight = 1000;
-	camera->win_width = 1000;
-	camera->fov = 90;
-	camera->aspect_ratio = camera->win_width / camera->win_hight;
-	camera->cam_ray = ray(cpv(0, 0, -1, 1), cpv(0, 0, 5, 1));
-	void *mlx = mlx_init(1000, 1000, "testing minirt", 1);
-	mlx_image_t *image = mlx_new_image(mlx, camera->win_width, camera->win_hight);
-	// t_tuple *centre = cpv(0,0,-5,1);
-	// t_spher *sph = spher(centre, 1, 1);
-	while (y < camera->win_hight - 1)
-	{
-		x = 0;
-		while (x < camera->win_width - 1)
-		{
-			double px = (2 * ((x + 0.5) / (double)camera->win_width) - 1) * tan(camera->fov / 2.0 * M_PI / 180.0) * camera->aspect_ratio;
-            double py = (1 - 2 * ((y + 0.5) / (double)camera->win_hight)) * tan(camera->fov / 2.0 * M_PI / 180.0);
-			mlx_put_pixel(image, px, py, 0xFFFFFF);
-			x++;
-		}
-		y++;
-	}
+	double wall_size = 600.0;
+	double canvas_pixel = 600.0;
+	double pixel_size = wall_size / canvas_pixel;
+	double half = wall_size / 2.0;
+	double  color = 0xFFFFFF;
+	t_spher *sph = spher(cpv(0,0,0,1), 1, 0);  //unit spher
+	sph->transform = scal_mat(30, 30, 1);
+	void *mlx = mlx_init(600, 600, "test", 1);
+	t_tuple *origine = cpv(0,0,-10,1);
+	mlx_image_t *image = mlx_new_image(mlx, 600, 600);
 	mlx_image_to_window(mlx, image, 0, 0);
+	for(double y = 0; y < canvas_pixel; y++){
+		double world_y = half - (pixel_size * y);
+		for(double x = 0; x < canvas_pixel; x++){
+			double world_x = -half + (pixel_size * x);
+			t_tuple *pixel_position = cpv(world_x, world_y, 20, 1);
+			t_ray *r = ray(origine, Normalize(tpl_o(pixel_position, origine, '-')));
+			t_intersect *i = intersect(r, sph);
+			if (i &&  hit(i->t))
+				mlx_put_pixel(image, x, y, color);
+			else
+				mlx_put_pixel(image, x, y, BLACK);
+
+		}
+	}
 	mlx_loop(mlx);
 }

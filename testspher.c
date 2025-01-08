@@ -157,7 +157,7 @@ int main(void)
 {
     t_mlx mlx;
 
-    mlx.camera_pos = (t_vec){1, 2, -1}; // Camera at origin
+    mlx.camera_pos = (t_vec){0, 0, -1}; // Camera at origin
     mlx.sphere.center = (t_vec){0, 0, -5}; // Sphere at (0, 0, -5)
     mlx.sphere.radius = 1.0;
     mlx.light.position = (t_vec){0, 5, -5}; // Light source

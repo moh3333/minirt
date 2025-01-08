@@ -6,7 +6,7 @@
 /*   By: mthamir <mthamir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/28 15:23:22 by mthamir           #+#    #+#             */
-/*   Updated: 2025/01/04 16:44:20 by mthamir          ###   ########.fr       */
+/*   Updated: 2025/01/08 17:39:13 by mthamir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,14 +23,22 @@
 #define	π 3.1415926535
 #define SPH 1
 #define LAST_P 
-
-
+#define BLACK 0x0000000FF
 
 typedef struct s_color	{
 	double r;
 	double g;
 	double b;
 }	t_color;
+typedef struct s_material
+{
+	t_color *color;
+	double ambiant;
+	double diffuse;
+	double specular;
+	double shininess;
+}	t_material;
+
 
 typedef struct s_tuple	{
 	double x;
@@ -39,16 +47,23 @@ typedef struct s_tuple	{
 	double w;
 } 	t_tuple;
 
+typedef struct s_light
+{
+	t_tuple *position;
+	t_color *color;
+	double brightness;
+}	t_light;
+
 typedef struct s_matrix{
-	double matrix[4][4];
+	double **matrix;
 }	t_matrix;
 
 typedef struct s_2_2{
-	double matrix[2][2];
+	double **matrix;
 }	t_2_2;
 
 typedef struct s_3_3{
-	double matrix[3][3];
+	double **matrix;
 }	t_3_3;
 
 typedef struct s_ray
@@ -64,6 +79,8 @@ typedef struct s_spher
 	int		id;
 	t_matrix *transform;
 	t_tuple	*c;
+	t_color *color;
+	t_material *material;
 
 }	t_spher;
 
@@ -71,7 +88,7 @@ typedef struct s_intersect
 {
 	t_ray *ray;
 	void *object;
-	double t;
+	double *t;
 }  t_intersect;
 
 typedef struct s_camera
@@ -83,6 +100,15 @@ typedef struct s_camera
 	double win_width;
 }			t_camera;
 
+typedef struct s_lighting
+{
+	t_material *material;
+	t_tuple *point;
+	t_light *light;
+	t_camera *camera;
+	t_tuple *normal_vec;
+}	t_lighting;
+t_material *material();
 
 /* creat a point or a vector */
 t_tuple	*cpv(double x, double y, double z, double p_v);
