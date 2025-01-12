@@ -6,7 +6,7 @@
 /*   By: mthamir <mthamir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/28 15:23:22 by mthamir           #+#    #+#             */
-/*   Updated: 2025/01/08 17:39:13 by mthamir          ###   ########.fr       */
+/*   Updated: 2025/01/12 16:10:04 by mthamir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -140,6 +140,8 @@ t_tuple *Normalize(t_tuple *a);
 double	Dot_p(t_tuple *a, t_tuple *b);
 /* the result is a vector that its perpodicular to both of the two used vectors*/
 t_tuple *Cross_p(t_tuple *a, t_tuple *b);
+/* get squar of a number */
+double	sq(double num);
 /* colors addition and subtraction and multiplication */
 t_color *colors_operation(t_color *a, t_color *b, char op);
 /* colors multiplication with a scalar */
@@ -200,8 +202,79 @@ t_spher *spher(t_tuple *center, double raduis, int id);
 /* check rays sphere intersection and fill the t_intersect struct with object type and object and intersection points */
 t_intersect	*intersect(t_ray *ray, t_spher *spher);
 t_ray *transform(t_ray *t, t_matrix *mat);
-
-
-
+/* get the normal vector on a point on the spher*/
+t_tuple *normal_at(t_spher *sph, t_tuple *point);
+/* set the transformation matrix on sphere struct */
+void	set_tranform(t_spher *sph, t_matrix *mat);
+/* colors addition and subtraction */
+t_color *colors_operation(t_color *a, t_color *b, char op);
+/* colors multiplication with a scalar */
+t_color *color_s_mul(t_color *a, double scalar);
+void *ft_malloc(size_t size);
+double **new_2_2();
+double **new_3_3();
+double **new_4_4();
+double *new_t();
+double hit(double *arr);
+double *intersections(int num, ...);
+double ft_max(double *arr, int num);
+double hit_p(double *arr, int num);
+t_light *light_source(t_tuple *position, t_color *color, double brightness);
+t_tuple *reflect(t_tuple *in, t_tuple *normal);
+double get_closest(double *t);
+t_material *material();
 
 #endif
+
+/*  ambiant reflection   
+	
+							I ambiant 
+								= 
+		ambiant cofficient of the surface (material properity)
+									 X 
+		I brghitness of the ambiant light in the scene 
+*/
+
+/*  diffuse reflection 
+
+					I diffuse
+						=
+		diffuse cofficient (material properity )
+						X
+		I intensity of the light source 
+						X
+		DOT PRODUCT (N normal vector of surface  X  L light direction vector )
+		(N . L) the dot product between the normal vector and the light direction ,
+		which gives the cosin of the ongle between them ;
+*/
+
+/*		Specular reflection 
+
+					I specular
+						=
+		specular reflection cofficient (material prepority )
+						X
+		the intensity of the light source
+						X
+		POW (DOT PRODUCT (R the reflection vector  X  V the view (camera ) direction vector ))) n
+		POW ((R . V), n)  dot product betwene the reflection vector and the view direction, 
+		raised to the power of n the PHONG EXPENONT , wich control the the sharpness of the specular highlight ;
+
+
+*/
+
+
+/*       THE PHONG REFLECTION EQUATION 
+
+		I total = Iambiant + I diffuse + I specular;
+		
+
+*/
+
+
+/*
+
+Vanishing Points: no9tat talashi 
+Field of View (FOV) : zawiya ro2ya gedma kabret katzad ro2ya 7edha 180;
+
+*/
