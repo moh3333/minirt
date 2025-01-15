@@ -6,7 +6,7 @@
 /*   By: mthamir <mthamir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/12 15:35:04 by mthamir           #+#    #+#             */
-/*   Updated: 2025/01/12 15:37:43 by mthamir          ###   ########.fr       */
+/*   Updated: 2025/01/15 16:25:41 by mthamir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,4 +44,17 @@ t_material *material()
 	mate->specular = 0.9;
 	mate->shininess = 200.0;
 	return (mate);
+}
+
+t_color *compute_lightning(t_material *m, t_light *light, t_tuple *pos,t_tuple *normalv)
+{
+	t_tuple *lightv = Normalize(tpl_o(light->position, pos, '-'));
+	t_color *ambiant = to_rgba(m->ambiant * light->brightness);
+	double light_dot_normal = Dot_p(lightv, normalv);
+	t_color *diffuse;
+	if(light_dot_normal < EPSILON)
+		diffuse = new_color(0.0,0.0,0.0);
+	else
+		diffuse = color_s_mul(m->color, (m->diffuse * light_dot_normal * light->brightness));
+	return (colors_operation(diffuse, ambiant, '+'));
 }

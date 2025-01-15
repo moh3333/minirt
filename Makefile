@@ -6,7 +6,7 @@
 #    By: mthamir <mthamir@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/12/12 17:40:42 by mthamir           #+#    #+#              #
-#    Updated: 2025/01/12 16:09:28 by mthamir          ###   ########.fr        #
+#    Updated: 2025/01/13 19:15:35 by mthamir          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,7 +14,7 @@ NAME := minirt
 
 CC := cc
 
-FLAGS :=  -Wall -Wextra -Werror -I/Users/$(shell whoami)/Desktop/gitminirt/MLX42/include/MLX42
+FLAGS :=  -fsanitize=address -Wall -Wextra -Werror -I/Users/$(shell whoami)/Desktop/gitminirt/MLX42/include/MLX42
 #FLAGS := -lmlx -framework OpenGL -framework AppKit
 
 

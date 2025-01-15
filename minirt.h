@@ -6,7 +6,7 @@
 /*   By: mthamir <mthamir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/28 15:23:22 by mthamir           #+#    #+#             */
-/*   Updated: 2025/01/12 16:10:04 by mthamir          ###   ########.fr       */
+/*   Updated: 2025/01/15 16:26:38 by mthamir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,7 @@ typedef struct s_color	{
 	double g;
 	double b;
 }	t_color;
+
 typedef struct s_material
 {
 	t_color *color;
@@ -210,6 +211,8 @@ void	set_tranform(t_spher *sph, t_matrix *mat);
 t_color *colors_operation(t_color *a, t_color *b, char op);
 /* colors multiplication with a scalar */
 t_color *color_s_mul(t_color *a, double scalar);
+/* get diffuse and ambiant color ona apoint */
+t_color *compute_lightning(t_material *m, t_light *light, t_tuple *pos,t_tuple *normalv);
 void *ft_malloc(size_t size);
 double **new_2_2();
 double **new_3_3();
@@ -223,7 +226,9 @@ t_light *light_source(t_tuple *position, t_color *color, double brightness);
 t_tuple *reflect(t_tuple *in, t_tuple *normal);
 double get_closest(double *t);
 t_material *material();
-
+t_color *new_color(double r, double g, double b);
+double get_col(t_color * color);
+t_color *to_rgba(double color);
 #endif
 
 /*  ambiant reflection   
