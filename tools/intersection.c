@@ -6,7 +6,7 @@
 /*   By: mthamir <mthamir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/12 15:38:30 by mthamir           #+#    #+#             */
-/*   Updated: 2025/01/12 15:38:56 by mthamir          ###   ########.fr       */
+/*   Updated: 2025/01/17 14:32:53 by mthamir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 double hit(double *arr)
 {
-	if (arr[0] < 0 && arr[1] < 0)
+	if (arr[0] < EPSILON && arr[1] < EPSILON)
 		return (0);
 	return (1);
 }

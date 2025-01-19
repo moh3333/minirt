@@ -6,7 +6,7 @@
 /*   By: mthamir <mthamir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/12 15:39:01 by mthamir           #+#    #+#             */
-/*   Updated: 2025/01/15 16:27:48 by mthamir          ###   ########.fr       */
+/*   Updated: 2025/01/17 14:33:48 by mthamir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,20 +21,20 @@ t_color *new_color(double r, double g, double b)
 	return (col);
 }
 
-double get_col(t_color * color)
+uint64_t get_col(t_color * color)
 {
-	double  col = 0;
-	double r = color->r * 255;
+	uint64_t  col = 0;
+	uint64_t r = color->r * 255.0;
 	if (r > 255)
 		r = 255;
 	else if (r < 0)
 		r = 0;
-	double g = color->g * 255;
+	uint64_t g = color->g * 255.0;
 	if (g > 255)
 		g = 255;
 	else if (g < 0)
 		g = 0;
-	double b = color->b * 255;
+	uint64_t b = color->b * 255.0;
 	if (b > 255)
 		b = 255;
 	else if (b < 0)
@@ -74,9 +74,9 @@ t_color *color_s_mul(t_color *a, double scalar)
 	ret = ft_malloc(sizeof(t_color));
 	if (!ret)
 		return (NULL);
-	ret->r = mul(a->r, scalar);
-	ret->g = mul(a->g, scalar);
-	ret->b = mul(a->b, scalar);
+	ret->r = (double )mul(a->r, scalar);
+	ret->g = (double )mul(a->g, scalar);
+	ret->b = (double )mul(a->b, scalar);
 	return (ret);
 }
 
@@ -85,8 +85,8 @@ t_color *color_s_mul(t_color *a, double scalar)
 t_color *to_rgba(double color)
 {
 	t_color *ret = new_color(0.0,0.0,0.0);
-	ret->r = ((uint64_t)color >> 16) & 255;
-	ret->g = ((uint64_t)color >> 8) & 255;
-	ret->b = ((uint64_t)color) & 255;
+	ret->r = (((uint64_t)color >> 16) & 0xFF) / 255.0;
+	ret->g = (((uint64_t)color >> 8) & 0xFF) / 255.0;
+	ret->b = (((uint64_t)color) & 0xFF) / 255.0;
 	return (ret);
 }

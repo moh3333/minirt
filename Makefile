@@ -6,7 +6,7 @@
 #    By: mthamir <mthamir@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/12/12 17:40:42 by mthamir           #+#    #+#              #
-#    Updated: 2025/01/13 19:15:35 by mthamir          ###   ########.fr        #
+#    Updated: 2025/01/18 17:06:19 by mthamir          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -22,7 +22,7 @@ MLX		=	MLX42/libmlx42.a
 
 SRC := tools/ft_malloc.c tools/light_0.c tools/math_0.c tools/math_1.c tools/matrix_0.c tools/matrix_1.c \
 	tools/matrix_2.c tools/matrix_3.c tools/matrix_4.c tools/reflection_0.c tools/sphere_0.c tools/sphere_1.c \
-	tools/tuples_0.c tools/tuples_1.c tools/tuples_2.c tools/colors.c tools/intersection.c main.c
+	tools/tuples_0.c tools/tuples_1.c tools/tuples_2.c tools/colors.c tools/intersection.c tools/intersection_1.c main.c
 
 OBJ := $(SRC:.c=.o)
 

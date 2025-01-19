@@ -1,19 +1,19 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   sphere.c                                           :+:      :+:    :+:   */
+/*   sphere_0.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mthamir <mthamir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/12 15:28:54 by mthamir           #+#    #+#             */
-/*   Updated: 2025/01/12 15:32:54 by mthamir          ###   ########.fr       */
+/*   Updated: 2025/01/19 15:47:53 by mthamir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minirt.h"
 
 /* creat a new sphere object */
-t_spher *spher(t_tuple *center, double raduis, int id)
+t_spher *spher(t_tuple *center, double raduis, int id, t_matrix *tr)
 {
 	t_spher *ret;
 
@@ -23,8 +23,10 @@ t_spher *spher(t_tuple *center, double raduis, int id)
 	ret->c = center;
 	ret->r = raduis;
 	ret->id = id;
-	ret->transform = i_mat();
+	ret->transform = tr;
 	ret->material = material();
+	ret->inverse_m = inverse(ret->transform);
+	ret->transpose_inverse = transpose(inverse(ret->transform));
 	return (ret);
 }
 
@@ -35,9 +37,12 @@ t_tuple *normal_at(t_spher *sph, t_tuple *point)
 	t_tuple *object_normal;
 	t_tuple *world_normal;
 
-	object_p = tup_mat_mul(inverse(sph->transform), point);
+if (!sph)
+	printf("hokea\n");
+	object_p = tup_mat_mul(sph->inverse_m, point);
+	printf("vruhbfw\n");
 	object_normal = tpl_o(object_p, cpv(0,0,0,1), '-');
-	world_normal = tup_mat_mul(transpose(inverse(sph->transform)), object_normal);
+	world_normal = tup_mat_mul(sph->transpose_inverse, object_normal);
 	world_normal->w = 0;
 	return (Normalize(world_normal));
 }
@@ -64,25 +69,31 @@ t_intersect	*intersect(t_ray *ray, t_spher *sph)
 	t_ray *ray1;
 	double *arr;
 
-	ray1 = transform(ray, inverse(sph->transform));
+	ray1 = transform(ray, sph->inverse_m);
 	arr = eq_inter(ray1, sph);
 	if (!arr)
 		return (NULL);
+	
 	inter = ft_malloc(sizeof(t_intersect));
 	if (!inter)
 		return (NULL);
-	inter->t = new_t();
+	inter->t = new_t(2);
 	inter->t[0] = (-arr[1] - sqrt(arr[3])) / (2 * (arr[0]));
 	inter->t[1] = (-arr[1] + sqrt(arr[3])) / (2 * (arr[0]));
-	inter->object = sph;
+	inter->object = ft_malloc(sizeof(t_object));
+	inter->object->type = SPHER;
+	inter->object->shape = sph;
 	inter->ray = ray1;
 	if (arr[3] < 0)
 		return (NULL);
+	inter->next = NULL;
 	return (inter);
 }
 
 /* set the transformation matrix on sphere struct */
 void	set_tranform(t_spher *sph, t_matrix *mat)
 {
-	*sph->transform = *mat;
+	sph->transform = mat;
+	sph->inverse_m = inverse(mat);
+	sph->transpose_inverse = transpose(inverse(mat));
 }

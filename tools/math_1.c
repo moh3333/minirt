@@ -6,7 +6,7 @@
 /*   By: mthamir <mthamir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/12 15:00:52 by mthamir           #+#    #+#             */
-/*   Updated: 2025/01/12 15:04:33 by mthamir          ###   ########.fr       */
+/*   Updated: 2025/01/18 16:00:15 by mthamir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,5 +44,5 @@ t_tuple *Cross_p(t_tuple *a, t_tuple *b)
 /* change from degrees to radians */
 double radians(double degrees)
 {
-	return ((degrees / 180) * π);
+	return ((degrees / 180) * M_PI);
 }

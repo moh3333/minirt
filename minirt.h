@@ -6,7 +6,7 @@
 /*   By: mthamir <mthamir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/28 15:23:22 by mthamir           #+#    #+#             */
-/*   Updated: 2025/01/15 16:26:38 by mthamir          ###   ########.fr       */
+/*   Updated: 2025/01/19 15:40:51 by mthamir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,9 +20,8 @@
 
 
 #define	EPSILON 0.00001
-#define	π 3.1415926535
+#define SPHER 1
 #define SPH 1
-#define LAST_P 
 #define BLACK 0x0000000FF
 
 typedef struct s_color	{
@@ -82,14 +81,24 @@ typedef struct s_spher
 	t_tuple	*c;
 	t_color *color;
 	t_material *material;
+	t_matrix *inverse_m;
+	t_matrix *transpose_inverse;
 
 }	t_spher;
 
+typedef struct s_object
+{
+	int type;
+	t_spher *shape;
+} t_object;
+
+typedef struct s_intersect t_intersect;
 typedef struct s_intersect
 {
 	t_ray *ray;
-	void *object;
+	t_object *object;
 	double *t;
+	t_intersect *next;
 }  t_intersect;
 
 typedef struct s_camera
@@ -110,6 +119,24 @@ typedef struct s_lighting
 	t_tuple *normal_vec;
 }	t_lighting;
 t_material *material();
+
+
+typedef struct s_world
+{
+	int object_count;
+	t_light light[100];
+	t_object object[200];
+}	t_world;
+
+typedef struct s_comps
+{
+	double t;
+	t_object *object;
+	t_tuple *point;
+	t_tuple *eyev;
+	t_tuple *normalv;
+	bool inside;
+}	t_comps;
 
 /* creat a point or a vector */
 t_tuple	*cpv(double x, double y, double z, double p_v);
@@ -199,7 +226,7 @@ t_ray *ray(t_tuple *origine, t_tuple *direction);
 /* shows how far the ray travels in (x distance) seconds  (Computing a point from a distance)*/
 t_tuple *position(t_ray *ray, double distance);
 /* creat a sphere with given enter and raduis */
-t_spher *spher(t_tuple *center, double raduis, int id);
+t_spher *spher(t_tuple *center, double raduis, int id, t_matrix *tr);
 /* check rays sphere intersection and fill the t_intersect struct with object type and object and intersection points */
 t_intersect	*intersect(t_ray *ray, t_spher *spher);
 t_ray *transform(t_ray *t, t_matrix *mat);
@@ -212,12 +239,12 @@ t_color *colors_operation(t_color *a, t_color *b, char op);
 /* colors multiplication with a scalar */
 t_color *color_s_mul(t_color *a, double scalar);
 /* get diffuse and ambiant color ona apoint */
-t_color *compute_lightning(t_material *m, t_light *light, t_tuple *pos,t_tuple *normalv);
+t_color *compute_lightning(t_material *m, t_light *light, t_tuple *pos,t_tuple *eyev, t_tuple *normalv);
 void *ft_malloc(size_t size);
 double **new_2_2();
 double **new_3_3();
 double **new_4_4();
-double *new_t();
+double *new_t(int count);
 double hit(double *arr);
 double *intersections(int num, ...);
 double ft_max(double *arr, int num);
@@ -227,8 +254,15 @@ t_tuple *reflect(t_tuple *in, t_tuple *normal);
 double get_closest(double *t);
 t_material *material();
 t_color *new_color(double r, double g, double b);
-double get_col(t_color * color);
+uint64_t get_col(t_color * color);
 t_color *to_rgba(double color);
+t_world *world();
+t_intersect *new_intersect();
+t_intersect *world_intersection(t_world *world, t_ray *r);
+t_comps *new_comps();
+t_comps	*prepare_computing(t_intersect *list, t_ray *r);
+t_color *shade_hit(t_world *w, t_comps *comp);
+t_color *color_at(t_world *w, t_ray *r);
 #endif
 
 /*  ambiant reflection   
