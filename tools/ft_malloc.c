@@ -6,7 +6,7 @@
 /*   By: mthamir <mthamir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/12 14:58:15 by mthamir           #+#    #+#             */
-/*   Updated: 2025/01/19 16:04:17 by mthamir          ###   ########.fr       */
+/*   Updated: 2025/01/20 16:55:57 by mthamir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,4 +116,33 @@ t_intersect *new_intersect()
 	ret->object = ft_malloc(sizeof(t_object));
 	ret->next = NULL;
 	return (ret);
+}
+
+t_camera *new_camera(double hsize, double vsize, double fov, t_matrix *transformation)
+{
+	t_camera *cam;
+	double half_view = 0;
+
+	cam = ft_malloc(sizeof(t_camera));
+	if (!cam)
+		return (NULL);
+	half_view = tan(fov / 2);
+	cam->aspect_ratio = hsize / vsize;
+	if (cam->aspect_ratio >= 1.0)
+	{
+		cam->half_width = half_view;
+		cam->half_hight = half_view / cam->aspect_ratio;
+	}
+	else
+	{
+		cam->half_width = half_view * cam->aspect_ratio;
+		cam->half_hight = half_view;
+	}
+	cam->horizontal_size = hsize;
+	cam->pixel_size = (cam->half_width * 2) / cam->horizontal_size;
+	cam->vertical_size = vsize;
+	cam->field_of_view = fov;
+	cam->transform = transformation;
+	cam->transform_inverse = inverse(transformation);
+	return (cam);
 }

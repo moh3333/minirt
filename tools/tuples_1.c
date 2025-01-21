@@ -6,7 +6,7 @@
 /*   By: mthamir <mthamir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/12 15:07:25 by mthamir           #+#    #+#             */
-/*   Updated: 2025/01/12 15:10:35 by mthamir          ###   ########.fr       */
+/*   Updated: 2025/01/21 18:12:42 by mthamir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,6 @@ t_ray *ray(t_tuple *origine, t_tuple *direction)
 		return (NULL);
 	ret->o = origine;
 	ret->d = direction;
-	ret->ud = Normalize(direction);
 	return (ret);
 }
 

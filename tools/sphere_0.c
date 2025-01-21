@@ -6,7 +6,7 @@
 /*   By: mthamir <mthamir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/12 15:28:54 by mthamir           #+#    #+#             */
-/*   Updated: 2025/01/19 15:47:53 by mthamir          ###   ########.fr       */
+/*   Updated: 2025/01/21 17:59:43 by mthamir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,11 +36,8 @@ t_tuple *normal_at(t_spher *sph, t_tuple *point)
 	t_tuple *object_p;
 	t_tuple *object_normal;
 	t_tuple *world_normal;
-
-if (!sph)
-	printf("hokea\n");
+	
 	object_p = tup_mat_mul(sph->inverse_m, point);
-	printf("vruhbfw\n");
 	object_normal = tpl_o(object_p, cpv(0,0,0,1), '-');
 	world_normal = tup_mat_mul(sph->transpose_inverse, object_normal);
 	world_normal->w = 0;
@@ -84,7 +81,7 @@ t_intersect	*intersect(t_ray *ray, t_spher *sph)
 	inter->object->type = SPHER;
 	inter->object->shape = sph;
 	inter->ray = ray1;
-	if (arr[3] < 0)
+	if (arr[3] < EPSILON)
 		return (NULL);
 	inter->next = NULL;
 	return (inter);

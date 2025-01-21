@@ -6,7 +6,7 @@
 /*   By: mthamir <mthamir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/28 15:23:22 by mthamir           #+#    #+#             */
-/*   Updated: 2025/01/19 15:40:51 by mthamir          ###   ########.fr       */
+/*   Updated: 2025/01/21 18:25:03 by mthamir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,10 +104,16 @@ typedef struct s_intersect
 typedef struct s_camera
 {
 	t_ray *cam_ray;
-	double fov;
+	void *mlx;
+	double pixel_size;
+	double half_width;
+	double half_hight;
+	double field_of_view;
 	double aspect_ratio;
-	double win_hight;
-	double win_width;
+	double horizontal_size;
+	double vertical_size;
+	t_matrix *transform;
+	t_matrix *transform_inverse;
 }			t_camera;
 
 typedef struct s_lighting
@@ -263,6 +269,13 @@ t_comps *new_comps();
 t_comps	*prepare_computing(t_intersect *list, t_ray *r);
 t_color *shade_hit(t_world *w, t_comps *comp);
 t_color *color_at(t_world *w, t_ray *r);
+t_matrix *view_transformation(t_tuple *from, t_tuple *to, t_tuple *up);
+t_ray *ray_for_pixel(t_camera *cam, double x, double y);
+t_camera *new_camera(double hsize, double vsize, double fov, t_matrix *transformation);
+void render(t_camera *camera, t_world *w);
+t_color *compute_ambiant(t_light *light, t_material *m);
+bool is_shadow(t_world *w, t_tuple *p);
+
 #endif
 
 /*  ambiant reflection   

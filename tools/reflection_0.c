@@ -6,7 +6,7 @@
 /*   By: mthamir <mthamir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/12 15:35:04 by mthamir           #+#    #+#             */
-/*   Updated: 2025/01/19 15:29:51 by mthamir          ###   ########.fr       */
+/*   Updated: 2025/01/21 14:26:59 by mthamir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,6 @@ t_color *compute_diffuse(t_material *m, t_light *light, t_tuple *pos, t_tuple *n
 	double light_dot_normal;
 	lightv = Normalize(tpl_o(light->position, pos, '-'));
 	light_dot_normal = Dot_p(lightv,normalv);
-	printf("%f\n", light_dot_normal);
 	if(light_dot_normal >= EPSILON)
 		return (color_s_mul(colors_operation(light->color, m->color, '*'), (m->diffuse * light_dot_normal)));
 	return (new_color(0.0,0.0,0.0));
@@ -66,7 +65,6 @@ t_color *compute_specular(t_material *m, t_light *light, t_tuple *normalv, t_tup
 	double factor;
 	double reflect_dot_eye;
 	lightv = Normalize(tpl_o(light->position, pos, '-')); 
-	printf("%f  %f    %f   \n", lightv->x,lightv->y,lightv->z );
 	reflectv = reflect(Normalize(opp(lightv)), normalv);
 	reflect_dot_eye = Dot_p(reflectv, eyev);
 	if (reflect_dot_eye > EPSILON){
@@ -86,7 +84,5 @@ t_color *compute_lightning(t_material *m, t_light *light, t_tuple *pos,t_tuple *
 	ambiant = compute_ambiant(light, m);
 	diffuse = compute_diffuse(m, light, pos, normalv);
 	specular = compute_specular(m, light, normalv, eyev, pos);
-	t_color *final = colors_operation(colors_operation(diffuse, ambiant, '+'), specular, '+');
-	printf("final %f %f %f \n", final->r, final->g, final->b);
 	return (colors_operation(colors_operation(diffuse, ambiant, '+'), specular, '+'));
 }
