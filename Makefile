@@ -6,7 +6,7 @@
 #    By: mthamir <mthamir@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/12/12 17:40:42 by mthamir           #+#    #+#              #
-#    Updated: 2025/01/21 16:20:22 by mthamir          ###   ########.fr        #
+#    Updated: 2025/02/03 14:55:22 by mthamir          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,15 +14,13 @@ NAME := minirt
 
 CC := cc
 
-FLAGS :=  -fsanitize=address -Wall -Wextra -Werror -I/Users/$(shell whoami)/Desktop/gitminirt/MLX42/include/MLX42
+FLAGS :=  -fsanitize=address -I/Users/$(shell whoami)/Desktop/gitminirt/MLX42/include/MLX42
 #FLAGS := -lmlx -framework OpenGL -framework AppKit
 
 
 MLX		=	MLX42/libmlx42.a
 
-SRC := tools/ft_malloc.c tools/light_0.c tools/math_0.c tools/math_1.c tools/matrix_0.c tools/matrix_1.c \
-	tools/matrix_2.c tools/matrix_3.c tools/matrix_4.c tools/reflection_0.c tools/sphere_0.c tools/sphere_1.c \
-	tools/tuples_0.c tools/tuples_1.c tools/tuples_2.c tools/colors.c tools/intersection.c tools/intersection_1.c main.c
+SRC :=   src_files/parse.c  src_files/all.c
 
 OBJ := $(SRC:.c=.o)
 
@@ -57,7 +55,7 @@ re : fclean all
 
 # MLX_FLAGS := -lmlx -framework OpenGL -framework AppKit
 
-# SRC := tools.c
+# SRC := tools/all.c main.c
 
 # OBJ := $(SRC:.c=.o)
 

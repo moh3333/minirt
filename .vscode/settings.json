@@ -16,6 +16,7 @@
 		"ratio": "c",
 		"tuple": "c",
 		"utility": "c",
-		"ios": "c"
+		"ios": "c",
+		"locale": "c"
 	}
 }

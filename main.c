@@ -6,55 +6,103 @@
 /*   By: mthamir <mthamir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/28 16:32:32 by mthamir           #+#    #+#             */
-/*   Updated: 2025/01/21 18:01:19 by mthamir          ###   ########.fr       */
+/*   Updated: 2025/02/03 14:15:04 by mthamir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include"minirt.h"
+#include <stdio.h>
+#include <stdlib.h>
 
-int main()
-{
-	t_spher *floor = spher(cpv(0,0,0,1), 1, 0, scal_mat(10,0.01,10));
-	floor->material->color = new_color(1,0.9,0.9);
-	floor->material->specular = 0.0;
-	t_spher *left_wall = spher(cpv(0,0,0,1), 1, 1, mul_mat(transl_mat(0,0,5),mul_mat(rotat_matrix(-(M_PI/4), 'y'), mul_mat(rotat_matrix((M_PI/2), 'x'), scal_mat(10,0.01,10)))));
-	left_wall->material = floor->material;
-	t_spher *right_wall = spher(cpv(0,0,0,1), 1, 1, mul_mat(transl_mat(0,0,5),mul_mat(rotat_matrix((M_PI/4), 'y'), mul_mat(rotat_matrix((M_PI/2), 'x'), scal_mat(10,0.01,10)))));
-	right_wall->material = floor->material;
-	t_spher *middle = spher(cpv(0,0,0,1), 1, 3,transl_mat(-0.5,1,0.5));
-	middle->material->color = new_color(0.1,1,0.5);
-	middle->material->diffuse = 0.7;
-	middle->material->specular = 0.3;
-	t_spher *right = spher(cpv(0,0,0,1),1,4,mul_mat(transl_mat(1.5,0.5,-0.5), scal_mat(0.5,0.5,0.5)));
-	right->material->color = new_color(0.5,1,0.1);
-	right->material->diffuse = 0.7;
-	right->material->specular = 0.3;
-	t_spher *left = spher(cpv(0,0,0,1), 1,5,mul_mat(transl_mat(-1.5, 0.33, -0.75), scal_mat(0.33,0.33,0.33)));
-	left->material->color = new_color(1,0.8,0.1);
-	left->material->diffuse = 0.7;
-	left->material->specular = 0.3;
-	t_light *light = light_source(cpv(-10,10,-10, 1), new_color(1,1,1), 1);
-	t_camera *camera = new_camera(1000, 1000, M_PI/3, view_transformation(cpv(0,1.5,-5,1),cpv(0,1,0,1), cpv(0,3,0,0)));
-	t_world *w = world();
-	w->object_count = 6;
-	w->light[0].position = light->position;
-	w->light[0].color = light->color;
-	w->light[0].brightness = light->brightness;
-	w->object[1].shape = floor;
-	w->object[1].type = SPHER;
-	w->object[0].shape = left_wall;
-	w->object[0].type = SPHER;
-	w->object[2].shape = right_wall;
-	w->object[2].type = SPHER;
-	w->object[3].shape = middle;
-	w->object[3].type = SPHER;
-	w->object[4].shape = right;
-	w->object[4].type = SPHER;
-	w->object[5].shape = left;
-	w->object[5].type = SPHER;
-	// w->object[6].shape = NULL;
-	render(camera, w);
-}
+// int main()
+// {
+// 	double d[2] = {1, 2};
+// 	t_cylinder *cyl = cylinder(d, 0, i_mat(), true);
+// 	t_tuple *p = cpv(0,2, 0.5,1);
+// 	t_tuple *normal =  normal_at_cyl(cyl, p);
+// 	printf("%f  %f  %f  %f \n", normal->x, normal->y, normal->z, normal->w);
+// }
+
+
+// int main()
+// {
+// 	double dd[2];
+// 	dd[0] = -1;
+// 	dd[1] = 2;
+// 	t_cylinder *floor = cylinder(dd, 0, mul_mat(transl_mat(0,2,2) , mul_mat(rotat_matrix(M_PI / 4, 'x'), rotat_matrix(M_PI/4, 'z'))), true);
+// 	floor->material->color = *new_color(1.0,0.45,0.45);
+// 	floor->material->diffuse = 0.7;
+// 	floor->material->specular = 0.3;
+// 	t_light *light = light_source(cpv(-10,10,-10, 1), new_color(1,1,1), 1);
+// 	t_camera *camera = new_camera(1200, 800, M_PI/3, view_transformation(cpv(0,1.5,-5,1),cpv(0,1,0,1), cpv(0,3,0,0)));
+// 	t_world *w = world();
+// 	w->object_count = 1;
+// 	w->light[0].position = light->position;
+// 	w->light[0].color = light->color;
+// 	w->light[0].brightness = light->brightness;
+// 	w->object[0].shape_cyl = *floor;
+// 	w->object[0].type = CYLINDER;
+// 	render(camera, w);
+// }
+
+
+// int main(){
+// 	t_tuple *normal = cpv(0.8165,0.4082,0.4082, 0.0);
+// 	t_tuple r = {0.0,1.0,0.0,0.0};
+// 	t_tuple *axe = Normalize(*Cross_p(r, *normal));
+// 	double beta = acos(Dot_p(r, *normal));
+// 	t_matrix *cr = i_mat();
+// 	cr->matrix[0][1] = (-axe->z);
+// 	cr->matrix[1][0] = axe->z;
+// 	cr->matrix[1][2] = -axe->x;
+// 	cr->matrix[2][1] = axe->x;
+// 	cr->matrix[0][0] = 0;
+// 	cr->matrix[1][1] = 0;
+// 	cr->matrix[2][2] = 0;
+// 	cr->matrix[3][3] = 0;
+// 	t_matrix *tr  = mul_mat(cr, cr);
+// 	cr->matrix[0][1] = sin(beta) * (-axe->z);
+// 	cr->matrix[1][0] = sin(beta) * axe->z;
+// 	cr->matrix[1][2] = sin(beta) * -axe->x;
+// 	cr->matrix[2][1] = sin(beta) * axe->x;
+// 	int i = 0;
+// 	int j = 0;
+// 	while (i < 4){
+// 		j  = 0;
+// 		while (j < 4){
+// 			tr->matrix[i][j] = (1- cos(beta)) * tr->matrix[i][j];
+// 			j++;
+// 		}
+// 		i++;
+// 	}
+// 	t_matrix *final = i_mat();
+// 	i = 0;
+// 	j = 0;
+// 	while (i < 4){
+// 		j = 0;
+// 		while (j < 4){
+// 			final->matrix[i][j] = final->matrix[i][j] + tr->matrix[i][j] + cr->matrix[i][j];
+// 			j++;
+// 		}
+// 		i++;
+// 	}
+// 	return ()
+// }
+// int main() {
+//     // double trunc[2] = {-1, 1};
+//     t_plane *cyl = plane(0, i_mat()); // No transformation
+//     cyl->material->color = *new_color(1, 0, 0); // Red color for visibility
+//     t_light *light = light_source(cpv(-10, 10, -10, 1), new_color(1, 1, 1), 1);
+//     t_camera *camera = new_camera(400, 400, M_PI / 3, view_transformation(cpv(0, 1.5, -5, 1), cpv(0, 1, 0, 1), cpv(0, 1, 0, 0)));
+//     t_world *w = world();
+//     w->object_count = 1;
+//     w->light[0].position = light->position;
+//     w->light[0].color = light->color;
+//     w->light[0].brightness = light->brightness;
+//     w->object[0].shape_pl = *cyl;
+//     w->object[0].type = PLANE;
+//     render(camera, w);
+// }
 
 
 	// printf("middle color:  r %f/  g %f  b %f \n", middle->material->color->r,middle->material->color->g,middle->material->color->b );

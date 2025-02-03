@@ -637,3 +637,19 @@ distance  traveled,  and  then  add  that  to  the  ray’s  origin. */
 // 	printf("near %.2f\n",  i->t[0]);
 // 	printf("far %.2f\n",  i->t[1]);
 // }
+
+
+
+
+
+// bool is_shadow(t_world *w, t_tuple *p)
+// {
+// 	t_tuple *shadow_ray = tpl_o(w->light->position, *p, sub);
+// 	double distance = magnitude(*shadow_ray);
+
+// 	t_ray *r = ray(*p, *Normalize(*shadow_ray));
+// 	t_intersect *inter = world_intersection(w, r);
+// 	if (inter && inter->t[0] < distance)
+// 		return (true);
+// 	return (false);
+// }

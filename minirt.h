@@ -6,23 +6,51 @@
 /*   By: mthamir <mthamir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/28 15:23:22 by mthamir           #+#    #+#             */
-/*   Updated: 2025/01/21 18:25:03 by mthamir          ###   ########.fr       */
+/*   Updated: 2025/02/03 17:14:14 by mthamir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MINIRT_H
 #define MINIRT_H
 
-#include <libc.h>
+#include <unistd.h>
+#include <stdio.h>
+#include <stdlib.h>
 #include <math.h>
 #include <stdarg.h>
+#include <stdbool.h>
+#include <fcntl.h>
 #include <MLX42.h>
 
 
 #define	EPSILON 0.00001
 #define SPHER 1
-#define SPH 1
+#define PLANE 2
+#define CYLINDER 3
 #define BLACK 0x0000000FF
+
+
+#define RT_FILE_EXTENSION "The Programme Support Only rt Files"
+#define VALID_NAME "Enter a Valid File_Name"
+#define OPEN_FAILS "Open System Call Failed"
+#define DUPLICAT_CAM "Camera Can Only Be Declared Once In The Scene"
+#define BAD_INFORM_CAM "Camera Bad Number Of Param"
+#define BAD_INFORM_OBJ "Object Bad Number Of Param"
+#define DUPLICAT_LIGHT "Light Can Only Be Declared Once In The Scene"
+#define BAD_INFORM_LIGHT "Light Bad Bad Number Of Param"
+#define DUPLICAT_AMB "Ambiant Can Only Be Declared Once In The Scene"
+#define BAD_INFORM_AMB "Ambiant Bad Number Of Param"
+#define INVALID_CORD "Invalid Cord In File"
+#define INVALID_FLOATING_NUM "Invalid Number In File"
+#define INVALID_FOV "Invalid FOV"
+#define INVALID_AMB_R "Invalid Ambiant Ratio"
+#define INVALID_SPHERE_RD "Invalid Spher Raduis"
+#define INVALID_PL_NORMAL "Invalid Plane Normal"
+
+typedef struct s_line{
+	char *line[200];
+	int count;
+}	t_line ;
 
 typedef struct s_color	{
 	double r;
@@ -32,7 +60,7 @@ typedef struct s_color	{
 
 typedef struct s_material
 {
-	t_color *color;
+	t_color color;
 	double ambiant;
 	double diffuse;
 	double specular;
@@ -49,28 +77,27 @@ typedef struct s_tuple	{
 
 typedef struct s_light
 {
-	t_tuple *position;
-	t_color *color;
+	t_tuple position;
+	t_color color;
 	double brightness;
 }	t_light;
 
 typedef struct s_matrix{
-	double **matrix;
+	double matrix[4][4];
 }	t_matrix;
 
 typedef struct s_2_2{
-	double **matrix;
+	double matrix[2][2];
 }	t_2_2;
 
 typedef struct s_3_3{
-	double **matrix;
+	double matrix[3][3];
 }	t_3_3;
 
 typedef struct s_ray
 {
-	t_tuple *o;
-	t_tuple *d;
-	t_tuple *ud;
+	t_tuple o;
+	t_tuple d;
 }	t_ray;
 
 typedef struct s_spher
@@ -79,25 +106,53 @@ typedef struct s_spher
 	int		id;
 	t_matrix *transform;
 	t_tuple	*c;
-	t_color *color;
+	t_color color;
 	t_material *material;
 	t_matrix *inverse_m;
-	t_matrix *transpose_inverse;
+	t_matrix *transpose_in;
 
 }	t_spher;
+
+typedef struct s_plane
+{
+	int		id;
+	t_tuple	*c;
+	t_color color;
+	t_material *material;
+	t_matrix *transform;
+	t_matrix *inverse_m;
+	t_matrix *transpose_inverse;
+	t_tuple *normalv;
+}	t_plane;
+
+typedef struct s_cylinder
+{
+	int		id;
+	bool capped;
+	bool truncated;
+	double min;
+	double max;
+	t_color color;
+	t_material *material;
+	t_matrix *transform;
+	t_matrix *inverse_m;
+	t_matrix *transpose_inverse;
+}	t_cylinder;
 
 typedef struct s_object
 {
 	int type;
-	t_spher *shape;
+	t_spher shape;
+	t_plane shape_pl;
+	t_cylinder shape_cyl;
 } t_object;
 
 typedef struct s_intersect t_intersect;
 typedef struct s_intersect
 {
 	t_ray *ray;
-	t_object *object;
-	double *t;
+	t_object object;
+	double t[2];
 	t_intersect *next;
 }  t_intersect;
 
@@ -112,6 +167,7 @@ typedef struct s_camera
 	double aspect_ratio;
 	double horizontal_size;
 	double vertical_size;
+	t_tuple *origine;
 	t_matrix *transform;
 	t_matrix *transform_inverse;
 }			t_camera;
@@ -130,24 +186,61 @@ t_material *material();
 typedef struct s_world
 {
 	int object_count;
-	t_light light[100];
+	t_light *light;
 	t_object object[200];
+	t_color *ambiant_color;
 }	t_world;
 
 typedef struct s_comps
 {
 	double t;
-	t_object *object;
+	t_object object;
 	t_tuple *point;
+	bool shadow;
 	t_tuple *eyev;
 	t_tuple *normalv;
 	bool inside;
 }	t_comps;
 
+typedef struct s_rt
+{
+	t_world *world;
+	t_camera *cam;
+
+}	t_rt;
+/*______________________________parse_____________________________*/
+char	**split_line(char *s, char c, char c1);
+char	*get_next_line(int fd);
+bool ft_strcmp(char *s1, char *s2);
+size_t	ft_strlen(const char *str);
+char	*ft_strdup(char *s);
+char	*ft_strjoin(char *s1, char *s2);
+char	*ft_copy(char *s1, char *s2, int i);
+int  is_float(char *s);
+double char_to_double(char *s);
+void parse_init_structs(t_line *l, t_rt *rt);
+void	init_struct(char **line, t_rt *rt);
+void init_objects(char **line, t_rt *rt, int num_obj);
+void	init_plane(char **line, t_rt *rt, int id);
+t_matrix *get_rotat_matrice(t_tuple *normal);
+void init_spher(char **line, t_rt *rt, int id);
+void init_light(char **line, int exist ,t_rt *rt);
+void init_ambiant(char **line,int exist,t_rt *rt);
+t_color *char_to_color(char *s);
+void init_camera(char **line, int exist, t_rt *rt);
+t_tuple *char_to_vec(char *cam_line, int type);
+int ft_strstrlen(char **str);
+t_line 	*parse_file(char *file_name);
+t_line *get_rt_lines(int fd);
+bool check_extension(char *file_name);
+void print_error(char *error);
+
+
+
+
+/*______________________________exec_____________________________*/
 /* creat a point or a vector */
 t_tuple	*cpv(double x, double y, double z, double p_v);
-/* checks if its a point or a vector if true(1) its point else its vector */
-int ispoint(t_tuple *a);
 /* checks if two floating point number are equal or not if true(1) are equal else not*/
 int isequal(double a, double b);
 /* add two floating point number */
@@ -159,25 +252,21 @@ double	mul(double a, double b);
 /* divide two floating point number */
 double	divi(double a, double b);
 /* operation between two tuples addition and subtraction */
-t_tuple *tpl_o(t_tuple *a, t_tuple *b , char op);
+t_tuple *tpl_o(t_tuple a, t_tuple b , double (*f)(double p1, double p2));
 /*get the opposite vector of a given one */
-t_tuple *opp(t_tuple *a);
+t_tuple *opp(t_tuple a);
 /*we use scalar for dividing or multiplying a vector by a number called scalar*/
-t_tuple *scalar(t_tuple *a, double scalar);
+t_tuple *scalar(t_tuple a, double scalar);
 /* calculer magnitude of a vector (or its lengh) */
-double magnitude(t_tuple *a);
-/* check if its a unit vector */
-double	isunit(t_tuple *a);
+double magnitude(t_tuple a);
 /* normalization its nedded when we have an arbitry vector mean a vector that u have the choise where it will goes */
-t_tuple *Normalize(t_tuple *a);
+t_tuple *Normalize(t_tuple a);
 /* we use it to compare between two vector direction and knowing the angle between them */
-double	Dot_p(t_tuple *a, t_tuple *b);
+double	Dot_p(t_tuple a, t_tuple b);
 /* the result is a vector that its perpodicular to both of the two used vectors*/
-t_tuple *Cross_p(t_tuple *a, t_tuple *b);
+t_tuple *Cross_p(t_tuple a, t_tuple b);
 /* get squar of a number */
 double	sq(double num);
-/* colors addition and subtraction and multiplication */
-t_color *colors_operation(t_color *a, t_color *b, char op);
 /* colors multiplication with a scalar */
 t_color *color_s_mul(t_color *a, double scalar);
 /* checks if two matrix are equals*/
@@ -228,7 +317,7 @@ t_matrix *rotat_matrix(double radians, char axis);
 /* get teh skewiing (shearing ) matrix */
 t_matrix *skew_mat(double *arr);
 /* creat a ray wih an origine and a direction */
-t_ray *ray(t_tuple *origine, t_tuple *direction);
+t_ray *ray(t_tuple origine, t_tuple direction);
 /* shows how far the ray travels in (x distance) seconds  (Computing a point from a distance)*/
 t_tuple *position(t_ray *ray, double distance);
 /* creat a sphere with given enter and raduis */
@@ -241,22 +330,15 @@ t_tuple *normal_at(t_spher *sph, t_tuple *point);
 /* set the transformation matrix on sphere struct */
 void	set_tranform(t_spher *sph, t_matrix *mat);
 /* colors addition and subtraction */
-t_color *colors_operation(t_color *a, t_color *b, char op);
+t_color *colors_operation(t_color *a, t_color *b, double (*f) (double a, double b));
 /* colors multiplication with a scalar */
 t_color *color_s_mul(t_color *a, double scalar);
 /* get diffuse and ambiant color ona apoint */
 t_color *compute_lightning(t_material *m, t_light *light, t_tuple *pos,t_tuple *eyev, t_tuple *normalv);
 void *ft_malloc(size_t size);
-double **new_2_2();
-double **new_3_3();
-double **new_4_4();
-double *new_t(int count);
 double hit(double *arr);
-double *intersections(int num, ...);
-double ft_max(double *arr, int num);
-double hit_p(double *arr, int num);
 t_light *light_source(t_tuple *position, t_color *color, double brightness);
-t_tuple *reflect(t_tuple *in, t_tuple *normal);
+t_tuple *reflect(t_tuple in, t_tuple normal);
 double get_closest(double *t);
 t_material *material();
 t_color *new_color(double r, double g, double b);
@@ -266,16 +348,23 @@ t_world *world();
 t_intersect *new_intersect();
 t_intersect *world_intersection(t_world *world, t_ray *r);
 t_comps *new_comps();
-t_comps	*prepare_computing(t_intersect *list, t_ray *r);
+t_comps	*prepare_computing(t_intersect *list, t_ray *r, t_world *w);
 t_color *shade_hit(t_world *w, t_comps *comp);
 t_color *color_at(t_world *w, t_ray *r);
 t_matrix *view_transformation(t_tuple *from, t_tuple *to, t_tuple *up);
 t_ray *ray_for_pixel(t_camera *cam, double x, double y);
 t_camera *new_camera(double hsize, double vsize, double fov, t_matrix *transformation);
-void render(t_camera *camera, t_world *w);
+void render(t_rt *rt);
 t_color *compute_ambiant(t_light *light, t_material *m);
-bool is_shadow(t_world *w, t_tuple *p);
-
+// bool is_shadow(t_world *w, t_tuple *p);
+t_intersect *get_first_intersect(t_intersect *list, t_ray *r);
+t_intersect *pl_intersect(t_ray *r1, t_plane *pl);
+t_plane *plane(int id, t_matrix *tr);
+t_tuple *normal_at_cyl(t_cylinder *cyl, t_tuple *p);
+t_intersect *cyl_intersect(t_ray *r, t_cylinder *cyl);
+t_cylinder *cylinder(double trunc[2], int id, t_matrix *tr, bool open);
+void intersect_caps_cyl(t_cylinder *cyl, t_ray *r, double *t1, double *t2);
+int	check_cap(t_ray *r , double t);
 #endif
 
 /*  ambiant reflection   
