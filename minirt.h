@@ -6,7 +6,7 @@
 /*   By: mthamir <mthamir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/28 15:23:22 by mthamir           #+#    #+#             */
-/*   Updated: 2025/02/03 17:14:14 by mthamir          ###   ########.fr       */
+/*   Updated: 2025/02/08 13:33:33 by mthamir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,7 @@
 #define PLANE 2
 #define CYLINDER 3
 #define BLACK 0x0000000FF
+#define FREE 10
 
 
 #define RT_FILE_EXTENSION "The Programme Support Only rt Files"
@@ -46,6 +47,16 @@
 #define INVALID_AMB_R "Invalid Ambiant Ratio"
 #define INVALID_SPHERE_RD "Invalid Spher Raduis"
 #define INVALID_PL_NORMAL "Invalid Plane Normal"
+#define INVALID_CYL_DATA "Invalid Cylinder Data"
+#define MALLOC_FAILS "malloc syscall fails"
+#define INDEFINED_OBJECT "Uknown Identifier"
+
+typedef struct s_leaks t_leaks;
+typedef struct s_leaks
+{
+	void *node;
+	t_leaks *next;
+}	t_leaks;
 
 typedef struct s_line{
 	char *line[200];
@@ -128,8 +139,7 @@ typedef struct s_plane
 typedef struct s_cylinder
 {
 	int		id;
-	bool capped;
-	bool truncated;
+	t_tuple *centre;
 	double min;
 	double max;
 	t_color color;
@@ -209,14 +219,15 @@ typedef struct s_rt
 
 }	t_rt;
 /*______________________________parse_____________________________*/
+char	*ft_copy(char *s1, char *s2, int i);
+int ft_strstrlen(char **str);
+int  is_float(char *s);
 char	**split_line(char *s, char c, char c1);
 char	*get_next_line(int fd);
 bool ft_strcmp(char *s1, char *s2);
 size_t	ft_strlen(const char *str);
 char	*ft_strdup(char *s);
 char	*ft_strjoin(char *s1, char *s2);
-char	*ft_copy(char *s1, char *s2, int i);
-int  is_float(char *s);
 double char_to_double(char *s);
 void parse_init_structs(t_line *l, t_rt *rt);
 void	init_struct(char **line, t_rt *rt);
@@ -229,11 +240,12 @@ void init_ambiant(char **line,int exist,t_rt *rt);
 t_color *char_to_color(char *s);
 void init_camera(char **line, int exist, t_rt *rt);
 t_tuple *char_to_vec(char *cam_line, int type);
-int ft_strstrlen(char **str);
 t_line 	*parse_file(char *file_name);
 t_line *get_rt_lines(int fd);
 bool check_extension(char *file_name);
 void print_error(char *error);
+void init_cylinder(char **line, t_rt *rt, int id);
+int all_spaces(char *s);
 
 
 
@@ -254,17 +266,17 @@ double	divi(double a, double b);
 /* operation between two tuples addition and subtraction */
 t_tuple *tpl_o(t_tuple a, t_tuple b , double (*f)(double p1, double p2));
 /*get the opposite vector of a given one */
-t_tuple *opp(t_tuple a);
+void opp(t_tuple *a);
 /*we use scalar for dividing or multiplying a vector by a number called scalar*/
 t_tuple *scalar(t_tuple a, double scalar);
 /* calculer magnitude of a vector (or its lengh) */
 double magnitude(t_tuple a);
 /* normalization its nedded when we have an arbitry vector mean a vector that u have the choise where it will goes */
-t_tuple *Normalize(t_tuple a);
+void normalize(t_tuple *a);
 /* we use it to compare between two vector direction and knowing the angle between them */
-double	Dot_p(t_tuple a, t_tuple b);
+double	dot_p(t_tuple a, t_tuple b);
 /* the result is a vector that its perpodicular to both of the two used vectors*/
-t_tuple *Cross_p(t_tuple a, t_tuple b);
+t_tuple *cross_p(t_tuple a, t_tuple b);
 /* get squar of a number */
 double	sq(double num);
 /* colors multiplication with a scalar */
@@ -334,8 +346,8 @@ t_color *colors_operation(t_color *a, t_color *b, double (*f) (double a, double 
 /* colors multiplication with a scalar */
 t_color *color_s_mul(t_color *a, double scalar);
 /* get diffuse and ambiant color ona apoint */
-t_color *compute_lightning(t_material *m, t_light *light, t_tuple *pos,t_tuple *eyev, t_tuple *normalv);
-void *ft_malloc(size_t size);
+t_color *compute_lightning(t_material *m, t_light *light, t_tuple *pos, t_tuple *normalv);
+void *ft_malloc(size_t size, int flag);
 double hit(double *arr);
 t_light *light_source(t_tuple *position, t_color *color, double brightness);
 t_tuple *reflect(t_tuple in, t_tuple normal);
@@ -355,16 +367,15 @@ t_matrix *view_transformation(t_tuple *from, t_tuple *to, t_tuple *up);
 t_ray *ray_for_pixel(t_camera *cam, double x, double y);
 t_camera *new_camera(double hsize, double vsize, double fov, t_matrix *transformation);
 void render(t_rt *rt);
-t_color *compute_ambiant(t_light *light, t_material *m);
 // bool is_shadow(t_world *w, t_tuple *p);
 t_intersect *get_first_intersect(t_intersect *list, t_ray *r);
 t_intersect *pl_intersect(t_ray *r1, t_plane *pl);
 t_plane *plane(int id, t_matrix *tr);
 t_tuple *normal_at_cyl(t_cylinder *cyl, t_tuple *p);
 t_intersect *cyl_intersect(t_ray *r, t_cylinder *cyl);
-t_cylinder *cylinder(double trunc[2], int id, t_matrix *tr, bool open);
+t_cylinder *cylinder(double trunc[2], int id, t_matrix *tr);
 void intersect_caps_cyl(t_cylinder *cyl, t_ray *r, double *t1, double *t2);
-int	check_cap(t_ray *r , double t);
+void ch_pv(t_tuple *a, double x, double y, double z);
 #endif
 
 /*  ambiant reflection   

@@ -6,7 +6,7 @@
 #    By: mthamir <mthamir@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/12/12 17:40:42 by mthamir           #+#    #+#              #
-#    Updated: 2025/02/03 14:55:22 by mthamir          ###   ########.fr        #
+#    Updated: 2025/02/08 13:12:28 by mthamir          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,13 +14,23 @@ NAME := minirt
 
 CC := cc
 
-FLAGS :=  -fsanitize=address -I/Users/$(shell whoami)/Desktop/gitminirt/MLX42/include/MLX42
-#FLAGS := -lmlx -framework OpenGL -framework AppKit
-
+FLAGS :=  -I/Users/$(shell whoami)/Desktop/gitminirt/MLX42/include/MLX42
 
 MLX		=	MLX42/libmlx42.a
 
-SRC :=   src_files/parse.c  src_files/all.c
+SRC :=  _Mandatory/parse/utils_0.c _Mandatory/parse/utils_1.c _Mandatory/parse/char_to.c  \
+		_Mandatory/parse/check_identfier.c _Mandatory/parse/error.c _Mandatory/parse/get_next_line.c \
+		_Mandatory/parse/init_camera.c _Mandatory/parse/init_lighting.c _Mandatory/parse/init_objects.c \
+		_Mandatory/parse/read_file.c _Mandatory/parse/split.c  \
+		_Mandatory/prog_files/basic_operations.c _Mandatory/prog_files/camera.c \
+		_Mandatory/prog_files/colors_operations.c _Mandatory/prog_files/cylinder.c   _Mandatory/prog_files/cylinder_intersection.c \
+		_Mandatory/prog_files/inverse_0.c  _Mandatory/prog_files/inverse_1.c _Mandatory/prog_files/inverse_2.c \
+		_Mandatory/prog_files/lighting.c _Mandatory/prog_files/matrix_operations_0.c  \
+		_Mandatory/prog_files/matrix_operations_1.c _Mandatory/prog_files/plane.c _Mandatory/prog_files/plane_intersection.c \
+		_Mandatory/prog_files/prepare_computing.c _Mandatory/prog_files/rays_operations.c \
+		_Mandatory/prog_files/render.c _Mandatory/prog_files/sphere.c _Mandatory/prog_files/sphere_intersection.c \
+		_Mandatory/prog_files/vectors_operations_0.c _Mandatory/prog_files/vectors_operations_1.c \
+		_Mandatory/prog_files/vectors_operations_2.c _Mandatory/prog_files/world_intersection.c \
 
 OBJ := $(SRC:.c=.o)
 
@@ -46,33 +56,3 @@ fclean : clean
 	rm -f $(NAME)
 
 re : fclean all
-
-# NAME := minirt
-
-# CC := cc
-
-# FLAGS := -Wall -Wextra -Werror
-
-# MLX_FLAGS := -lmlx -framework OpenGL -framework AppKit
-
-# SRC := tools/all.c main.c
-
-# OBJ := $(SRC:.c=.o)
-
-# HEADER := minirt.h
-
-# all : $(NAME)
-
-# $(NAME) : $(OBJ)
-# 	$(CC) $(FLAGS) $(MLX_FLAGS) $(OBJ)  -o $(NAME)
-
-# %.o : %.c $(HEADER)
-# 	$(CC) $(FLAGS) -c $< -o $@
-
-# clean :
-# 	rm -f $(OBJ)
-
-# fclean : clean
-# 	rm -f $(NAME)
-
-# re : fclean all
