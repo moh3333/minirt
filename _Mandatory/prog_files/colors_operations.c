@@ -6,20 +6,20 @@
 /*   By: mthamir <mthamir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/06 16:27:04 by mthamir           #+#    #+#             */
-/*   Updated: 2025/02/08 13:13:07 by mthamir          ###   ########.fr       */
+/*   Updated: 2025/02/09 18:08:27 by mthamir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../minirt.h"
+#include "../minirt.h"
 
 t_color	*new_color(double r, double g, double b)
 {
 	t_color	*col;
 
 	col = ft_malloc(sizeof(t_color), 0);
-	col->r = r;
-	col->g = g;
-	col->b = b;
+	col->r = fmax(0.0, fmin(1.0, r));
+	col->g = fmax(0.0, fmin(1.0, g));
+	col->b = fmax(0.0, fmin(1.0, b));
 	return (col);
 }
 

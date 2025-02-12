@@ -6,11 +6,11 @@
 /*   By: mthamir <mthamir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/06 16:02:53 by mthamir           #+#    #+#             */
-/*   Updated: 2025/02/08 13:13:07 by mthamir          ###   ########.fr       */
+/*   Updated: 2025/02/09 18:08:36 by mthamir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../minirt.h"
+#include "../minirt.h"
 
 t_3_3	*sub_m3(t_matrix *a, int row, int col)
 {

@@ -6,11 +6,11 @@
 /*   By: mthamir <mthamir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/06 17:17:06 by mthamir           #+#    #+#             */
-/*   Updated: 2025/02/08 13:13:07 by mthamir          ###   ########.fr       */
+/*   Updated: 2025/02/09 18:07:53 by mthamir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../minirt.h"
+#include "../minirt.h"
 
 int	check_for_nl(char	**buff)
 {
@@ -34,14 +34,12 @@ static char	*ft_get_buff(int fd, char *buffer)
 	int		i;
 
 	i = 1;
+	ret = ft_malloc (((size_t)10 + 1) * sizeof(char), 0);
 	while (i > 0)
 	{
-		ret = ft_malloc (((size_t)10 + 1) * sizeof(char), 0);
-		if (!ret)
-			return (NULL);
 		i = read (fd, ret, 10);
 		if (i == -1)
-			return (NULL);
+			return (buffer);
 		if (i == 0)
 			return (buffer);
 		ret[i] = '\0';
@@ -97,14 +95,14 @@ char	*get_next_line(int fd)
 	char		*line;
 
 	if (fd < 0 || read (fd, buffer, 0) < 0)
-		return (buffer = NULL, NULL);
+		return (NULL);
 	buffer = ft_get_buff(fd, buffer);
 	if (!buffer || buffer [0] == 0)
 		return (NULL);
 	line = get_line_(buffer);
 	if (!line || line [0] == 0)
 		return (NULL);
-	buffer = ft_strdup(buffer + ft_strlen(line));
+	buffer = ft_strdup(buffer + ft_strlen(line));;
 	if (all_spaces(line))
 		return (get_next_line(fd));
 	return (line);

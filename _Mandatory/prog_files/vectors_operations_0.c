@@ -6,11 +6,11 @@
 /*   By: mthamir <mthamir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/06 15:48:26 by mthamir           #+#    #+#             */
-/*   Updated: 2025/02/08 13:13:07 by mthamir          ###   ########.fr       */
+/*   Updated: 2025/02/09 18:09:16 by mthamir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../minirt.h"
+#include "../minirt.h"
 
 /* if "a" and "b" are vector the dot product is "a"."b" return a number 
 wec need it to ompare the direction of the two vectors */

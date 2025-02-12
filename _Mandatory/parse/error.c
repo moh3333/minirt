@@ -6,11 +6,11 @@
 /*   By: mthamir <mthamir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/06 17:31:41 by mthamir           #+#    #+#             */
-/*   Updated: 2025/02/08 13:19:35 by mthamir          ###   ########.fr       */
+/*   Updated: 2025/02/09 18:07:51 by mthamir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../minirt.h"
+#include "../minirt.h"
 
 void	print_error(char *error)
 {

@@ -6,11 +6,11 @@
 /*   By: mthamir <mthamir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/06 16:05:41 by mthamir           #+#    #+#             */
-/*   Updated: 2025/02/08 13:13:07 by mthamir          ###   ########.fr       */
+/*   Updated: 2025/02/09 18:09:14 by mthamir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../minirt.h"
+#include "../minirt.h"
 
 /* creat a new sphere object */
 t_spher	*spher(t_tuple *center, double raduis, int id, t_matrix *tr)

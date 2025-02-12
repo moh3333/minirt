@@ -17,6 +17,7 @@
 		"tuple": "c",
 		"utility": "c",
 		"ios": "c",
-		"locale": "c"
+		"locale": "c",
+		"minirt_bonus.h": "c"
 	}
 }

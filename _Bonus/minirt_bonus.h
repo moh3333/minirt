@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minirt.h                                           :+:      :+:    :+:   */
+/*   minirt_bonus.h                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mthamir <mthamir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/28 15:23:22 by mthamir           #+#    #+#             */
-/*   Updated: 2025/02/08 13:33:33 by mthamir          ###   ########.fr       */
+/*   Updated: 2025/02/10 18:30:31 by mthamir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@
 #include <stdarg.h>
 #include <stdbool.h>
 #include <fcntl.h>
-#include <MLX42.h>
+#include "../MLX42/include/MLX42/MLX42.h"
 
 
 #define	EPSILON 0.00001
@@ -33,13 +33,13 @@
 
 #define RT_FILE_EXTENSION "The Programme Support Only rt Files"
 #define VALID_NAME "Enter a Valid File_Name"
-#define OPEN_FAILS "Open System Call Failed"
-#define DUPLICAT_CAM "Camera Can Only Be Declared Once In The Scene"
+#define OPEN_FAILS "Can't Open File"
+#define DUPLICAT_CAM "Camera Can Only Be Declared Once"
 #define BAD_INFORM_CAM "Camera Bad Number Of Param"
 #define BAD_INFORM_OBJ "Object Bad Number Of Param"
-#define DUPLICAT_LIGHT "Light Can Only Be Declared Once In The Scene"
+#define DUPLICAT_LIGHT "Light Can Only Be Declared Once"
 #define BAD_INFORM_LIGHT "Light Bad Bad Number Of Param"
-#define DUPLICAT_AMB "Ambiant Can Only Be Declared Once In The Scene"
+#define DUPLICAT_AMB "Ambiant Can Only Be Declared Once"
 #define BAD_INFORM_AMB "Ambiant Bad Number Of Param"
 #define INVALID_CORD "Invalid Cord In File"
 #define INVALID_FLOATING_NUM "Invalid Number In File"
@@ -48,7 +48,7 @@
 #define INVALID_SPHERE_RD "Invalid Spher Raduis"
 #define INVALID_PL_NORMAL "Invalid Plane Normal"
 #define INVALID_CYL_DATA "Invalid Cylinder Data"
-#define MALLOC_FAILS "malloc syscall fails"
+#define MALLOC_FAILS "Malloc Syscall Fails"
 #define INDEFINED_OBJECT "Uknown Identifier"
 
 typedef struct s_leaks t_leaks;
@@ -69,13 +69,16 @@ typedef struct s_color	{
 	double b;
 }	t_color;
 
+
 typedef struct s_material
 {
 	t_color color;
 	double ambiant;
 	double diffuse;
 	double specular;
-	double shininess;
+	double	shininess;
+	double	checker;
+	t_color pattern_color;
 }	t_material;
 
 
@@ -90,7 +93,6 @@ typedef struct s_light
 {
 	t_tuple position;
 	t_color color;
-	double brightness;
 }	t_light;
 
 typedef struct s_matrix{
@@ -190,13 +192,13 @@ typedef struct s_lighting
 	t_camera *camera;
 	t_tuple *normal_vec;
 }	t_lighting;
-t_material *material();
 
 
 typedef struct s_world
 {
 	int object_count;
-	t_light *light;
+	int light_count;
+	t_light light[200];
 	t_object object[200];
 	t_color *ambiant_color;
 }	t_world;
@@ -346,7 +348,7 @@ t_color *colors_operation(t_color *a, t_color *b, double (*f) (double a, double 
 /* colors multiplication with a scalar */
 t_color *color_s_mul(t_color *a, double scalar);
 /* get diffuse and ambiant color ona apoint */
-t_color *compute_lightning(t_material *m, t_light *light, t_tuple *pos, t_tuple *normalv);
+t_color *compute_lightning(t_material *m, t_light *light, t_tuple *pos, t_tuple *normalv, t_tuple *eyev);
 void *ft_malloc(size_t size, int flag);
 double hit(double *arr);
 t_light *light_source(t_tuple *position, t_color *color, double brightness);
@@ -357,23 +359,24 @@ t_color *new_color(double r, double g, double b);
 uint64_t get_col(t_color * color);
 t_color *to_rgba(double color);
 t_world *world();
+bool	in_shadow(t_world *w, t_comps *comp, int i);
 t_intersect *new_intersect();
 t_intersect *world_intersection(t_world *world, t_ray *r);
 t_comps *new_comps();
 t_comps	*prepare_computing(t_intersect *list, t_ray *r, t_world *w);
-t_color *shade_hit(t_world *w, t_comps *comp);
-t_color *color_at(t_world *w, t_ray *r);
+t_color *shade_hit(t_world *w, t_comps *comp, t_tuple *eyev);
+uint64_t	color_at(t_world *w, t_ray *r);
 t_matrix *view_transformation(t_tuple *from, t_tuple *to, t_tuple *up);
 t_ray *ray_for_pixel(t_camera *cam, double x, double y);
 t_camera *new_camera(double hsize, double vsize, double fov, t_matrix *transformation);
 void render(t_rt *rt);
-// bool is_shadow(t_world *w, t_tuple *p);
 t_intersect *get_first_intersect(t_intersect *list, t_ray *r);
 t_intersect *pl_intersect(t_ray *r1, t_plane *pl);
 t_plane *plane(int id, t_matrix *tr);
 t_tuple *normal_at_cyl(t_cylinder *cyl, t_tuple *p);
 t_intersect *cyl_intersect(t_ray *r, t_cylinder *cyl);
 t_cylinder *cylinder(double trunc[2], int id, t_matrix *tr);
+t_material *material();
 void intersect_caps_cyl(t_cylinder *cyl, t_ray *r, double *t1, double *t2);
 void ch_pv(t_tuple *a, double x, double y, double z);
 #endif

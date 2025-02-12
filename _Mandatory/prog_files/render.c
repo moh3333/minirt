@@ -6,21 +6,22 @@
 /*   By: mthamir <mthamir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/06 16:22:21 by mthamir           #+#    #+#             */
-/*   Updated: 2025/02/08 13:33:43 by mthamir          ###   ########.fr       */
+/*   Updated: 2025/02/09 18:09:08 by mthamir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../minirt.h"
+#include "../minirt.h"
 
 t_color	*color_at(t_world *w, t_ray *r)
 {
 	return (shade_hit(w, prepare_computing(world_intersection(w, r), r, w)));
 }
 
-void	handle_keys(mlx_key_data_t keydata, void* param)
+void	handle_keys(mlx_key_data_t keydata, void *param)
 {
-	mlx_t *p = param;
+	mlx_t	*p;
 
+	p = param;
 	if (keydata.key == MLX_KEY_ESCAPE)
 		mlx_close_window(p);
 }
@@ -65,14 +66,14 @@ void	render(t_rt *rt)
 int	main(int ac, char **av)
 {
 	t_line	l;
+	int i = 0;
 	t_rt	rt;
 	// atexit(f);
-	rt.world = world();
 	if (ac == 2)
 	{
+		rt.world = world();
 		l = *parse_file(av[1]);
 		parse_init_structs(&l, &rt);
 		render(&rt);
 	}
-	ft_malloc(0, FREE);
 }

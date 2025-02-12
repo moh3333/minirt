@@ -6,15 +6,17 @@
 #    By: mthamir <mthamir@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/12/12 17:40:42 by mthamir           #+#    #+#              #
-#    Updated: 2025/02/08 13:12:28 by mthamir          ###   ########.fr        #
+#    Updated: 2025/02/09 18:21:40 by mthamir          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME := minirt
 
+NAME_BONUS := minirt_bonus
+
 CC := cc
 
-FLAGS :=  -I/Users/$(shell whoami)/Desktop/gitminirt/MLX42/include/MLX42
+FLAGS :=  -fsanitize=address -I/Users/$(shell whoami)/Desktop/gitminirt/MLX42/include/MLX42
 
 MLX		=	MLX42/libmlx42.a
 
@@ -32,27 +34,58 @@ SRC :=  _Mandatory/parse/utils_0.c _Mandatory/parse/utils_1.c _Mandatory/parse/c
 		_Mandatory/prog_files/vectors_operations_0.c _Mandatory/prog_files/vectors_operations_1.c \
 		_Mandatory/prog_files/vectors_operations_2.c _Mandatory/prog_files/world_intersection.c \
 
+
+SRC_BONUS :=  _Bonus/parse_bonus/utils_0_bonus.c _Bonus/parse_bonus/utils_1_bonus.c _Bonus/parse_bonus/char_to_bonus.c  \
+		_Bonus/parse_bonus/check_identfier_bonus.c _Bonus/parse_bonus/error_bonus.c _Bonus/parse_bonus/get_next_line_bonus.c \
+		_Bonus/parse_bonus/init_camera_bonus.c _Bonus/parse_bonus/init_lighting_bonus.c _Bonus/parse_bonus/init_objects_bonus.c \
+		_Bonus/parse_bonus/read_file_bonus.c _Bonus/parse_bonus/split_bonus.c  \
+		_Bonus/prog_files_bonus/basic_operations_bonus.c _Bonus/prog_files_bonus/camera_bonus.c \
+		_Bonus/prog_files_bonus/colors_operations_bonus.c _Bonus/prog_files_bonus/cylinder_bonus.c   _Bonus/prog_files_bonus/cylinder_intersection_bonus.c \
+		_Bonus/prog_files_bonus/inverse_0_bonus.c  _Bonus/prog_files_bonus/inverse_1_bonus.c _Bonus/prog_files_bonus/inverse_2_bonus.c \
+		_Bonus/prog_files_bonus/lighting_bonus.c _Bonus/prog_files_bonus/matrix_operations_0_bonus.c  \
+		_Bonus/prog_files_bonus/matrix_operations_1_bonus.c _Bonus/prog_files_bonus/plane_bonus.c _Bonus/prog_files_bonus/plane_intersection_bonus.c \
+		_Bonus/prog_files_bonus/prepare_computing_bonus.c _Bonus/prog_files_bonus/rays_operations_bonus.c \
+		_Bonus/prog_files_bonus/render_bonus.c _Bonus/prog_files_bonus/sphere_bonus.c _Bonus/prog_files_bonus/sphere_intersection_bonus.c \
+		_Bonus/prog_files_bonus/vectors_operations_0_bonus.c _Bonus/prog_files_bonus/vectors_operations_1_bonus.c \
+		_Bonus/prog_files_bonus/vectors_operations_2_bonus.c _Bonus/prog_files_bonus/world_intersection_bonus.c \
+
 OBJ := $(SRC:.c=.o)
+
+OBJ_BONUS := $(SRC_BONUS:bonus.c=bonus.o)
 
 MLXF	=	-framework Cocoa -framework OpenGL -framework IOKit -lglfw -L/Users/$(shell whoami)/.brew/opt/glfw/lib 
 
 HEADER := minirt.h
 
+HEADER_BONUS := minirt_bonus.h
+
 all : $(NAME)
+
+bonus : $(NAME_BONUS)
 
 $(NAME) : $(OBJ)
 	cmake CMakeLists.txt -S MLX42/ -B MLX42/ 
 	make -C MlX42
 	$(CC) $(FLAGS) $(MLXF) $(OBJ) $(MLX) -o $(NAME)
 
+$(NAME_BONUS) : $(OBJ_BONUS)
+	cmake CMakeLists.txt -S MLX42/ -B MLX42/ 
+	make -C MlX42
+	$(CC) $(FLAGS) $(MLXF) $(OBJ_BONUS) $(MLX) -o $(NAME_BONUS)
+
 %.o : %.c $(HEADER)
 	$(CC) $(FLAGS) -c $< -o $@
 
+%bonus.o : %bonus.c $(HEADER_BONUS)
+	$(CC) $(FLAGS) -c $< -o $@
+
 clean :
-	rm -f $(OBJ)
+	rm -f $(OBJ) $(OBJ_BONUS)
 
 fclean : clean
 	make clean -C MLX42/
-	rm -f $(NAME)
+	rm -f $(NAME) $(NAME_BONUS)
 
 re : fclean all
+
+re_bonus : fclean bonus

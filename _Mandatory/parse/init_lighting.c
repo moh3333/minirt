@@ -6,11 +6,11 @@
 /*   By: mthamir <mthamir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/06 17:28:53 by mthamir           #+#    #+#             */
-/*   Updated: 2025/02/08 13:13:07 by mthamir          ###   ########.fr       */
+/*   Updated: 2025/02/09 18:07:58 by mthamir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../minirt.h"
+#include "../minirt.h"
 
 void	init_light(char **line, int exist, t_rt *rt)
 {
@@ -20,7 +20,7 @@ void	init_light(char **line, int exist, t_rt *rt)
 
 	if (exist)
 		return (print_error(DUPLICAT_LIGHT));
-	if (ft_strstrlen(line) != 4)
+	if (ft_strstrlen(line) != 3)
 		return (print_error(BAD_INFORM_LIGHT));
 	if (!is_float(line[2]))
 		return (print_error(INVALID_AMB_R));
@@ -28,8 +28,8 @@ void	init_light(char **line, int exist, t_rt *rt)
 	light_ratio = char_to_double(line[2]);
 	if (!(light_ratio >= 0.0 && light_ratio <= 1.0))
 		return (print_error(INVALID_AMB_R));
-	light_col = char_to_color(line[3]);
-	rt->world->light = light_source(pos, light_col, light_ratio);
+	light_col = new_color(light_ratio, light_ratio, light_ratio);
+	rt->world->light = light_source(pos, light_col);
 }
 
 void	init_ambiant(char **line, int exist, t_rt *rt)

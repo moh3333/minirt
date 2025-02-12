@@ -6,11 +6,11 @@
 /*   By: mthamir <mthamir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/06 17:30:25 by mthamir           #+#    #+#             */
-/*   Updated: 2025/02/08 13:13:07 by mthamir          ###   ########.fr       */
+/*   Updated: 2025/02/09 18:08:00 by mthamir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../minirt.h"
+#include "../minirt.h"
 
 void	init_spher(char **line, t_rt *rt, int id)
 {
@@ -78,12 +78,11 @@ void	init_cylinder(char **line, t_rt *rt, int id)
 		return (print_error(INVALID_CYL_DATA));
 	arr[0] = char_to_double(line[3]) / 2.0;
 	arr[1] = char_to_double(line[4]) / 2.0;
-	arr[2] = centre->y - arr[1];
-	arr[3] = centre->y + arr[1];
+	arr[2] = -arr[1];
+	arr[3] = arr[1];
 	col = char_to_color(line[5]);
 	rt->world->object[rt->world->object_count].type = CYLINDER;
-	tr = mul_mat(mul_mat(transl_mat(centre->x, centre->y, centre->z), \
-		scal_mat(arr[0], 1, arr[0])), get_rotat_matrice(normal));
+	tr = mul_mat(mul_mat(transl_mat(centre->x, centre->y, centre->z), get_rotat_matrice(normal)), scal_mat(arr[0], 1, arr[0]));
 	rt->world->object[rt->world->object_count].shape_cyl = \
 		*cylinder((arr + 2), id, tr);
 	rt->world->object[rt->world->object_count].shape_cyl.material->color = *col;

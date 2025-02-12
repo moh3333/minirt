@@ -6,16 +6,17 @@
 /*   By: mthamir <mthamir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/06 17:29:38 by mthamir           #+#    #+#             */
-/*   Updated: 2025/02/08 13:13:07 by mthamir          ###   ########.fr       */
+/*   Updated: 2025/02/09 18:07:55 by mthamir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../minirt.h"
+#include "../minirt.h"
 
 void	init_camera(char **line, int exist, t_rt *rt)
 {
 	double	fov;
 	t_tuple	*ori;
+
 
 	if (exist)
 		return (print_error(DUPLICAT_CAM));
