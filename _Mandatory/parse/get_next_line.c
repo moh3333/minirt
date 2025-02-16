@@ -6,7 +6,7 @@
 /*   By: mthamir <mthamir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/06 17:17:06 by mthamir           #+#    #+#             */
-/*   Updated: 2025/02/09 18:07:53 by mthamir          ###   ########.fr       */
+/*   Updated: 2025/02/12 19:04:20 by mthamir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,7 +102,7 @@ char	*get_next_line(int fd)
 	line = get_line_(buffer);
 	if (!line || line [0] == 0)
 		return (NULL);
-	buffer = ft_strdup(buffer + ft_strlen(line));;
+	buffer = ft_strdup(buffer + ft_strlen(line));
 	if (all_spaces(line))
 		return (get_next_line(fd));
 	return (line);

@@ -6,7 +6,7 @@
 /*   By: mthamir <mthamir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/06 15:58:46 by mthamir           #+#    #+#             */
-/*   Updated: 2025/02/09 18:08:51 by mthamir          ###   ########.fr       */
+/*   Updated: 2025/02/16 12:28:52 by mthamir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ t_matrix	*mul_mat(t_matrix *a, t_matrix *b)
 	t_matrix	*ret;
 
 	i = -1;
-	ret = ft_malloc (sizeof(t_matrix), 0);
+	ret = i_mat(0.0);
 	while (++i < 4)
 	{
 		j = -1;
@@ -61,7 +61,7 @@ static t_matrix	*get_final(t_matrix *tr, t_matrix *cr, double beta)
 	t_matrix	*final;
 	int			i;
 
-	final = i_mat();
+	final = i_mat(1.0);
 	i = 0;
 	while (i < 4)
 	{
@@ -90,7 +90,7 @@ t_matrix	*get_rotat_matrice(t_tuple *normal)
 	axe = cross_p(*r, *normal);
 	normalize(axe);
 	beta = acos(dot_p(*r, *normal));
-	cr = ft_malloc(sizeof(t_matrix), 0);
+	cr = i_mat(0.0);
 	cr->matrix[0][1] = (-axe->z);
 	cr->matrix[1][0] = axe->z;
 	cr->matrix[1][2] = -axe->x;

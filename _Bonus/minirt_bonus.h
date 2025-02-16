@@ -6,7 +6,7 @@
 /*   By: mthamir <mthamir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/28 15:23:22 by mthamir           #+#    #+#             */
-/*   Updated: 2025/02/10 18:30:31 by mthamir          ###   ########.fr       */
+/*   Updated: 2025/02/16 16:00:03 by mthamir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,8 +27,11 @@
 #define SPHER 1
 #define PLANE 2
 #define CYLINDER 3
+#define CONE 4
 #define BLACK 0x0000000FF
 #define FREE 10
+#define BLOCK_SIZE 100000000000
+#define INIT 22
 
 
 #define RT_FILE_EXTENSION "The Programme Support Only rt Files"
@@ -51,12 +54,15 @@
 #define MALLOC_FAILS "Malloc Syscall Fails"
 #define INDEFINED_OBJECT "Uknown Identifier"
 
-typedef struct s_leaks t_leaks;
-typedef struct s_leaks
+
+
+
+typedef struct s_pool t_pool;
+typedef struct s_pool
 {
-	void *node;
-	t_leaks *next;
-}	t_leaks;
+	void *block;
+	size_t offset;
+}	t_pool;
 
 typedef struct s_line{
 	char *line[200];
@@ -151,12 +157,26 @@ typedef struct s_cylinder
 	t_matrix *transpose_inverse;
 }	t_cylinder;
 
+typedef struct s_cone
+{
+	int		id;
+	t_tuple *centre;
+	double min;
+	double max;
+	t_color color;
+	t_material *material;
+	t_matrix *transform;
+	t_matrix *inverse_m;
+	t_matrix *transpose_inverse;
+}	t_cone;
+
 typedef struct s_object
 {
 	int type;
 	t_spher shape;
 	t_plane shape_pl;
 	t_cylinder shape_cyl;
+	t_cone shape_co;
 } t_object;
 
 typedef struct s_intersect t_intersect;
@@ -288,7 +308,7 @@ int equal_mat(t_matrix *a, t_matrix *b);
 /*multiplying two matrixs gives another matrix */
 t_matrix	*mul_mat(t_matrix *a, t_matrix *b);
 /* identity matrix multipliyng by any matrix it gives the same matrix */
-t_matrix *i_mat(void);
+t_matrix *i_mat(double diagonal);
 /* multipling a matrix by  tuple creat another tuple */
 t_tuple *tup_mat_mul(t_matrix *mtx, t_tuple *tpl);
 /*transpose take a matrix and change its rows to collomns and its collomns to rows */
@@ -348,7 +368,7 @@ t_color *colors_operation(t_color *a, t_color *b, double (*f) (double a, double 
 /* colors multiplication with a scalar */
 t_color *color_s_mul(t_color *a, double scalar);
 /* get diffuse and ambiant color ona apoint */
-t_color *compute_lightning(t_material *m, t_light *light, t_tuple *pos, t_tuple *normalv, t_tuple *eyev);
+t_color *compute_lightning(t_material *m, t_light *light, t_tuple *pos, t_tuple *normalv, t_tuple *eyev, t_color *col);
 void *ft_malloc(size_t size, int flag);
 double hit(double *arr);
 t_light *light_source(t_tuple *position, t_color *color, double brightness);

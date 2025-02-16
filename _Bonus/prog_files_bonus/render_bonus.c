@@ -6,7 +6,7 @@
 /*   By: mthamir <mthamir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/06 16:22:21 by mthamir           #+#    #+#             */
-/*   Updated: 2025/02/10 11:34:46 by mthamir          ###   ########.fr       */
+/*   Updated: 2025/02/16 13:16:54 by mthamir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,6 +75,7 @@ int	main(int ac, char **av)
 
 	if (ac == 2)
 	{
+		ft_malloc(0, INIT);
 		rt.world = world();
 		l = *parse_file(av[1]);
 		parse_init_structs(&l, &rt);

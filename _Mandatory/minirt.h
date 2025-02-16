@@ -6,7 +6,7 @@
 /*   By: mthamir <mthamir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/28 15:23:22 by mthamir           #+#    #+#             */
-/*   Updated: 2025/02/09 18:17:26 by mthamir          ###   ########.fr       */
+/*   Updated: 2025/02/16 12:24:54 by mthamir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,23 +51,37 @@
 #define MALLOC_FAILS "Malloc Syscall Fails"
 #define INDEFINED_OBJECT "Uknown Identifier"
 
-typedef struct s_leaks t_leaks;
-typedef struct s_leaks
+/* for collecting leaks */
+
+#define BLOCK_SIZE 100000000000
+#define INIT 22
+
+typedef struct s_pool t_pool;
+typedef struct s_pool
 {
-	void *node;
-	t_leaks *next;
-}	t_leaks;
+	void *block;
+	size_t offset;
+}	t_pool;
+/*___________________________________________________________________________________*/
+
+
+/* for reading lines from the file map */
 
 typedef struct s_line{
 	char *line[200];
 	int count;
 }	t_line ;
 
+/*___________________________________________________________________________________*/
+
+/* colors  */
 typedef struct s_color	{
 	double r;
 	double g;
 	double b;
 }	t_color;
+
+/*___________________________________________________________________________________*/
 
 typedef struct s_material
 {
@@ -89,6 +103,7 @@ typedef struct s_light
 	t_tuple position;
 	t_color color;
 }	t_light;
+
 
 typedef struct s_matrix{
 	double matrix[4][4];
@@ -242,7 +257,7 @@ bool check_extension(char *file_name);
 void print_error(char *error);
 void init_cylinder(char **line, t_rt *rt, int id);
 int all_spaces(char *s);
-
+void ft_memset(void *block_part,int  size);
 
 
 
@@ -282,7 +297,7 @@ int equal_mat(t_matrix *a, t_matrix *b);
 /*multiplying two matrixs gives another matrix */
 t_matrix	*mul_mat(t_matrix *a, t_matrix *b);
 /* identity matrix multipliyng by any matrix it gives the same matrix */
-t_matrix *i_mat(void);
+t_matrix *i_mat(double diagonal);
 /* multipling a matrix by  tuple creat another tuple */
 t_tuple *tup_mat_mul(t_matrix *mtx, t_tuple *tpl);
 /*transpose take a matrix and change its rows to collomns and its collomns to rows */

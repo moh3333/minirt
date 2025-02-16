@@ -1,16 +1,17 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   cylinder_intersection.c                            :+:      :+:    :+:   */
+/*   cone_bonus.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mthamir <mthamir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/02/06 16:18:46 by mthamir           #+#    #+#             */
-/*   Updated: 2025/02/16 16:43:24 by mthamir          ###   ########.fr       */
+/*   Created: 2025/02/16 15:51:12 by mthamir           #+#    #+#             */
+/*   Updated: 2025/02/16 16:08:46 by mthamir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../minirt.h"
+#include "minirt.h"
+
 
 static void	swap(double *a, double *b)
 {
@@ -26,13 +27,10 @@ void	*intersect_between_bounds(double arr[4], t_ray *r_ob_space, \
 {
 	double	in_bounds[2];
 
-	arr[1] = 2.0 * ((r_ob_space->o.x * r_ob_space->d.x) \
-			+ (r_ob_space->o.z * r_ob_space->d.z));
-	arr[2] = sq(r_ob_space->o.x) + sq(r_ob_space->o.z) - 1;
+	arr[2] = sq(r_ob_space->o.x) - sq(r_ob_space->o.x) + sq(r_ob_space->o.z) - 1;
 	arr[3] = sq(arr[1]) - (4.0 * arr[0] * arr[2]);
 	if (arr[3] < 0.0)
 		return (NULL);
-	printf("%f\n", arr[0]);
 	ret->t[0] = (-arr[1] - sqrt(arr[3])) / (2.0 * arr[0]);
 	ret->t[1] = (-arr[1] + sqrt(arr[3])) / (2.0 * arr[0]);
 	if (ret->t[0] > ret->t[1])
@@ -46,21 +44,26 @@ void	*intersect_between_bounds(double arr[4], t_ray *r_ob_space, \
 	return ("OK");
 }
 
-t_intersect	*cyl_intersect(t_ray *r, t_cylinder *cyl)
+t_intersect *cone_intersect(t_ray *r, t_cone *co)
 {
 	t_ray		*r_ob_space;
 	t_intersect	*ret;
 	double		arr[4];
 
 	ret = new_intersect();
-	r_ob_space = transform(r, cyl->inverse_m);
-	arr[0] = sq(r_ob_space->d.x) + sq(r_ob_space->d.z);
-	if (arr[0] > EPSILON)
-		if (!intersect_between_bounds(arr, r_ob_space, cyl, ret))
+	r_ob_space = transform(r, co->inverse_m);
+	arr[0] = sq(r_ob_space->d.x) - sq(r_ob_space->d.y) + sq(r_ob_space->d.z);
+	arr[1] = 2.0 * ((r_ob_space->o.x * r_ob_space->d.x) - (r_ob_space->o.y * r_ob_space->d.y) \
+			+ (r_ob_space->o.z * r_ob_space->d.z));
+	if (arr[0] < EPSILON && arr[1] < EPSILON)
+		return (NULL);
+	else if (arr[0] <= EPSILON && arr[1] > EPSILON)
+		
+		if (!intersect_between_bounds(arr, r_ob_space, co, ret))
 			return (NULL);
-	intersect_caps_cyl(cyl, r_ob_space, &ret->t[0], &ret->t[1]);
-	ret->object.shape_cyl = *cyl;
-	ret->object.type = CYLINDER;
+	intersect_caps_co(co, r_ob_space, &ret->t[0], &ret->t[1]);
+	ret->object.shape_cyl = *co;
+	ret->object.type = CONE;
 	ret->ray = r_ob_space;
 	ret->next = NULL;
 	return (ret);

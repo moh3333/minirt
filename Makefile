@@ -6,7 +6,7 @@
 #    By: mthamir <mthamir@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/12/12 17:40:42 by mthamir           #+#    #+#              #
-#    Updated: 2025/02/09 18:21:40 by mthamir          ###   ########.fr        #
+#    Updated: 2025/02/16 13:14:40 by mthamir          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -16,7 +16,7 @@ NAME_BONUS := minirt_bonus
 
 CC := cc
 
-FLAGS :=  -fsanitize=address -I/Users/$(shell whoami)/Desktop/gitminirt/MLX42/include/MLX42
+FLAGS :=  -Ofast -I/Users/$(shell whoami)/Desktop/gitminirt/MLX42/include/MLX42
 
 MLX		=	MLX42/libmlx42.a
 

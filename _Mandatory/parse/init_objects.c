@@ -6,7 +6,7 @@
 /*   By: mthamir <mthamir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/06 17:30:25 by mthamir           #+#    #+#             */
-/*   Updated: 2025/02/09 18:08:00 by mthamir          ###   ########.fr       */
+/*   Updated: 2025/02/16 12:25:15 by mthamir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ void	init_plane(char **line, t_rt *rt, int id)
 	t_tuple		*point;
 	t_matrix	*tr;
 
-	tr = i_mat();
+	tr = i_mat(1.0);
 	if (ft_strstrlen(line) != 4)
 		return (print_error(BAD_INFORM_OBJ));
 	col = char_to_color(line[3]);

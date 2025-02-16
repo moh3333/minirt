@@ -6,7 +6,7 @@
 /*   By: mthamir <mthamir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/06 16:38:09 by mthamir           #+#    #+#             */
-/*   Updated: 2025/02/09 18:09:00 by mthamir          ###   ########.fr       */
+/*   Updated: 2025/02/16 17:12:08 by mthamir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ void	in_shadow(t_world *w, t_comps *comp)
 void	is_sphere(t_comps *comp)
 {
 	comp->normalv = normal_at(&comp->object.shape, comp->point);
-	if (dot_p(*comp->normalv, *comp->eyev) < EPSILON)
+	if (dot_p(*comp->normalv, *comp->eyev) < 0.0)
 	{
 		comp->inside = true;
 		opp(comp->normalv);

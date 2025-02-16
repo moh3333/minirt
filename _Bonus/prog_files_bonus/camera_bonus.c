@@ -6,7 +6,7 @@
 /*   By: mthamir <mthamir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/06 16:29:53 by mthamir           #+#    #+#             */
-/*   Updated: 2025/02/09 16:18:22 by mthamir          ###   ########.fr       */
+/*   Updated: 2025/02/16 13:11:13 by mthamir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,13 @@
 
 t_world	*world(void)
 {
-	return (ft_malloc(sizeof(t_world), 0));
+	t_world *ret;
+	
+	ret = ft_malloc(sizeof(t_world), 0);
+	ret->object_count = 0;
+	ret->light_count = 0;
+	ret->ambiant_color = NULL;
+	return (ret);
 }
 
 t_camera	*new_camera(double hsize, double vsize, double fov, t_matrix *tr)
@@ -56,7 +62,7 @@ t_matrix	*view_transformation(t_tuple *from, t_tuple *to, t_tuple *up)
 	normalize(to);
 	left = cross_p(*to, *up);
 	true_up = cross_p(*left, *to);
-	ret = i_mat();
+	ret = i_mat(1.0);
 	ret->matrix[0][0] = left->x;
 	ret->matrix[0][1] = left->y;
 	ret->matrix[0][2] = left->z;

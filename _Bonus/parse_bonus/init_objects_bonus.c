@@ -6,7 +6,7 @@
 /*   By: mthamir <mthamir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/06 17:30:25 by mthamir           #+#    #+#             */
-/*   Updated: 2025/02/10 18:39:59 by mthamir          ###   ########.fr       */
+/*   Updated: 2025/02/16 13:02:25 by mthamir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ void	init_plane(char **line, t_rt *rt, int id)
 	t_matrix	*tr;
 	int			len;
 
-	tr = i_mat();
+	tr = i_mat(1.0);
 	len = ft_strstrlen(line);
 	if (len != 4 && len != 6)
 		return (print_error(BAD_INFORM_OBJ));

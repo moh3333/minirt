@@ -6,7 +6,7 @@
 /*   By: mthamir <mthamir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/06 16:35:03 by mthamir           #+#    #+#             */
-/*   Updated: 2025/02/09 18:08:46 by mthamir          ###   ########.fr       */
+/*   Updated: 2025/02/16 17:30:08 by mthamir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,9 +44,11 @@ t_color	*shade_hit(t_world *w, t_comps *comp)
 		m = comp->object.shape_pl.material;
 	else if (comp->object.type == CYLINDER)
 		m = comp->object.shape_cyl.material;
-	diffuse = compute_lightning(m, w->light, comp->point, comp->normalv);
 	ambiant = colors_operation(w->ambiant_color, &m->color, mul);
-	if (comp->shadow || !diffuse)
+	if (comp->shadow)
+		return (ambiant);
+	diffuse = compute_lightning(m, w->light, comp->point, comp->normalv);
+	if (!diffuse)
 		return (ambiant);
 	return (colors_operation(diffuse, ambiant, add));
 }

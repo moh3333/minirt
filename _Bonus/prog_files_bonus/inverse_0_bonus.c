@@ -6,7 +6,7 @@
 /*   By: mthamir <mthamir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/06 16:01:16 by mthamir           #+#    #+#             */
-/*   Updated: 2025/02/09 16:18:22 by mthamir          ###   ########.fr       */
+/*   Updated: 2025/02/16 12:26:57 by mthamir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ t_matrix	*inverse(t_matrix *a)
 	if (!invertible(a))
 		return (a);
 	det = determinant(a);
-	ret = ft_malloc(sizeof(t_matrix), 0);
+	ret = i_mat(0.0);
 	if (!ret)
 		return (NULL);
 	i = -1;

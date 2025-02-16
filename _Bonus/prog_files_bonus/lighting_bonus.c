@@ -6,7 +6,7 @@
 /*   By: mthamir <mthamir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/06 16:35:03 by mthamir           #+#    #+#             */
-/*   Updated: 2025/02/10 18:59:16 by mthamir          ###   ########.fr       */
+/*   Updated: 2025/02/16 14:47:34 by mthamir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,9 +54,9 @@ t_color *compute_specular(t_material *m, \
 
 t_color *check_pattern(t_tuple *p, t_material *m)
 {
-	if ((int )(floor(fabs(p->x)/m->checker) + floor(fabs(p->y)/m->checker) + floor(fabs(p->z)/m->checker)) % 2 == 0)
-		return (&m->pattern_color);
-	return (&m->color);
+	if ((int )fabs(floor(p->x/m->checker) + floor(p->z/m->checker)) % 2 == 0)
+		return (&m->color);
+	return (&m->pattern_color);
 }
 
 t_color	*shade_hit(t_world *w, t_comps *comp, t_tuple *eyev)
@@ -69,27 +69,29 @@ t_color	*shade_hit(t_world *w, t_comps *comp, t_tuple *eyev)
 
 	if (!comp)
 		return (new_color(0, 0, 0));
-	col = &m->color;
 	if (comp->object.type == SPHER)
 		m = comp->object.shape.material;
 	else if (comp->object.type == PLANE)
 		m = comp->object.shape_pl.material;
 	else if (comp->object.type == CYLINDER)
 		m = comp->object.shape_cyl.material;
+	col = &m->color;
 	if (comp->object.type == PLANE && m->checker)
-		col = check_pattern(comp->point, m);
+		col = check_pattern(tup_mat_mul(comp->object.shape_pl.inverse_m, comp->point), m);
 	ambiant = colors_operation(w->ambiant_color, col, mul);
 	while (i < w->light_count){
 		if (!in_shadow(w, comp, i))
+		{
 			specular_diffuse =  colors_operation(specular_diffuse, \
-			compute_lightning(m, &w->light[i], comp->point, comp->normalv, eyev), add);
+				compute_lightning(m, &w->light[i], comp->point, comp->normalv, eyev, col), add);
+		}
 		i++;
 	}	
 	return (colors_operation(ambiant, specular_diffuse, add));
 }
 
 t_color	*compute_lightning(t_material *m, \
-				t_light *light, t_tuple *pos, t_tuple *normalv, t_tuple *eyev)
+				t_light *light, t_tuple *pos, t_tuple *normalv, t_tuple *eyev, t_color *col)
 {
 	t_color	*effective_color;
 	t_color	*diffuse;
@@ -99,17 +101,14 @@ t_color	*compute_lightning(t_material *m, \
 
 	diffuse = NULL;
 	specular = NULL;
-	effective_color = colors_operation(&light->color, &m->color, mul);
+	effective_color = colors_operation(&light->color, col, mul);
 	lightv = tpl_o(light->position, *pos, sub);
 	normalize(lightv);
 	light_dot_normal = dot_p(*lightv,*normalv);
 	if (light_dot_normal >= 0.0)
-	{
 		diffuse = color_s_mul(effective_color, light_dot_normal);
+	if (diffuse)
 		specular = compute_specular(m, light, lightv, normalv, eyev);
-	}
-	if (!diffuse)
-		return (new_color(0,0,0));
 	return (colors_operation(diffuse, specular, add));
 }
 
