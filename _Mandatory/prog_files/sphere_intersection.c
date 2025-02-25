@@ -6,11 +6,11 @@
 /*   By: mthamir <mthamir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/06 16:07:55 by mthamir           #+#    #+#             */
-/*   Updated: 2025/02/16 16:46:35 by mthamir          ###   ########.fr       */
+/*   Updated: 2025/02/25 14:44:12 by mthamir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../minirt.h"
+#include "../includes/minirt.h"
 
 /* get the element of the quadratiq equation */
 static double	*eq_inter(t_ray *ray1, double arr[])

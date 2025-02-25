@@ -6,11 +6,11 @@
 /*   By: mthamir <mthamir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/06 16:27:04 by mthamir           #+#    #+#             */
-/*   Updated: 2025/02/09 18:08:27 by mthamir          ###   ########.fr       */
+/*   Updated: 2025/02/25 19:10:38 by mthamir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../minirt.h"
+#include "../includes/minirt.h"
 
 t_color	*new_color(double r, double g, double b)
 {
@@ -40,6 +40,12 @@ uint64_t	get_col(t_color *color)
 t_color	*colors_operation(t_color *a, t_color *b, \
 	double (*f) (double a, double b))
 {
+	if (!a)
+		return (b);
+	if (!b)
+		return (a);
+	if (!a && !b)
+		return (new_color(0,0,0));
 	return (new_color(f(a->r, b->r), f(a->g, b->g), f(a->b, b->b)));
 }
 

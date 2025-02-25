@@ -6,17 +6,16 @@
 /*   By: mthamir <mthamir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/06 16:22:21 by mthamir           #+#    #+#             */
-/*   Updated: 2025/02/16 13:16:54 by mthamir          ###   ########.fr       */
+/*   Updated: 2025/02/25 19:25:16 by mthamir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../minirt_bonus.h"
-
+#include "../includes_bonus/minirt_bonus.h"
 uint64_t	color_at(t_world *w, t_ray *r)
 {
 	t_tuple eyev = r->d;
 	opp(&eyev);
-	t_color *col = shade_hit(w, prepare_computing(world_intersection(w, r), r, w), &eyev);
+	t_color *col = shade_hit(w, prepare_computing(world_intersection(w, r), r), &eyev);
 	if (!col)
 		return (BLACK);
 	return (get_col(col));
@@ -66,18 +65,19 @@ void	render(t_rt *rt)
 	}
 	handle_mlx_window(rt, image);
 }
-// void f(){system("leaks minirt");}
+
 int	main(int ac, char **av)
 {
 	t_line	l;
 	t_rt	rt;
-	// atexit(f);
 
 	if (ac == 2)
 	{
 		ft_malloc(0, INIT);
 		rt.world = world();
 		l = *parse_file(av[1]);
+		if (!l.line[0])
+			return (1);
 		parse_init_structs(&l, &rt);
 		render(&rt);
 	}

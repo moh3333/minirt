@@ -6,24 +6,23 @@
 /*   By: mthamir <mthamir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/06 17:24:13 by mthamir           #+#    #+#             */
-/*   Updated: 2025/02/09 16:18:22 by mthamir          ###   ########.fr       */
+/*   Updated: 2025/02/25 19:51:06 by mthamir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../minirt_bonus.h"
+#include "../includes_bonus/minirt_bonus.h"
 
-bool	check_extension(char *file_name)
+void	check_extension(char *file_name)
 {
 	int	i;
 
 	i = 0;
 	if (ft_strlen(file_name) < 4)
-		return (print_error(VALID_NAME), false);
+		return (print_error(VALID_NAME));
 	while (file_name[i])
 		i++;
-	if ((file_name[i--] == 't' && file_name[i--] == 'r' && file_name[i] == '.'))
-		return (print_error(RT_FILE_EXTENSION), false);
-	return (true);
+	if (!(file_name[i-1] == 't' && file_name[i-2] == 'r' && file_name[i-3] == '.'))
+		return (print_error(VALID_NAME));
 }
 
 t_line	*parse_file(char *file_name)
@@ -31,8 +30,7 @@ t_line	*parse_file(char *file_name)
 	int		fd;
 	t_line	*l;
 
-	if (!check_extension(file_name))
-		return (print_error(RT_FILE_EXTENSION), NULL);
+	check_extension(file_name);
 	fd = open(file_name, O_RDONLY);
 	if (fd == -1)
 		return (print_error(OPEN_FAILS), NULL);

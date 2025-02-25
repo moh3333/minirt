@@ -6,7 +6,7 @@
 #    By: mthamir <mthamir@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/12/12 17:40:42 by mthamir           #+#    #+#              #
-#    Updated: 2025/02/16 13:14:40 by mthamir          ###   ########.fr        #
+#    Updated: 2025/02/25 19:48:33 by mthamir          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,9 +14,9 @@ NAME := minirt
 
 NAME_BONUS := minirt_bonus
 
-CC := cc
+CC := cc -Wall -Wextra -Werror
 
-FLAGS :=  -Ofast -I/Users/$(shell whoami)/Desktop/gitminirt/MLX42/include/MLX42
+FLAGS :=  -lm -Ofast -I/Users/$(shell whoami)/Desktop/gitminirt/MLX42/include/MLX42
 
 MLX		=	MLX42/libmlx42.a
 
@@ -47,7 +47,8 @@ SRC_BONUS :=  _Bonus/parse_bonus/utils_0_bonus.c _Bonus/parse_bonus/utils_1_bonu
 		_Bonus/prog_files_bonus/prepare_computing_bonus.c _Bonus/prog_files_bonus/rays_operations_bonus.c \
 		_Bonus/prog_files_bonus/render_bonus.c _Bonus/prog_files_bonus/sphere_bonus.c _Bonus/prog_files_bonus/sphere_intersection_bonus.c \
 		_Bonus/prog_files_bonus/vectors_operations_0_bonus.c _Bonus/prog_files_bonus/vectors_operations_1_bonus.c \
-		_Bonus/prog_files_bonus/vectors_operations_2_bonus.c _Bonus/prog_files_bonus/world_intersection_bonus.c \
+		_Bonus/prog_files_bonus/vectors_operations_2_bonus.c _Bonus/prog_files_bonus/world_intersection_bonus.c _Bonus/prog_files_bonus/cone_intersection_bonus.c\
+		_Bonus/prog_files_bonus/cone_bonus.c\
 
 OBJ := $(SRC:.c=.o)
 
@@ -63,7 +64,7 @@ all : $(NAME)
 
 bonus : $(NAME_BONUS)
 
-$(NAME) : $(OBJ)
+$(NAME) : $(OBJ) 
 	cmake CMakeLists.txt -S MLX42/ -B MLX42/ 
 	make -C MlX42
 	$(CC) $(FLAGS) $(MLXF) $(OBJ) $(MLX) -o $(NAME)

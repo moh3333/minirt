@@ -6,11 +6,11 @@
 /*   By: mthamir <mthamir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/06 15:58:46 by mthamir           #+#    #+#             */
-/*   Updated: 2025/02/16 12:28:52 by mthamir          ###   ########.fr       */
+/*   Updated: 2025/02/25 14:43:44 by mthamir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../minirt.h"
+#include "../includes/minirt.h"
 
 /*helper function that help multiplying two matrixs */
 static double	get(t_matrix *a, t_matrix *b, int row, int col)

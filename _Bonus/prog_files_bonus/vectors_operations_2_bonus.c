@@ -6,12 +6,11 @@
 /*   By: mthamir <mthamir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/06 15:53:42 by mthamir           #+#    #+#             */
-/*   Updated: 2025/02/09 16:18:22 by mthamir          ###   ########.fr       */
+/*   Updated: 2025/02/25 18:34:25 by mthamir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../minirt_bonus.h"
-
+#include "../includes_bonus/minirt_bonus.h"
 /*get the position of a point in a ray */
 t_tuple	*position(t_ray *ray, double distance)
 {

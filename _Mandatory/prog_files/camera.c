@@ -6,11 +6,11 @@
 /*   By: mthamir <mthamir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/06 16:29:53 by mthamir           #+#    #+#             */
-/*   Updated: 2025/02/16 16:55:57 by mthamir          ###   ########.fr       */
+/*   Updated: 2025/02/25 14:43:13 by mthamir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../minirt.h"
+#include "../includes/minirt.h"
 
 t_world	*world(void)
 {

@@ -6,19 +6,19 @@
 /*   By: mthamir <mthamir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/06 16:35:03 by mthamir           #+#    #+#             */
-/*   Updated: 2025/02/16 17:30:08 by mthamir          ###   ########.fr       */
+/*   Updated: 2025/02/25 14:43:37 by mthamir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../minirt.h"
+#include "../includes/minirt.h"
 
 t_light	*light_source(t_tuple *position, t_color *color)
 {
 	t_light	*light;
 
 	light = ft_malloc(sizeof(t_light), 0);
-	light->position = *position;
-	light->color = *color;
+	light->position = position;
+	light->color = color;
 	return (light);
 }
 
@@ -38,6 +38,7 @@ t_color	*shade_hit(t_world *w, t_comps *comp)
 
 	if (!comp)
 		return (new_color(0, 0, 0));
+	m = NULL;
 	if (comp->object.type == SPHER)
 		m = comp->object.shape.material;
 	else if (comp->object.type == PLANE)
@@ -62,11 +63,11 @@ t_color	*compute_lightning(t_material *m, \
 	double	light_dot_normal;
 
 	diffuse = NULL;
-	effective_color = colors_operation(&light->color, &m->color, mul);
-	lightv = tpl_o(light->position, *pos, sub);
+	effective_color = colors_operation(light->color, &m->color, mul);
+	lightv = tpl_o(*(light->position), *pos, sub);
 	normalize(lightv);
 	light_dot_normal = dot_p(*lightv,*normalv);
-	if (light_dot_normal >= 0.0)
+	if (light_dot_normal > 0.0)
 		diffuse = color_s_mul(effective_color, light_dot_normal);
 	return (diffuse);
 }

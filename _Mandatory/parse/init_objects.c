@@ -6,25 +6,26 @@
 /*   By: mthamir <mthamir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/06 17:30:25 by mthamir           #+#    #+#             */
-/*   Updated: 2025/02/16 12:25:15 by mthamir          ###   ########.fr       */
+/*   Updated: 2025/02/25 17:41:50 by mthamir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../minirt.h"
+#include "../includes/minirt.h"
 
 void	init_spher(char **line, t_rt *rt, int id)
 {
-	t_spher		*s;
 	t_tuple		*crd;
 	double		raduis;
 	t_matrix	*tr;
 	t_color		*col;
 
 	if (ft_strstrlen(line) != 4)
-		return (print_error(BAD_INFORM_OBJ));
+		return (print_error(BAD_INFORM_SPH));
 	if (!is_float(line[2]))
 		return (print_error(INVALID_SPHERE_RD));
 	raduis = char_to_double(line[2]) / 2.0;
+	if (raduis <= 0.0)
+		return (print_error(INVALID_SPHERE_RD));
 	crd = char_to_vec(line[1], 1);
 	col = char_to_color(line[3]);
 	rt->world->object[rt->world->object_count].type = SPHER;
@@ -45,14 +46,11 @@ void	init_plane(char **line, t_rt *rt, int id)
 
 	tr = i_mat(1.0);
 	if (ft_strstrlen(line) != 4)
-		return (print_error(BAD_INFORM_OBJ));
+		return (print_error(BAD_INFORM_PL));
 	col = char_to_color(line[3]);
 	normal = char_to_vec(line[2], 0);
 	normalize(normal);
 	point = char_to_vec(line[1], 1);
-	if (!(normal->x >= -1.0 && normal->x <= 1.0) ||!(normal->y >= -1.0 \
-		&& normal->y <= 1.0) || !(normal->z >= -1.0 && normal->z <= 1.0))
-		return (print_error(INVALID_PL_NORMAL));
 	rt->world->object[rt->world->object_count].type = PLANE;
 	rt->world->object[rt->world->object_count].shape_pl = *plane(id, \
 		mul_mat(transl_mat(point->x, point->y, point->z), \
@@ -75,9 +73,11 @@ void	init_cylinder(char **line, t_rt *rt, int id)
 	normal = char_to_vec(line[2], 0);
 	normalize(normal);
 	if (!is_float(line[3]) || !is_float(line[4]))
-		return (print_error(INVALID_CYL_DATA));
+		return (print_error(INVALID_CYL_D_H));
 	arr[0] = char_to_double(line[3]) / 2.0;
 	arr[1] = char_to_double(line[4]) / 2.0;
+	if (!(arr[0] >= 0 && arr[0] <= INT_MAX) || !(arr[0] >= 0 && arr[0] <= INT_MAX))
+		return (print_error(INVALID_CYL_D_H));
 	arr[2] = -arr[1];
 	arr[3] = arr[1];
 	col = char_to_color(line[5]);

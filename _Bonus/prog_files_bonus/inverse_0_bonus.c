@@ -6,12 +6,11 @@
 /*   By: mthamir <mthamir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/06 16:01:16 by mthamir           #+#    #+#             */
-/*   Updated: 2025/02/16 12:26:57 by mthamir          ###   ########.fr       */
+/*   Updated: 2025/02/25 18:33:27 by mthamir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../minirt_bonus.h"
-
+#include "../includes_bonus/minirt_bonus.h"
 /* get th inverse of a matrix */
 t_matrix	*inverse(t_matrix *a)
 {

@@ -6,13 +6,13 @@
 /*   By: mthamir <mthamir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/06 16:18:46 by mthamir           #+#    #+#             */
-/*   Updated: 2025/02/16 16:43:24 by mthamir          ###   ########.fr       */
+/*   Updated: 2025/02/25 19:44:37 by mthamir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../minirt.h"
+#include "../includes/minirt.h"
 
-static void	swap(double *a, double *b)
+void	swap(double *a, double *b)
 {
 	double	tmp;
 
@@ -32,7 +32,6 @@ void	*intersect_between_bounds(double arr[4], t_ray *r_ob_space, \
 	arr[3] = sq(arr[1]) - (4.0 * arr[0] * arr[2]);
 	if (arr[3] < 0.0)
 		return (NULL);
-	printf("%f\n", arr[0]);
 	ret->t[0] = (-arr[1] - sqrt(arr[3])) / (2.0 * arr[0]);
 	ret->t[1] = (-arr[1] + sqrt(arr[3])) / (2.0 * arr[0]);
 	if (ret->t[0] > ret->t[1])
@@ -66,7 +65,7 @@ t_intersect	*cyl_intersect(t_ray *r, t_cylinder *cyl)
 	return (ret);
 }
 
-static int	check_cap(t_ray *r, double t)
+int	check_cap(t_ray *r, double t)
 {
 	return (((sq((r->o.x + t * r->d.x)) + sq((r->o.z + t * r->d.z))) <= 1));
 }

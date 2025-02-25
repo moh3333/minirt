@@ -6,11 +6,11 @@
 /*   By: mthamir <mthamir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/06 15:57:08 by mthamir           #+#    #+#             */
-/*   Updated: 2025/02/16 16:57:32 by mthamir          ###   ########.fr       */
+/*   Updated: 2025/02/25 14:43:40 by mthamir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../minirt.h"
+#include "../includes/minirt.h"
 
 /* identity matrix multipliyng by any matrix it gives the same matrix */
 t_matrix	*i_mat(double diagonal)

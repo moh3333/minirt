@@ -6,11 +6,11 @@
 /*   By: mthamir <mthamir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/06 17:18:26 by mthamir           #+#    #+#             */
-/*   Updated: 2025/02/09 18:08:18 by mthamir          ###   ########.fr       */
+/*   Updated: 2025/02/25 17:42:10 by mthamir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../minirt.h"
+#include "../includes/minirt.h"
 
 bool	ft_strcmp(char *s1, char *s2)
 {

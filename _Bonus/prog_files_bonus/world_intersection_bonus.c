@@ -6,11 +6,11 @@
 /*   By: mthamir <mthamir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/06 16:31:21 by mthamir           #+#    #+#             */
-/*   Updated: 2025/02/09 16:18:22 by mthamir          ###   ########.fr       */
+/*   Updated: 2025/02/25 19:28:39 by mthamir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../minirt_bonus.h"
+#include "../includes_bonus/minirt_bonus.h"
 
 static void	add_to_list(t_intersect **head, t_intersect *new)
 {
@@ -34,6 +34,7 @@ t_intersect	*world_intersection(t_world *world, t_ray *r)
 	t_intersect	*inter;
 	int			i;
 
+
 	i = 0;
 	inter = NULL;
 	head = NULL;
@@ -45,6 +46,8 @@ t_intersect	*world_intersection(t_world *world, t_ray *r)
 			inter = pl_intersect(r, &world->object[i].shape_pl);
 		else if (world->object[i].type == CYLINDER)
 			inter = cyl_intersect(r, &world->object[i].shape_cyl);
+		else if (world->object[i].type == CONE)
+			inter = cone_intersect(r, &world->object[i].shape_co);
 		if (inter)
 			add_to_list(&head, inter);
 		i++;
@@ -81,9 +84,9 @@ t_intersect	*get_first_intersect(t_intersect *list, t_ray *r)
 
 double	get_closest(double *t)
 {
-	if (t[0] < EPSILON)
+	if (t[0] < EPSILON && t[1] >= EPSILON)
 		return (t[1]);
-	else if (t[1] < EPSILON)
+	else if (t[1] < EPSILON && t[0] >= EPSILON)
 		return (t[0]);
 	return (fmin(t[0], t[1]));
 }

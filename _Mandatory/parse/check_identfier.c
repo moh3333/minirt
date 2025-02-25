@@ -6,11 +6,11 @@
 /*   By: mthamir <mthamir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/06 17:27:52 by mthamir           #+#    #+#             */
-/*   Updated: 2025/02/09 18:07:48 by mthamir          ###   ########.fr       */
+/*   Updated: 2025/02/25 17:11:22 by mthamir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../minirt.h"
+#include "../includes/minirt.h"
 
 void	parse_init_structs(t_line *l, t_rt *rt)
 {
@@ -30,13 +30,9 @@ void	parse_init_structs(t_line *l, t_rt *rt)
 void	init_struct(char **line, t_rt *rt)
 {
 	static int	check_identifier[3];
-	static int	num_obj;
 	int			i;
 
 	i = 0;
-	check_identifier[0] = 0;
-	check_identifier[1] = 0;
-	check_identifier[2] = 0;
 	if (ft_strcmp(line[0], "C"))
 	{
 		init_camera(line, check_identifier[0], rt);
@@ -53,10 +49,10 @@ void	init_struct(char **line, t_rt *rt)
 		(check_identifier[2])++;
 	}
 	else
-		init_objects(line, rt, num_obj);
+		init_objects(line, rt);
 }
 
-void	init_objects(char **line, t_rt *rt, int num_obj)
+void	init_objects(char **line, t_rt *rt)
 {
 	static int	arr[3];
 

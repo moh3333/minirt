@@ -6,13 +6,14 @@
 /*   By: mthamir <mthamir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/06 16:18:46 by mthamir           #+#    #+#             */
-/*   Updated: 2025/02/09 16:18:22 by mthamir          ###   ########.fr       */
+/*   Updated: 2025/02/25 19:46:40 by mthamir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../minirt_bonus.h"
+#include "../includes_bonus/minirt_bonus.h"
 
-static void	swap(double *a, double *b)
+
+void	swap(double *a, double *b)
 {
 	double	tmp;
 
@@ -65,7 +66,7 @@ t_intersect	*cyl_intersect(t_ray *r, t_cylinder *cyl)
 	return (ret);
 }
 
-static int	check_cap(t_ray *r, double t)
+int	check_cap(t_ray *r, double t)
 {
 	return (((sq((r->o.x + t * r->d.x)) + sq((r->o.z + t * r->d.z))) <= 1));
 }

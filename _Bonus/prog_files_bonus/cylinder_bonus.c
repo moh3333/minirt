@@ -6,11 +6,11 @@
 /*   By: mthamir <mthamir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/06 16:16:09 by mthamir           #+#    #+#             */
-/*   Updated: 2025/02/09 16:18:22 by mthamir          ###   ########.fr       */
+/*   Updated: 2025/02/25 19:43:54 by mthamir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../minirt_bonus.h"
+#include "../includes_bonus/minirt_bonus.h"
 
 t_cylinder	*cylinder(double *trunc, int id, t_matrix *tr)
 {
@@ -26,6 +26,8 @@ t_cylinder	*cylinder(double *trunc, int id, t_matrix *tr)
 	cyl->transpose_inverse = transpose(cyl->inverse_m);
 	return (cyl);
 }
+
+
 
 t_tuple	*normal_at_cyl(t_cylinder *cyl, t_tuple *p_)
 {
@@ -45,3 +47,4 @@ t_tuple	*normal_at_cyl(t_cylinder *cyl, t_tuple *p_)
 	normalize(n_world_space);
 	return (n_world_space);
 }
+

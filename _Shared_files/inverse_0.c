@@ -5,12 +5,10 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: mthamir <mthamir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/02/06 16:01:16 by mthamir           #+#    #+#             */
-/*   Updated: 2025/02/25 14:43:26 by mthamir          ###   ########.fr       */
+/*   Created: 2025/02/25 19:56:48 by mthamir           #+#    #+#             */
+/*   Updated: 2025/02/25 19:57:39 by mthamir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
-#include "../includes/minirt.h"
 
 /* get th inverse of a matrix */
 t_matrix	*inverse(t_matrix *a)

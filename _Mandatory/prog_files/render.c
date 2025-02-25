@@ -6,11 +6,11 @@
 /*   By: mthamir <mthamir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/06 16:22:21 by mthamir           #+#    #+#             */
-/*   Updated: 2025/02/16 16:50:58 by mthamir          ###   ########.fr       */
+/*   Updated: 2025/02/25 14:44:08 by mthamir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../minirt.h"
+#include "../includes/minirt.h"
 
 t_color	*color_at(t_world *w, t_ray *r)
 {
@@ -67,7 +67,6 @@ void	render(t_rt *rt)
 int	main(int ac, char **av)
 {
 	t_line	l;
-	int i = 0;
 	t_rt	rt;
 
 	if (ac == 2)

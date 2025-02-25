@@ -6,12 +6,11 @@
 /*   By: mthamir <mthamir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/06 16:27:04 by mthamir           #+#    #+#             */
-/*   Updated: 2025/02/10 18:58:17 by mthamir          ###   ########.fr       */
+/*   Updated: 2025/02/25 18:33:13 by mthamir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../minirt_bonus.h"
-
+#include "../includes_bonus/minirt_bonus.h"
 t_color	*new_color(double r, double g, double b)
 {
 	t_color	*col;

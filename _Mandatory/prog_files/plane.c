@@ -6,11 +6,11 @@
 /*   By: mthamir <mthamir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/06 16:11:15 by mthamir           #+#    #+#             */
-/*   Updated: 2025/02/09 18:08:57 by mthamir          ###   ########.fr       */
+/*   Updated: 2025/02/25 14:43:52 by mthamir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../minirt.h"
+#include "../includes/minirt.h"
 
 t_plane	*plane(int id, t_matrix *tr)
 {

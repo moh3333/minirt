@@ -6,12 +6,11 @@
 /*   By: mthamir <mthamir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/06 16:38:09 by mthamir           #+#    #+#             */
-/*   Updated: 2025/02/10 18:41:01 by mthamir          ###   ########.fr       */
+/*   Updated: 2025/02/25 18:33:58 by mthamir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../minirt_bonus.h"
-
+#include "../includes_bonus/minirt_bonus.h"
 t_comps	*new_comps(void)
 {
 	return (ft_malloc(sizeof(t_comps), 0));
@@ -30,15 +29,17 @@ bool	in_shadow(t_world *w, t_comps *comp, int i)
 	normalize(shadow_ray);
 	r1 = ray(*comp->point, *shadow_ray);
 	inter = world_intersection(w, r1);
-	if (inter && (distance - inter->t[0]) >= EPSILON)
+	if (inter && inter->t[0] > 0.0 && (distance - inter->t[0]) > 0.0){
+		comp->shadow = true;
 		return (true);
+	}
 	return (false);
 }
 
 void	is_sphere(t_comps *comp)
 {
 	comp->normalv = normal_at(&comp->object.shape, comp->point);
-	if (dot_p(*comp->normalv, *comp->eyev) < EPSILON)
+	if (dot_p(*comp->normalv, *comp->eyev) < 0.0)
 	{
 		comp->inside = true;
 		opp(comp->normalv);
@@ -47,7 +48,7 @@ void	is_sphere(t_comps *comp)
 		comp->inside = false;
 }
 
-t_comps	*prepare_computing(t_intersect *list, t_ray *r, t_world *w)
+t_comps	*prepare_computing(t_intersect *list, t_ray *r)
 {
 	t_comps	*comp;
 
@@ -57,16 +58,25 @@ t_comps	*prepare_computing(t_intersect *list, t_ray *r, t_world *w)
 	comp->t = list->t[0];
 	comp->object = list->object;
 	comp->point = position(r, comp->t);
-	comp->eyev = &r->d;
+	comp->eyev = cpv(r->d.x, r->d.y, r->d.z, 0);
 	opp(comp->eyev);
 	if (comp->object.type == SPHER)
 		is_sphere(comp);
-	else if (comp->object.type == PLANE)
-		comp->normalv = list->object.shape_pl.normalv;
+	else if (comp->object.type == PLANE){
+		comp->normalv = tup_mat_mul(comp->object.shape_pl.transform, comp->object.shape_pl.normalv);
+		if (dot_p(*comp->normalv, *comp->eyev) < 0.0)
+			opp(comp->normalv);
+	}
 	else if (comp->object.type == CYLINDER)
 	{
 		comp->normalv = normal_at_cyl(&comp->object.shape_cyl, comp->point);
-		if (dot_p(*comp->normalv, *comp->eyev) <= 0.0)
+		if (dot_p(*comp->normalv, *comp->eyev) < 0.0)
+			opp(comp->normalv);
+	}
+	else if (comp->object.type == CONE)
+	{
+		comp->normalv = normal_at_co(&comp->object.shape_co, comp->point);
+		if (dot_p(*comp->normalv, *comp->eyev) < 0.0)
 			opp(comp->normalv);
 	}
 	return (comp);

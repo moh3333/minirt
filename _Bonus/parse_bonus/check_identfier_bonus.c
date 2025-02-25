@@ -6,12 +6,11 @@
 /*   By: mthamir <mthamir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/06 17:27:52 by mthamir           #+#    #+#             */
-/*   Updated: 2025/02/16 13:04:00 by mthamir          ###   ########.fr       */
+/*   Updated: 2025/02/25 18:39:19 by mthamir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../minirt_bonus.h"
-
+#include "../includes_bonus/minirt_bonus.h"
 void	parse_init_structs(t_line *l, t_rt *rt)
 {
 	int		i;
@@ -29,8 +28,7 @@ void	parse_init_structs(t_line *l, t_rt *rt)
 
 void	init_struct(char **line, t_rt *rt)
 {
-	static int	check_identifier[3];
-	static int	num_obj;
+	static int	check_identifier[2];
 	int			i;
 
 	i = 0;
@@ -46,16 +44,15 @@ void	init_struct(char **line, t_rt *rt)
 	}
 	else if (ft_strcmp(line[0], "L"))
 	{
-		init_light(line, check_identifier[2], rt);
-		(check_identifier[2])++;
+		init_light(line, rt);
 	}
 	else
-		init_objects(line, rt, num_obj);
+		init_objects(line, rt);
 }
 
-void	init_objects(char **line, t_rt *rt, int num_obj)
+void	init_objects(char **line, t_rt *rt)
 {
-	static int	arr[3];
+	static int	arr[4];
 	
 	if (ft_strcmp("sp", line[0]))
 	{
@@ -71,6 +68,11 @@ void	init_objects(char **line, t_rt *rt, int num_obj)
 	{
 		init_cylinder(line, rt, arr[2]);
 		(arr[2])++;
+	}
+	else if (ft_strcmp("co", line[0]))
+	{
+		init_cone(line, rt, arr[3]);
+		(arr[3])++;
 	}
 	else
 		return (print_error(INDEFINED_OBJECT));

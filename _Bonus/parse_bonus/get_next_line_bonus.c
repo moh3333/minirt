@@ -6,12 +6,11 @@
 /*   By: mthamir <mthamir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/06 17:17:06 by mthamir           #+#    #+#             */
-/*   Updated: 2025/02/16 12:42:22 by mthamir          ###   ########.fr       */
+/*   Updated: 2025/02/25 18:32:29 by mthamir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../minirt_bonus.h"
-
+#include "../includes_bonus/minirt_bonus.h"
 int	check_for_nl(char	**buff)
 {
 	int		i;

@@ -6,12 +6,11 @@
 /*   By: mthamir <mthamir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/06 16:11:15 by mthamir           #+#    #+#             */
-/*   Updated: 2025/02/09 16:18:22 by mthamir          ###   ########.fr       */
+/*   Updated: 2025/02/25 18:33:50 by mthamir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../minirt_bonus.h"
-
+#include "../includes_bonus/minirt_bonus.h"
 t_plane	*plane(int id, t_matrix *tr)
 {
 	t_plane	*pl;
@@ -22,6 +21,6 @@ t_plane	*plane(int id, t_matrix *tr)
 	pl->transform = tr;
 	pl->inverse_m = inverse(tr);
 	pl->transpose_inverse = transpose(pl->inverse_m);
-	pl->normalv = cpv(0, 1, 0, 0);
+	pl->normalv = cpv(0,1,0,0);
 	return (pl);
 }

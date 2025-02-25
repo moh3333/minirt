@@ -6,11 +6,12 @@
 /*   By: mthamir <mthamir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/06 17:25:23 by mthamir           #+#    #+#             */
-/*   Updated: 2025/02/09 18:07:43 by mthamir          ###   ########.fr       */
+/*   Updated: 2025/02/25 18:37:41 by mthamir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../minirt.h"
+/* shared */
+#include "../includes/minirt.h"
 
 t_tuple	*char_to_vec(char *cam_line, int type)
 {
@@ -24,8 +25,9 @@ t_tuple	*char_to_vec(char *cam_line, int type)
 		return (print_error(INVALID_CORD), NULL);
 	while (cord && cord[i])
 	{
-		if (is_float(cord[i]))
-			arr[i] = char_to_double(cord[i]);
+		if (!is_float(cord[i]))
+			return(print_error(INVALID_CORD), NULL);
+		arr[i] = char_to_double(cord[i]);
 		i++;
 	}
 	return (cpv(arr[0], arr[1], arr[2], type));
@@ -40,11 +42,14 @@ t_color	*char_to_color(char *s)
 	i = 0;
 	col = split_line(s, ',', ',');
 	if (ft_strstrlen(col) != 3)
-		return (print_error(INVALID_CORD), NULL);
+		return (print_error(INVALID_COLOR), NULL);
 	while (col && col[i])
 	{
-		if (is_float(col[i]))
-			arr[i] = char_to_double(col[i]);
+		if (!is_float(col[i]))
+			return (print_error(INVALID_COLOR), NULL);
+		arr[i] = char_to_double(col[i]);
+		if (arr[i] < 0 || arr[i] > 255)
+			return (print_error(COLOR_OUT_OF_RANG),NULL);
 		i++;
 	}
 	return (new_color ((arr[0] / 255.0), (arr[1] / 255.0), (arr[2] / 255.0)));

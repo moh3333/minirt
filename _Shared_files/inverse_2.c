@@ -1,16 +1,15 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   inverse_2_bonus.c                                  :+:      :+:    :+:   */
+/*   inverse_2.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mthamir <mthamir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/02/06 16:04:12 by mthamir           #+#    #+#             */
-/*   Updated: 2025/02/25 18:33:35 by mthamir          ###   ########.fr       */
+/*   Created: 2025/02/25 19:58:16 by mthamir           #+#    #+#             */
+/*   Updated: 2025/02/25 19:58:38 by mthamir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes_bonus/minirt_bonus.h"
 /* submatrix 2*2 remove a collamn and a row from a 3*3 matrix */
 
 t_2_2	*sub_m2(t_3_3 *a, int row, int col)

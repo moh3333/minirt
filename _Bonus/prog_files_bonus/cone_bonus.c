@@ -5,95 +5,45 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: mthamir <mthamir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/02/16 15:51:12 by mthamir           #+#    #+#             */
-/*   Updated: 2025/02/16 16:08:46 by mthamir          ###   ########.fr       */
+/*   Created: 2025/02/25 19:43:18 by mthamir           #+#    #+#             */
+/*   Updated: 2025/02/25 19:43:58 by mthamir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minirt.h"
+#include "../includes_bonus/minirt_bonus.h"
 
-
-static void	swap(double *a, double *b)
+t_cone	*cone(double *trunc, int id, t_matrix *tr)
 {
-	double	tmp;
+	t_cone	*co;
 
-	tmp = *b;
-	*b = *a;
-	*a = tmp;
+	co = ft_malloc(sizeof(t_cone), 0);
+	co->id = id;
+	co->min = trunc[0];
+	co->max = trunc[1];
+	co->material = material();
+	co->transform = tr;
+	co->inverse_m = inverse(tr);
+	co->transpose_inverse = transpose(co->inverse_m);
+	return (co);
 }
 
-void	*intersect_between_bounds(double arr[4], t_ray *r_ob_space, \
-								t_cylinder *cyl, t_intersect *ret)
+t_tuple	*normal_at_co(t_cone *co, t_tuple *p_)
 {
-	double	in_bounds[2];
+	t_tuple	*n_obj_space = NULL;
+	t_tuple	*p;
+	double	dist = 0.0;
+	t_tuple	*n_world_space;
 
-	arr[2] = sq(r_ob_space->o.x) - sq(r_ob_space->o.x) + sq(r_ob_space->o.z) - 1;
-	arr[3] = sq(arr[1]) - (4.0 * arr[0] * arr[2]);
-	if (arr[3] < 0.0)
-		return (NULL);
-	ret->t[0] = (-arr[1] - sqrt(arr[3])) / (2.0 * arr[0]);
-	ret->t[1] = (-arr[1] + sqrt(arr[3])) / (2.0 * arr[0]);
-	if (ret->t[0] > ret->t[1])
-		swap(&ret->t[0], &ret->t[1]);
-	in_bounds[0] = r_ob_space->o.y + ret->t[0] * r_ob_space->d.y;
-	if (!(cyl->min < in_bounds[0] && in_bounds[0] < cyl->max))
-		ret->t[0] = -INFINITY;
-	in_bounds[1] = r_ob_space->o.y + ret->t[1] * r_ob_space->d.y;
-	if (!(cyl->min < in_bounds[1] && in_bounds[1] < cyl->max))
-		ret->t[1] = -INFINITY;
-	return ("OK");
-}
-
-t_intersect *cone_intersect(t_ray *r, t_cone *co)
-{
-	t_ray		*r_ob_space;
-	t_intersect	*ret;
-	double		arr[4];
-
-	ret = new_intersect();
-	r_ob_space = transform(r, co->inverse_m);
-	arr[0] = sq(r_ob_space->d.x) - sq(r_ob_space->d.y) + sq(r_ob_space->d.z);
-	arr[1] = 2.0 * ((r_ob_space->o.x * r_ob_space->d.x) - (r_ob_space->o.y * r_ob_space->d.y) \
-			+ (r_ob_space->o.z * r_ob_space->d.z));
-	if (arr[0] < EPSILON && arr[1] < EPSILON)
-		return (NULL);
-	else if (arr[0] <= EPSILON && arr[1] > EPSILON)
-		
-		if (!intersect_between_bounds(arr, r_ob_space, co, ret))
-			return (NULL);
-	intersect_caps_co(co, r_ob_space, &ret->t[0], &ret->t[1]);
-	ret->object.shape_cyl = *co;
-	ret->object.type = CONE;
-	ret->ray = r_ob_space;
-	ret->next = NULL;
-	return (ret);
-}
-
-static int	check_cap(t_ray *r, double t)
-{
-	return (((sq((r->o.x + t * r->d.x)) + sq((r->o.z + t * r->d.z))) <= 1));
-}
-
-void	intersect_caps_cyl(t_cylinder *cyl, t_ray *r, double *t1, double *t2)
-{
-	double	t;
-
-	if (fabs(r->d.y) < EPSILON)
-		return ;
-	t = (cyl->min - r->o.y) / r->d.y;
-	if (check_cap(r, t))
-	{
-		if (*t1 == -INFINITY)
-			*t1 = t;
-		else if (*t2 == -INFINITY)
-			*t2 = t;
-	}
-	t = (cyl->max - r->o.y) / r->d.y;
-	if (check_cap(r, t))
-	{
-		if (*t1 == -INFINITY)
-			*t1 = t;
-		else if (*t2 == -INFINITY)
-			*t2 = t;
-	}
+	p = tup_mat_mul(co->inverse_m, p_);
+	if (p->y > EPSILON)
+		p->y = -p->y;
+	n_obj_space = cpv(p->x, -sqrt(sq(p->x) + sq(p->z)), p->z, 0);
+	dist = sqrt(sq(p->x) + sq(p->z));
+	if (dist < 1.0 && p->y >= (co->max - EPSILON))
+		ch_pv(n_obj_space, 0, 1, 0);
+	else if (dist < 1.0 && p->y <= (co->min + EPSILON))
+		ch_pv(n_obj_space, 0, -1, 0);
+	n_world_space = tup_mat_mul(co->transpose_inverse, n_obj_space);
+	normalize(n_world_space);
+	return (n_world_space);
 }
