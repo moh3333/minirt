@@ -6,7 +6,7 @@
 /*   By: mthamir <mthamir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/06 16:38:09 by mthamir           #+#    #+#             */
-/*   Updated: 2025/02/25 19:23:01 by mthamir          ###   ########.fr       */
+/*   Updated: 2025/02/26 14:56:36 by mthamir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ bool	in_shadow(t_world *w, t_comps *comp)
 	t_ray		*r1;
 	double		distance;
 
-	shadow_ray = tpl_o(*w->light->position, *comp->point, sub);
+	shadow_ray = tpl_o(w->light->position, *comp->point, sub);
 	distance = magnitude(*shadow_ray);
 	comp->shadow = false;
 	normalize(shadow_ray);

@@ -5,12 +5,12 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: mthamir <mthamir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/02/25 19:58:16 by mthamir           #+#    #+#             */
-/*   Updated: 2025/02/25 19:58:38 by mthamir          ###   ########.fr       */
+/*   Created: 2025/02/26 16:17:11 by mthamir           #+#    #+#             */
+/*   Updated: 2025/02/26 16:17:34 by mthamir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-/* submatrix 2*2 remove a collamn and a row from a 3*3 matrix */
+#include "includes/minirt_utils.h"
 
 t_2_2	*sub_m2(t_3_3 *a, int row, int col)
 {

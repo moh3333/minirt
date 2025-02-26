@@ -6,11 +6,12 @@
 /*   By: mthamir <mthamir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/06 16:35:03 by mthamir           #+#    #+#             */
-/*   Updated: 2025/02/25 18:33:39 by mthamir          ###   ########.fr       */
+/*   Updated: 2025/02/26 16:46:40 by mthamir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes_bonus/minirt_bonus.h"
+
 t_light	*light_source(t_tuple *position, t_color *color)
 {
 	t_light	*light;

@@ -18,6 +18,7 @@
 		"utility": "c",
 		"ios": "c",
 		"locale": "c",
-		"minirt_bonus.h": "c"
+		"minirt_bonus.h": "c",
+		"minirt_utils.h": "c"
 	}
 }

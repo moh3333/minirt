@@ -6,7 +6,7 @@
 /*   By: mthamir <mthamir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/06 16:35:03 by mthamir           #+#    #+#             */
-/*   Updated: 2025/02/25 14:43:37 by mthamir          ###   ########.fr       */
+/*   Updated: 2025/02/26 16:43:10 by mthamir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,8 +17,8 @@ t_light	*light_source(t_tuple *position, t_color *color)
 	t_light	*light;
 
 	light = ft_malloc(sizeof(t_light), 0);
-	light->position = position;
-	light->color = color;
+	light->position = *position;
+	light->color = *color;
 	return (light);
 }
 
@@ -63,8 +63,8 @@ t_color	*compute_lightning(t_material *m, \
 	double	light_dot_normal;
 
 	diffuse = NULL;
-	effective_color = colors_operation(light->color, &m->color, mul);
-	lightv = tpl_o(*(light->position), *pos, sub);
+	effective_color = colors_operation(&light[0].color, &m->color, mul);
+	lightv = tpl_o((light[0].position), *pos, sub);
 	normalize(lightv);
 	light_dot_normal = dot_p(*lightv,*normalv);
 	if (light_dot_normal > 0.0)

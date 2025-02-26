@@ -6,11 +6,12 @@
 /*   By: mthamir <mthamir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/06 17:27:52 by mthamir           #+#    #+#             */
-/*   Updated: 2025/02/25 18:39:19 by mthamir          ###   ########.fr       */
+/*   Updated: 2025/02/26 16:44:35 by mthamir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes_bonus/minirt_bonus.h"
+
 void	parse_init_structs(t_line *l, t_rt *rt)
 {
 	int		i;

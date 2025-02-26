@@ -5,10 +5,12 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: mthamir <mthamir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/02/25 19:57:46 by mthamir           #+#    #+#             */
-/*   Updated: 2025/02/25 19:57:58 by mthamir          ###   ########.fr       */
+/*   Created: 2025/02/26 16:17:51 by mthamir           #+#    #+#             */
+/*   Updated: 2025/02/26 16:18:12 by mthamir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
+#include "includes/minirt_utils.h"
 
 t_3_3	*sub_m3(t_matrix *a, int row, int col)
 {
