@@ -6,7 +6,7 @@
 /*   By: mthamir <mthamir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/26 16:07:31 by mthamir           #+#    #+#             */
-/*   Updated: 2025/02/26 16:31:29 by mthamir          ###   ########.fr       */
+/*   Updated: 2025/02/27 17:36:34 by mthamir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,9 @@ t_tuple	*normal_at(t_spher *sph, t_tuple *point)
 	t_tuple	*world_normal;
 
 	object_p = tup_mat_mul(sph->inverse_m, point);
+	if(sph->material->bump_map)
+		bump_maping(sph->material,object_p);
+	// printf("test 2 : %f\n ",object_p->y);
 	world_normal = tup_mat_mul(sph->transpose_in, object_p);
 	world_normal->w = 0;
 	normalize(world_normal);

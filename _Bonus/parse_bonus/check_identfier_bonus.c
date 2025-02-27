@@ -6,7 +6,7 @@
 /*   By: mthamir <mthamir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/06 17:27:52 by mthamir           #+#    #+#             */
-/*   Updated: 2025/02/26 16:44:35 by mthamir          ###   ########.fr       */
+/*   Updated: 2025/02/26 17:14:59 by mthamir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ void	init_struct(char **line, t_rt *rt)
 void	init_objects(char **line, t_rt *rt)
 {
 	static int	arr[4];
-	
+
 	if (ft_strcmp("sp", line[0]))
 	{
 		init_spher(line, rt, arr[0]);

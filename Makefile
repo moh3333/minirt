@@ -6,7 +6,7 @@
 #    By: mthamir <mthamir@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/12/12 17:40:42 by mthamir           #+#    #+#              #
-#    Updated: 2025/02/26 16:40:42 by mthamir          ###   ########.fr        #
+#    Updated: 2025/02/27 16:25:07 by mthamir          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,7 +14,7 @@ NAME := minirt
 
 NAME_BONUS := minirt_bonus
 
-CC := cc -Wall -Wextra -Werror
+CC := cc  -g -fsanitize=address -Wall -Wextra -Werror
 
 FLAGS :=  -Ofast -I/Users/$(shell whoami)/Desktop/gitminirt/MLX42/include/MLX42
 
@@ -45,30 +45,40 @@ SRC_BONUS :=  _Bonus/parse_bonus/check_identfier_bonus.c _Bonus/parse_bonus/init
 	_Bonus/parse_bonus/init_objects_bonus.c _Bonus/prog_files_bonus/cone_bonus.c \
 	_Bonus/prog_files_bonus/cone_intersection_bonus.c _Bonus/prog_files_bonus/lighting_bonus.c \
 	_Bonus/prog_files_bonus/prepare_computing_bonus.c _Bonus/prog_files_bonus/render_bonus.c \
-	_Bonus/prog_files_bonus/world_intersection_bonus.c _Bonus/parse_bonus/init_ambiant_cam_bonus.c
+	_Bonus/prog_files_bonus/world_intersection_bonus.c _Bonus/parse_bonus/init_ambiant_cam_bonus.c \
+	_Bonus/prog_files_bonus/texter_bonus.c
 
 OBJ_SH := $(SHARED_SRC:.c=.o)
 
 OBJ := $(SRC:.c=.o) $(OBJ_SH)
 
-OBJ_BONUS := $(SRC_BONUS:.c=.o) $(OBJ_SH)
+OBJ_BONUS := $(SRC_BONUS:bonus.c=bonus.o) $(OBJ_SH)
 
 MLXF	=	-framework Cocoa -framework OpenGL -framework IOKit -lglfw -L/Users/$(shell whoami)/.brew/opt/glfw/lib 
 
-HEADER := minirt.h
 
-HEADER_BONUS := minirt_bonus.h
+STRUCT_HEADER := _Shared_files/includes/structs.h
+
+MACROS_HEADER := _Shared_files/includes/macros.h
+
+UTILS_HEADER := _Shared_files/includes/minirt_utils.h
+
+SH_HEADERS := $(STRUCT_HEADER) $(MACROS_HEADER) $(UTILS_HEADER)
+
+HEADER :=   _Shared_files/includes/minirt_utils.h
+
+HEADER_BONUS := _Bonus/includes_bonus/minirt_bonus.h
 
 all : $(NAME)
 
 bonus : $(NAME_BONUS)
 
-$(NAME) : $(OBJ) 
+$(NAME) : $(OBJ) $(HEADER) $(SH_HEADERS)
 	cmake CMakeLists.txt -S MLX42/ -B MLX42/ 
 	make -C MlX42
 	$(CC) $(FLAGS) $(MLXF) $(OBJ) $(MLX) -o $(NAME)
 
-$(NAME_BONUS) : $(OBJ_BONUS)
+$(NAME_BONUS) : $(OBJ_BONUS) $(HEADER_BONUS) $(SH_HEADERS)
 	cmake CMakeLists.txt -S MLX42/ -B MLX42/ 
 	make -C MlX42
 	$(CC) $(FLAGS) $(MLXF) $(OBJ_BONUS) $(MLX) -o $(NAME_BONUS)
@@ -84,7 +94,7 @@ clean :
 
 fclean : clean
 	make clean -C MLX42/
-	rm -f $(NAME) $(NAME_BONUS)
+	rmf $ -(NAME) $(NAME_BONUS)
 
 re : fclean all
 

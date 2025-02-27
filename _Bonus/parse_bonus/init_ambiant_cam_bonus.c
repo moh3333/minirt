@@ -6,7 +6,7 @@
 /*   By: mthamir <mthamir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/26 16:40:24 by mthamir           #+#    #+#             */
-/*   Updated: 2025/02/26 16:46:12 by mthamir          ###   ########.fr       */
+/*   Updated: 2025/02/26 17:15:48 by mthamir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ void	init_ambiant(char **line, int exist, t_rt *rt)
 void	init_camera(char **line, int exist, t_rt *rt)
 {
 	double	fov;
-	t_tuple *vec;
+	t_tuple	*vec;
 	t_tuple	*ori;
 
 	if (exist)

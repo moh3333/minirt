@@ -6,14 +6,14 @@
 /*   By: mthamir <mthamir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/28 15:23:22 by mthamir           #+#    #+#             */
-/*   Updated: 2025/02/26 16:26:36 by mthamir          ###   ########.fr       */
+/*   Updated: 2025/02/26 17:12:46 by mthamir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MINIRT_H
 #define MINIRT_H
 
-#include "/Users/mthamir/Desktop/MINI_RT_1337/_Shared_files/includes/minirt_utils.h"
+# include "../../_Shared_files/includes/minirt_utils.h"
 
 
 void	parse_init_structs(t_line *l, t_rt *rt);

@@ -6,7 +6,7 @@
 /*   By: mthamir <mthamir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/26 14:17:54 by mthamir           #+#    #+#             */
-/*   Updated: 2025/02/26 16:45:46 by mthamir          ###   ########.fr       */
+/*   Updated: 2025/02/27 17:23:39 by mthamir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,8 +21,8 @@ double	mul(double a, double b);
 double	divi(double a, double b);
 double	sq(double num);
 t_intersect *new_intersect(void);
+void bump_maping(t_material *m,t_tuple *obj_point);
 t_material *material(void);
-
 t_camera	*new_camera(double hsize, double vsize, double fov, t_matrix *tr);
 t_matrix	*view_transformation(t_tuple *from, t_tuple *to, t_tuple *up);
 t_color	*new_color(double r, double g, double b);

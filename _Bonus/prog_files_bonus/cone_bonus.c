@@ -6,7 +6,7 @@
 /*   By: mthamir <mthamir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/25 19:43:18 by mthamir           #+#    #+#             */
-/*   Updated: 2025/02/25 19:43:58 by mthamir          ###   ########.fr       */
+/*   Updated: 2025/02/26 17:24:52 by mthamir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,11 +29,13 @@ t_cone	*cone(double *trunc, int id, t_matrix *tr)
 
 t_tuple	*normal_at_co(t_cone *co, t_tuple *p_)
 {
-	t_tuple	*n_obj_space = NULL;
+	t_tuple	*n_obj_space;
 	t_tuple	*p;
-	double	dist = 0.0;
+	double	dist;
 	t_tuple	*n_world_space;
 
+	dist = 0;
+	n_obj_space = NULL;
 	p = tup_mat_mul(co->inverse_m, p_);
 	if (p->y > EPSILON)
 		p->y = -p->y;

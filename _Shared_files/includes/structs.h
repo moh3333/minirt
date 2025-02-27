@@ -6,7 +6,7 @@
 /*   By: mthamir <mthamir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/25 20:05:16 by mthamir           #+#    #+#             */
-/*   Updated: 2025/02/26 16:28:18 by mthamir          ###   ########.fr       */
+/*   Updated: 2025/02/27 17:17:36 by mthamir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,12 +43,7 @@ typedef struct s_color	{
 }	t_color;
 
 
-typedef struct s_material
-{
-	t_color color;
-	double	checker;
-	t_color pattern_color;
-}	t_material;
+
 
 
 typedef struct s_tuple	{
@@ -58,7 +53,14 @@ typedef struct s_tuple	{
 	double w;
 } 	t_tuple;
 
-
+typedef struct s_material
+{
+	t_color color;
+	double	checker;
+	t_color pattern_color;
+	mlx_texture_t *texter;
+	mlx_texture_t *bump_map;
+}	t_material;
 typedef struct s_light
 {
 	t_tuple position;
@@ -95,6 +97,7 @@ typedef struct s_spher
 	t_matrix *transpose_in;
 
 }	t_spher;
+
 
 typedef struct s_plane
 {
