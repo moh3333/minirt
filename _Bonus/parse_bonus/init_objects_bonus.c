@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init_objects_bonus.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mthamir <mthamir@student.42.fr>            +#+  +:+       +#+        */
+/*   By: yojablao <yojablao@student.42.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/06 17:30:25 by mthamir           #+#    #+#             */
-/*   Updated: 2025/02/27 16:42:27 by mthamir          ###   ########.fr       */
+/*   Updated: 2025/02/28 17:33:48 by yojablao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,8 +56,6 @@ void	init_spher(char **line, t_rt *rt, int id)
 		rt->world->object[rt->world->object_count].shape.material->texter = load_it(line , 4);
 		if (ft_strstrlen(line) == 6)
 			rt->world->object[rt->world->object_count].shape.material->bump_map = load_it(line , 5);
-		if(!rt->world->object[rt->world->object_count].shape.material->bump_map)
-			printf("errrer\n");
 	}
 	rt->world->object[rt->world->object_count].shape.material->color = *col;
 	rt->world->object_count++;

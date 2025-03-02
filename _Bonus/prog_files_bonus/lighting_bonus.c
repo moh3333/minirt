@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lighting_bonus.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mthamir <mthamir@student.42.fr>            +#+  +:+       +#+        */
+/*   By: yojablao <yojablao@student.42.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/06 16:35:03 by mthamir           #+#    #+#             */
-/*   Updated: 2025/02/27 18:16:00 by mthamir          ###   ########.fr       */
+/*   Updated: 2025/02/28 18:01:04 by yojablao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,8 +77,8 @@ t_color	*shade_hit(t_world *w, t_comps *comp, t_tuple *eyev)
 	else if (comp->object.type == CONE)
 		m = comp->object.shape_co.material;
 	col = &m->color;
-	// if (comp->object.type == SPHER && m->texter)
-	// 	col = spher_texter(m,comp);
+	if (comp->object.type == SPHER && m->texter)
+		col = spher_texter(&comp->object.shape,m,comp);
 	if (comp->object.type == PLANE && m->checker)
 		col = check_pattern(tup_mat_mul \
 			(comp->object.shape_pl.inverse_m, comp->point), m);

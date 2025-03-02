@@ -2,5 +2,6 @@
 	"files.associations": {
 		"minirt_bonus.h": "c",
 		"minirt_utils.h": "c"
-	}
+	},
+	"cmake.sourceDirectory": "/Users/yojablao/Desktop/new/MLX42"
 }

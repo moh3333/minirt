@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minirt_bonus.h                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mthamir <mthamir@student.42.fr>            +#+  +:+       +#+        */
+/*   By: yojablao <yojablao@student.42.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/28 15:23:22 by mthamir           #+#    #+#             */
-/*   Updated: 2025/02/27 18:15:53 by mthamir          ###   ########.fr       */
+/*   Updated: 2025/02/28 18:00:10 by yojablao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 # include "../../_Shared_files/includes/minirt_utils.h"
 
 void		parse_init_structs(t_line *l, t_rt *rt);
-// t_color		*spher_texter(t_material *m, t_comps *comp);
+t_color 	*spher_texter(t_spher *sp, t_material *m, t_comps *comp);
 void		init_struct(char **line, t_rt *rt);
 void		init_objects(char **line, t_rt *rt);
 void		init_light(char **line, t_rt *rt);

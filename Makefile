@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: mthamir <mthamir@student.42.fr>            +#+  +:+       +#+         #
+#    By: yojablao <yojablao@student.42.ma>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/12/12 17:40:42 by mthamir           #+#    #+#              #
-#    Updated: 2025/02/27 16:25:07 by mthamir          ###   ########.fr        #
+#    Updated: 2025/03/02 14:55:20 by yojablao         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -94,7 +94,7 @@ clean :
 
 fclean : clean
 	make clean -C MLX42/
-	rmf $ -(NAME) $(NAME_BONUS)
+	rm -f $(NAME) $(NAME_BONUS)
 
 re : fclean all
 

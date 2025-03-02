@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   prepare_computing_bonus.c                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mthamir <mthamir@student.42.fr>            +#+  +:+       +#+        */
+/*   By: yojablao <yojablao@student.42.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/06 16:38:09 by mthamir           #+#    #+#             */
-/*   Updated: 2025/02/27 17:21:06 by mthamir          ###   ########.fr       */
+/*   Updated: 2025/02/28 17:10:28 by yojablao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,8 @@ bool	in_shadow(t_world *w, t_comps *comp, int i)
 	normalize(shadow_ray);
 	r1 = ray(*comp->point, *shadow_ray);
 	inter = world_intersection(w, r1);
-	if (inter && inter->t[0] > 0.0 && (distance - inter->t[0]) > 0.0){
+    if (inter && inter->t[0] > EPSILON && inter->t[0] < distance)
+	{
 		comp->shadow = true;
 		return (true);
 	}
