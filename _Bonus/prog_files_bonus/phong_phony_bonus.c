@@ -6,28 +6,11 @@
 /*   By: mthamir <mthamir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/02 21:49:50 by mthamir           #+#    #+#             */
-/*   Updated: 2025/03/05 00:02:44 by mthamir          ###   ########.fr       */
+/*   Updated: 2025/03/05 16:18:26 by mthamir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes_bonus/minirt_bonus.h"
-
-// t_color *spher_texter(t_spher *sp, t_material *m, t_comps *comp)
-// {
-// 	t_tuple *obj_point;
-// 	int x;
-// 	int y;
-
-// 	obj_point = tup_mat_mul(sp->inverse_m, comp->point);
-// 	x = (int) round((atan2(obj_point->z, obj_point->x) + M_PI) / (2.0 * M_PI) \
-// 		* (m->texter->width - 1));
-// 	y = (int) round((1.0 - ((M_PI - acos(obj_point->y)) / M_PI)) \
-// 		* (m->texter->height - 1));
-// 	if ((int )fabs(floor(x / m->checker) \
-// 		+ floor(y / m->checker)) % 2 == 0)
-// 		return (&m->color);
-// 	return (&m->pattern_color);
-// }
 
 static void	check_object_type(t_comps *comp, t_material **m, t_color **col)
 {
@@ -42,8 +25,6 @@ static void	check_object_type(t_comps *comp, t_material **m, t_color **col)
 	*col = &(*m)->color;
 	if (comp->object.type == SPHER && (*m)->texter)
 		*col = spher_texter(&comp->object.shape, *m, comp);
-	// if (comp->object.type == SPHER && (*m)->checker)
-	// 	*col = spher_checker(&comp->object.shape, *m, comp);
 	if (comp->object.type == PLANE && (*m)->checker)
 		*col = check_pattern(tup_mat_mul \
 			(comp->object.shape_pl.inverse_m, comp->point), *m);

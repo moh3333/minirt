@@ -1,7 +1,7 @@
 A 0.1 255,255,255
 
-C 0,0,-10 0,0,1 90
+C 0,0,-20 0,0,1 90
 
 L -10,10,-10 1 255,255,255
 
-sp 0,0,0 6 255,0,0  texter:_Textures/black-wall-white-crack-texture-600nw-2503854815.png bump:_Textures/black-wall-white-crack-texture-600nw-2503854815.png
+sp 0,0,0 10 255,0,0

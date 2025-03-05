@@ -6,7 +6,7 @@
 #    By: mthamir <mthamir@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/12/12 17:40:42 by mthamir           #+#    #+#              #
-#    Updated: 2025/03/04 20:20:21 by mthamir          ###   ########.fr        #
+#    Updated: 2025/03/05 16:23:15 by mthamir          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,7 +14,7 @@ NAME := miniRT
 
 NAME_BONUS := miniRT_bonus
 
-CC := cc  -g -fsanitize=address -Wall -Wextra -Werror
+CC := cc -Wall -Wextra -Werror
 
 FLAGS :=  -Ofast -I/Users/$(shell whoami)/Desktop/gitminirt/MLX42/include/MLX42
 

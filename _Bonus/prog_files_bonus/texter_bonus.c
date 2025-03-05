@@ -6,7 +6,7 @@
 /*   By: mthamir <mthamir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/27 15:18:47 by mthamir           #+#    #+#             */
-/*   Updated: 2025/03/04 23:28:42 by mthamir          ###   ########.fr       */
+/*   Updated: 2025/03/05 16:18:36 by mthamir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,14 +39,13 @@ void	bump_maping(t_material *m, t_tuple *n, t_tuple *pert)
 	phi = acos(n->y);
 	x = (int) round((theta + M_PI) / (2.0 * M_PI) * (m->bump_map->width - 1));
 	y = (int) round((1.0 - ((M_PI - phi) / M_PI)) * (m->bump_map->height - 1));
-	printf("%d\n %d\n", x, y );
 	u = (((m->bump_map->pixels[(y * m->bump_map->width + x) * 4] \
 		/ 255.0)) * 2.0 - 1.0);
 	pert = tpl_o(*scalar(*cpv(-sin(theta), 0, cos(theta), 0), u * 0.7), \
 	*scalar(*cpv(cos(theta) * cos(phi), -sin(phi), \
 		sin(theta) * cos(phi), 0), u * 0.7), add);
-	n->x += pert->x;
-	n->y += pert->y;
+	n->x -= pert->x;
+	n->y -= pert->y;
 	normalize(n);
 }
 
