@@ -6,7 +6,7 @@
 /*   By: mthamir <mthamir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/26 16:22:17 by mthamir           #+#    #+#             */
-/*   Updated: 2025/02/26 16:22:40 by mthamir          ###   ########.fr       */
+/*   Updated: 2025/03/03 20:09:48 by mthamir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,13 +55,15 @@ t_matrix	*view_transformation(t_tuple *from, t_tuple *to, t_tuple *up)
 {
 	t_matrix	*ret;
 	t_tuple		*left;
+	t_tuple		*forward;
 	t_tuple		*true_up;
 
-	to->w = 0;
-	normalize(up);
-	normalize(to);
-	left = cross_p(*to, *up);
-	true_up = cross_p(*left, *to);
+	forward = tpl_o(*to, *from, sub);
+	normalize(forward);
+	left = cross_p(*forward, *up);
+	normalize(left);
+	true_up = cross_p(*left, *forward);
+	normalize(true_up);
 	ret = i_mat(1.0);
 	ret->matrix[0][0] = left->x;
 	ret->matrix[0][1] = left->y;
@@ -69,8 +71,8 @@ t_matrix	*view_transformation(t_tuple *from, t_tuple *to, t_tuple *up)
 	ret->matrix[1][0] = true_up->x;
 	ret->matrix[1][1] = true_up->y;
 	ret->matrix[1][2] = true_up->z;
-	ret->matrix[2][0] = -to->x;
-	ret->matrix[2][1] = -to->y;
-	ret->matrix[2][2] = -to->z;
+	ret->matrix[2][0] = -forward->x;
+	ret->matrix[2][1] = -forward->y;
+	ret->matrix[2][2] = -forward->z;
 	return (mul_mat(ret, transl_mat(-from->x, -from->y, -from->z)));
 }

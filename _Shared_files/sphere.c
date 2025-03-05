@@ -6,7 +6,7 @@
 /*   By: mthamir <mthamir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/26 16:07:31 by mthamir           #+#    #+#             */
-/*   Updated: 2025/02/27 17:36:34 by mthamir          ###   ########.fr       */
+/*   Updated: 2025/03/02 21:33:01 by mthamir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,20 +25,4 @@ t_spher	*spher(t_tuple *center, double raduis, int id, t_matrix *tr)
 	ret->inverse_m = inverse(ret->transform);
 	ret->transpose_in = transpose(ret->inverse_m);
 	return (ret);
-}
-
-/* get the normal vector on a point on the spher*/
-t_tuple	*normal_at(t_spher *sph, t_tuple *point)
-{
-	t_tuple	*object_p;
-	t_tuple	*world_normal;
-
-	object_p = tup_mat_mul(sph->inverse_m, point);
-	if(sph->material->bump_map)
-		bump_maping(sph->material,object_p);
-	// printf("test 2 : %f\n ",object_p->y);
-	world_normal = tup_mat_mul(sph->transpose_in, object_p);
-	world_normal->w = 0;
-	normalize(world_normal);
-	return (world_normal);
 }

@@ -6,25 +6,30 @@
 /*   By: mthamir <mthamir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/06 16:22:21 by mthamir           #+#    #+#             */
-/*   Updated: 2025/02/25 19:25:16 by mthamir          ###   ########.fr       */
+/*   Updated: 2025/03/02 22:25:33 by mthamir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes_bonus/minirt_bonus.h"
+
 uint64_t	color_at(t_world *w, t_ray *r)
 {
-	t_tuple eyev = r->d;
+	t_tuple	eyev;
+	t_color	*col;
+
+	eyev = r->d;
 	opp(&eyev);
-	t_color *col = shade_hit(w, prepare_computing(world_intersection(w, r), r), &eyev);
+	col = shade_hit(w, prepare_computing(world_intersection(w, r), r), &eyev);
 	if (!col)
 		return (BLACK);
 	return (get_col(col));
 }
 
-void	handle_keys(mlx_key_data_t keydata, void* param)
+void	handle_keys(mlx_key_data_t keydata, void *param)
 {
-	mlx_t *p = param;
+	mlx_t	*p;
 
+	p = param;
 	if (keydata.key == MLX_KEY_ESCAPE)
 		mlx_close_window(p);
 }
@@ -40,9 +45,9 @@ void	handle_mlx_window(t_rt *rt, mlx_image_t *image)
 
 void	render(t_rt *rt)
 {
-	double		x;
-	double		y;
-	mlx_image_t	*image;
+	double			x;
+	double			y;
+	mlx_image_t		*image;
 	uint64_t		col;
 
 	x = -1;

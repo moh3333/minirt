@@ -6,7 +6,7 @@
 /*   By: mthamir <mthamir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/26 16:20:05 by mthamir           #+#    #+#             */
-/*   Updated: 2025/02/26 16:20:31 by mthamir          ###   ########.fr       */
+/*   Updated: 2025/03/03 16:30:12 by mthamir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,9 +39,9 @@ t_tuple	*normal_at_cyl(t_cylinder *cyl, t_tuple *p_)
 	p = tup_mat_mul(cyl->inverse_m, p_);
 	n_obj_space = cpv(p->x, 0, p->z, 0);
 	dist = sq(p->x) + sq(p->z);
-	if (dist < 1.0 && p->y >= (cyl->max - EPSILON))
+	if (dist <= 1.0 && p->y > (cyl->max - EPSILON))
 		ch_pv(n_obj_space, 0, 1, 0);
-	else if (dist < 1.0 && p->y <= (cyl->min + EPSILON))
+	else if (dist <= 1.0 && p->y < (cyl->min + EPSILON))
 		ch_pv(n_obj_space, 0, -1, 0);
 	n_world_space = tup_mat_mul(cyl->transpose_inverse, n_obj_space);
 	normalize(n_world_space);

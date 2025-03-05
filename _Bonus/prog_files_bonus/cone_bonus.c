@@ -6,7 +6,7 @@
 /*   By: mthamir <mthamir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/25 19:43:18 by mthamir           #+#    #+#             */
-/*   Updated: 2025/02/26 17:24:52 by mthamir          ###   ########.fr       */
+/*   Updated: 2025/03/03 17:35:34 by mthamir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,16 +35,18 @@ t_tuple	*normal_at_co(t_cone *co, t_tuple *p_)
 	t_tuple	*n_world_space;
 
 	dist = 0;
-	n_obj_space = NULL;
 	p = tup_mat_mul(co->inverse_m, p_);
-	if (p->y > EPSILON)
-		p->y = -p->y;
-	n_obj_space = cpv(p->x, -sqrt(sq(p->x) + sq(p->z)), p->z, 0);
-	dist = sqrt(sq(p->x) + sq(p->z));
-	if (dist < 1.0 && p->y >= (co->max - EPSILON))
+	n_obj_space = cpv(p->x, 0, p->z, 0);
+	dist = sq(p->x) + sq(p->z);
+	if (dist <= 1.0 && p->y > (co->max - EPSILON))
 		ch_pv(n_obj_space, 0, 1, 0);
-	else if (dist < 1.0 && p->y <= (co->min + EPSILON))
+	else if (dist <= 1.0 && p->y < (co->min + EPSILON))
 		ch_pv(n_obj_space, 0, -1, 0);
+	dist = sqrt(dist);
+	if (p->y > 0.0)
+		n_obj_space->y = dist * -1;
+	else
+		n_obj_space->y = dist;
 	n_world_space = tup_mat_mul(co->transpose_inverse, n_obj_space);
 	normalize(n_world_space);
 	return (n_world_space);

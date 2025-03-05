@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minirt_bonus.h                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yojablao <yojablao@student.42.ma>          +#+  +:+       +#+        */
+/*   By: mthamir <mthamir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/28 15:23:22 by mthamir           #+#    #+#             */
-/*   Updated: 2025/02/28 18:00:10 by yojablao         ###   ########.fr       */
+/*   Updated: 2025/03/02 21:16:05 by mthamir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 # include "../../_Shared_files/includes/minirt_utils.h"
 
 void		parse_init_structs(t_line *l, t_rt *rt);
-t_color 	*spher_texter(t_spher *sp, t_material *m, t_comps *comp);
+t_color		*spher_texter(t_spher *sp, t_material *m, t_comps *comp);
 void		init_struct(char **line, t_rt *rt);
 void		init_objects(char **line, t_rt *rt);
 void		init_light(char **line, t_rt *rt);
@@ -39,8 +39,8 @@ t_color		*compute_specular(t_light *light, \
 		t_tuple *lightv, t_tuple *normalv, t_tuple *eyev);
 t_color		*check_pattern(t_tuple *p, t_material *m);
 t_color		*shade_hit(t_world *w, t_comps *comp, t_tuple *eyev);
-t_color		*compute_lightning(t_light *light, t_tuple *pos, \
-		t_tuple *normalv, t_tuple *eyev, t_color *col);
+t_color		*compute_lightning_b(t_light *light, \
+			t_comps *comp, t_tuple *eyev, t_color *col);
 t_intersect	*new_intersect(void);
 t_comps		*new_comps(void);
 bool		in_shadow(t_world *w, t_comps *comp, int i);

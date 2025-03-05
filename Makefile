@@ -3,16 +3,16 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: yojablao <yojablao@student.42.ma>          +#+  +:+       +#+         #
+#    By: mthamir <mthamir@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/12/12 17:40:42 by mthamir           #+#    #+#              #
-#    Updated: 2025/03/02 14:55:20 by yojablao         ###   ########.fr        #
+#    Updated: 2025/03/04 20:20:21 by mthamir          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-NAME := minirt
+NAME := miniRT
 
-NAME_BONUS := minirt_bonus
+NAME_BONUS := miniRT_bonus
 
 CC := cc  -g -fsanitize=address -Wall -Wextra -Werror
 
@@ -46,7 +46,8 @@ SRC_BONUS :=  _Bonus/parse_bonus/check_identfier_bonus.c _Bonus/parse_bonus/init
 	_Bonus/prog_files_bonus/cone_intersection_bonus.c _Bonus/prog_files_bonus/lighting_bonus.c \
 	_Bonus/prog_files_bonus/prepare_computing_bonus.c _Bonus/prog_files_bonus/render_bonus.c \
 	_Bonus/prog_files_bonus/world_intersection_bonus.c _Bonus/parse_bonus/init_ambiant_cam_bonus.c \
-	_Bonus/prog_files_bonus/texter_bonus.c
+	_Bonus/prog_files_bonus/texter_bonus.c _Bonus/parse_bonus/init_cone_cyl_bonus.c \
+	_Bonus/prog_files_bonus/phong_phony_bonus.c
 
 OBJ_SH := $(SHARED_SRC:.c=.o)
 

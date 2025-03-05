@@ -6,7 +6,7 @@
 /*   By: mthamir <mthamir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/28 15:23:22 by mthamir           #+#    #+#             */
-/*   Updated: 2025/02/26 17:12:46 by mthamir          ###   ########.fr       */
+/*   Updated: 2025/03/02 21:16:12 by mthamir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ void	init_camera(char **line, int exist, t_rt *rt);
 t_light	*light_source(t_tuple *position, t_color *color);
 t_material	*material(void);
 t_color	*shade_hit(t_world *w, t_comps *comp);
-t_color	*compute_lightning(t_material *m, \
+t_color	*compute_lightning_m(t_material *m, \
 				t_light *light, t_tuple *pos, t_tuple *normalv);
 t_intersect	*new_intersect(void);
 t_comps	*new_comps(void);

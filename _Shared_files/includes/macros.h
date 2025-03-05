@@ -6,7 +6,7 @@
 /*   By: mthamir <mthamir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/26 14:03:27 by mthamir           #+#    #+#             */
-/*   Updated: 2025/02/26 14:03:36 by mthamir          ###   ########.fr       */
+/*   Updated: 2025/03/03 22:10:10 by mthamir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@
 
 
 
+#define BAD_TEXTUR "Invalid File Texture, Could Not Find It"
 #define INVALID_CORD "Invalid Cordinations In File"
 #define INVALID_COLOR "Invalid Color In File"
 #define COLOR_OUT_OF_RANG "Color RGB Out Of Range <<0.0 --- 255.0>>"

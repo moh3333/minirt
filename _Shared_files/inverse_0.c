@@ -6,7 +6,7 @@
 /*   By: mthamir <mthamir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/26 16:18:24 by mthamir           #+#    #+#             */
-/*   Updated: 2025/02/26 16:18:44 by mthamir          ###   ########.fr       */
+/*   Updated: 2025/03/03 21:02:31 by mthamir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,9 +19,9 @@ t_matrix	*inverse(t_matrix *a)
 	int			j;
 	double		det;
 
-	if (!invertible(a))
-		return (a);
 	det = determinant(a);
+	if (!det)
+		return (a);
 	ret = i_mat(0.0);
 	if (!ret)
 		return (NULL);
@@ -33,12 +33,6 @@ t_matrix	*inverse(t_matrix *a)
 			ret->matrix[i][j] = (cofactor(a, i, j) / det);
 	}
 	return (transpose(ret));
-}
-
-/*checks the matrix inverbility is it return 0 mean thats not invertible */
-double	invertible(t_matrix *a)
-{
-	return (determinant(a));
 }
 
 double	determinant(t_matrix *a)

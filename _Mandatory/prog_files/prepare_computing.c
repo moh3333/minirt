@@ -6,11 +6,23 @@
 /*   By: mthamir <mthamir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/06 16:38:09 by mthamir           #+#    #+#             */
-/*   Updated: 2025/02/26 14:56:36 by mthamir          ###   ########.fr       */
+/*   Updated: 2025/03/03 21:18:35 by mthamir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minirt.h"
+
+t_tuple	*normal_at(t_spher *sph, t_tuple *point)
+{
+	t_tuple	*object_p;
+	t_tuple	*world_normal;
+
+	object_p = tup_mat_mul(sph->inverse_m, point);
+	world_normal = tup_mat_mul(sph->transpose_in, object_p);
+	world_normal->w = 0;
+	normalize(world_normal);
+	return (world_normal);
+}
 
 t_comps	*new_comps(void)
 {
@@ -41,12 +53,7 @@ void	is_sphere(t_comps *comp)
 {
 	comp->normalv = normal_at(&comp->object.shape, comp->point);
 	if (dot_p(*comp->normalv, *comp->eyev) < 0.0)
-	{
-		comp->inside = true;
 		opp(comp->normalv);
-	}
-	else
-		comp->inside = false;
 }
 
 t_comps	*prepare_computing(t_intersect *list, t_ray *r, t_world *w)

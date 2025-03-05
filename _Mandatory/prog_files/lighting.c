@@ -6,7 +6,7 @@
 /*   By: mthamir <mthamir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/06 16:35:03 by mthamir           #+#    #+#             */
-/*   Updated: 2025/02/26 16:43:10 by mthamir          ###   ########.fr       */
+/*   Updated: 2025/03/02 21:16:16 by mthamir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,13 +48,13 @@ t_color	*shade_hit(t_world *w, t_comps *comp)
 	ambiant = colors_operation(w->ambiant_color, &m->color, mul);
 	if (comp->shadow)
 		return (ambiant);
-	diffuse = compute_lightning(m, w->light, comp->point, comp->normalv);
+	diffuse = compute_lightning_m(m, w->light, comp->point, comp->normalv);
 	if (!diffuse)
 		return (ambiant);
 	return (colors_operation(diffuse, ambiant, add));
 }
 
-t_color	*compute_lightning(t_material *m, \
+t_color	*compute_lightning_m(t_material *m, \
 				t_light *light, t_tuple *pos, t_tuple *normalv)
 {
 	t_color	*effective_color;

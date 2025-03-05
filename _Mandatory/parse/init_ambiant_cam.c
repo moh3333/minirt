@@ -6,7 +6,7 @@
 /*   By: mthamir <mthamir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/26 15:49:45 by mthamir           #+#    #+#             */
-/*   Updated: 2025/02/26 15:53:05 by mthamir          ###   ########.fr       */
+/*   Updated: 2025/03/03 21:14:01 by mthamir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ void	init_camera(char **line, int exist, t_rt *rt)
 		normalize(vec);
 	fov = char_to_double(line[3]);
 	ori = char_to_vec(line[1], 1);
-	if (!(fov >= 0.0 && fov <= 180.0))
+	if (fov < 0.0 || fov >= 180.0)
 		return (print_error(INVALID_FOV));
 	rt->cam = new_camera(1200, 600, radians(fov), \
 		view_transformation (ori, vec, cpv(0, 1, 0, 0)));

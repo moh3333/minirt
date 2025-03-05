@@ -3,31 +3,41 @@
 /*                                                        :::      ::::::::   */
 /*   init_objects_bonus.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yojablao <yojablao@student.42.ma>          +#+  +:+       +#+        */
+/*   By: mthamir <mthamir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/06 17:30:25 by mthamir           #+#    #+#             */
-/*   Updated: 2025/02/28 17:33:48 by yojablao         ###   ########.fr       */
+/*   Updated: 2025/03/05 00:02:12 by mthamir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes_bonus/minirt_bonus.h"
 
-mlx_texture_t	*load_it(char **line ,int i)
+void	check_file(char **bum, t_material *m)
 {
-	char **bum;
-	mlx_texture_t *textur;
-	printf("%d\n",i);
-	if(ft_strstrlen(line) < i || !line[i])
-		return(NULL);
-	bum = split_line(line[i],':',':');
-	if((ft_strcmp(bum[0],"texter") || ft_strcmp(bum[0],"bump")) && bum[1])
+	if (bum && ft_strcmp (bum[0], "texter") && bum[1])
 	{
-		textur = mlx_load_png(bum[1]);
-		if(!textur)
-			return(print_error(BAD_INFORM_SPH),NULL);
-		return (textur);
+		m->texter = mlx_load_png(bum[1]);
+		if (!m->texter)
+			print_error(BAD_INFORM_SPH);
 	}
-	return(NULL);
+	else if (bum && (ft_strcmp (bum[0], "bump") && bum[1]))
+	{
+		m->bump_map = mlx_load_png(bum[1]);
+		if (!m->bump_map)
+			print_error(BAD_INFORM_SPH);
+	}
+}
+
+void	load_it(char **line, int i, t_material *m)
+{
+	char	**bum;
+
+	if (ft_strstrlen (line) < i || !line[i])
+		return ;
+	bum = split_line (line[i], ':', ':');
+	check_file (bum, m);
+	bum = split_line (line[ft_strstrlen (line) - 1], ':', ':');
+	check_file (bum, m);
 }
 
 void	init_spher(char **line, t_rt *rt, int id)
@@ -36,8 +46,10 @@ void	init_spher(char **line, t_rt *rt, int id)
 	double		raduis;
 	t_matrix	*tr;
 	t_color		*col;
+	int			len;
 
-	if (ft_strstrlen(line) != 4 && ft_strstrlen(line) != 5 && ft_strstrlen(line) != 6)
+	len = ft_strstrlen(line);
+	if (len != 4 && len != 5 && len != 6)
 		return (print_error(BAD_INFORM_SPH));
 	if (!is_float(line[2]))
 		return (print_error(INVALID_SPHERE_RD));
@@ -51,12 +63,8 @@ void	init_spher(char **line, t_rt *rt, int id)
 		scal_mat(raduis, raduis, raduis));
 	rt->world->object[rt->world->object_count].shape = \
 		*spher(cpv(0, 0, 0, 1), 1, id, tr);
-	if(ft_strstrlen(line) == 6 || ft_strstrlen(line) == 5)
-	{
-		rt->world->object[rt->world->object_count].shape.material->texter = load_it(line , 4);
-		if (ft_strstrlen(line) == 6)
-			rt->world->object[rt->world->object_count].shape.material->bump_map = load_it(line , 5);
-	}
+	if(len == 6 || len == 5)
+		load_it (line , 4, rt->world->object[rt->world->object_count].shape.material);
 	rt->world->object[rt->world->object_count].shape.material->color = *col;
 	rt->world->object_count++;
 }
@@ -94,70 +102,5 @@ void	init_plane(char **line, t_rt *rt, int id)
 	if (len == 6)
 		init_checker(&rt->world->object[i].shape_pl, line[4], line[5]);
 	rt->world->object[i].shape_pl.material->color = *col;
-	rt->world->object_count++;
-}
-
-void	init_cylinder(char **line, t_rt *rt, int id)
-{
-	t_tuple		*centre;
-	t_tuple		*normal;
-	t_matrix	*tr;
-	double		arr[4];
-	t_color		*col;
-
-	if (ft_strstrlen(line) != 6)
-		return (print_error(INVALID_CYL_DATA));
-	centre = char_to_vec(line[1], 1);
-	normal = char_to_vec(line[2], 0);
-	normalize(normal);
-	if (!is_float(line[3]) || !is_float(line[4]))
-		return (print_error(INVALID_CYL_D_H));
-	arr[0] = char_to_double(line[3]) / 2.0;
-	arr[1] = char_to_double(line[4]) / 2.0;
-	if (!(arr[0] >= 0 && arr[0] <= INT_MAX) \
-			|| !(arr[0] >= 0 && arr[0] <= INT_MAX))
-		return (print_error(INVALID_CYL_D_H));
-	arr[2] = -arr[1];
-	arr[3] = arr[1];
-	col = char_to_color(line[5]);
-	rt->world->object[rt->world->object_count].type = CYLINDER;
-	tr = mul_mat(mul_mat(transl_mat(centre->x, centre->y, centre->z), \
-	get_rotat_matrice(normal)), scal_mat(arr[0], 1, arr[0]));
-	rt->world->object[rt->world->object_count].shape_cyl = \
-		*cylinder((arr + 2), id, tr);
-	rt->world->object[rt->world->object_count].shape_cyl.material->color = *col;
-	rt->world->object_count++;
-}
-
-void	init_cone(char **line, t_rt *rt, int id)
-{
-	t_tuple		*centre;
-	t_tuple		*normal;
-	t_matrix	*tr;
-	double		arr[4];
-	t_color		*col;
-
-	if (ft_strstrlen(line) != 6)
-		return (print_error(INVALID_CO_DATA));
-	centre = char_to_vec(line[1], 1);
-	normal = char_to_vec(line[2], 0);
-	normalize(normal);
-	if (!is_float(line[3]) || !is_float(line[4]))
-		return (print_error(INVALID_CO_DATA));
-	arr[0] = char_to_double(line[3]) / 2.0 ;
-	arr[1] = char_to_double(line[4]) / 2.0;
-	if (!(arr[0] >= 0 && arr[0] <= INT_MAX) \
-			|| !(arr[0] >= 0 && arr[0] <= INT_MAX))
-		return (print_error(INVALID_CO_D_H));
-	arr[2] = -arr[1];
-	arr[3] = arr[1];
-	col = char_to_color(line[5]);
-	rt->world->object[rt->world->object_count].type = CONE;
-	tr = mul_mat(mul_mat(transl_mat(centre->x, centre->y + arr[1] / 2.0, \
-		centre->z), get_rotat_matrice(normal)), \
-			scal_mat(arr[0] / arr[1], 2, arr[0] / arr[1]));
-	rt->world->object[rt->world->object_count].shape_co = \
-		*cone((arr + 2), id, tr);
-	rt->world->object[rt->world->object_count].shape_co.material->color = *col;
 	rt->world->object_count++;
 }

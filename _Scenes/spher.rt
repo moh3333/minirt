@@ -1,11 +1,7 @@
-A 0.9 255,255,255
+A 0.1 255,255,255
 
-C 0,0,-50 0,0,1 60
+C 0,0,-10 0,0,1 90
 
-L 0,-10,-9 1 255,255,255
-pl 0,0,9 0,-1,0 255,255,255 6 checker:0,0,0
-pl 0,0,80 0,0,1 255,255,255 6 checker:0,0,0
-pl 60,0,0 1,0,0 255,255,255 6 checker:0,0,0
-pl -60,0,0 -1,0,0 255,255,255 6 checker:0,0,0
+L -10,10,-10 1 255,255,255
 
-sp 0,0,5 20 128,128,128 texter:rocky_terrain_02_diff_4k.png bump:rocky_terrain_02_disp_4k.png
+sp 0,0,0 6 255,0,0  texter:_Textures/black-wall-white-crack-texture-600nw-2503854815.png bump:_Textures/black-wall-white-crack-texture-600nw-2503854815.png

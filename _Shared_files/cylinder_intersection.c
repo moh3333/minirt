@@ -6,7 +6,7 @@
 /*   By: mthamir <mthamir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/26 16:20:45 by mthamir           #+#    #+#             */
-/*   Updated: 2025/02/26 16:21:20 by mthamir          ###   ########.fr       */
+/*   Updated: 2025/03/03 16:13:25 by mthamir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,10 +37,10 @@ void	*intersect_between_bounds(double arr[4], t_ray *r_ob_space, \
 	if (ret->t[0] > ret->t[1])
 		swap(&ret->t[0], &ret->t[1]);
 	in_bounds[0] = r_ob_space->o.y + ret->t[0] * r_ob_space->d.y;
-	if (!(cyl->min < in_bounds[0] && in_bounds[0] < cyl->max))
+	if (!(cyl->min <= in_bounds[0] && in_bounds[0] <= cyl->max))
 		ret->t[0] = -INFINITY;
 	in_bounds[1] = r_ob_space->o.y + ret->t[1] * r_ob_space->d.y;
-	if (!(cyl->min < in_bounds[1] && in_bounds[1] < cyl->max))
+	if (!(cyl->min <= in_bounds[1] && in_bounds[1] <= cyl->max))
 		ret->t[1] = -INFINITY;
 	return ("OK");
 }
@@ -54,7 +54,7 @@ t_intersect	*cyl_intersect(t_ray *r, t_cylinder *cyl)
 	ret = new_intersect();
 	r_ob_space = transform(r, cyl->inverse_m);
 	arr[0] = sq(r_ob_space->d.x) + sq(r_ob_space->d.z);
-	if (arr[0] > EPSILON)
+	if (arr[0] > 0.0)
 		if (!intersect_between_bounds(arr, r_ob_space, cyl, ret))
 			return (NULL);
 	intersect_caps_cyl(cyl, r_ob_space, &ret->t[0], &ret->t[1]);
@@ -67,7 +67,7 @@ t_intersect	*cyl_intersect(t_ray *r, t_cylinder *cyl)
 
 int	check_cap(t_ray *r, double t)
 {
-	return (((sq((r->o.x + t * r->d.x)) + sq((r->o.z + t * r->d.z))) <= 1));
+	return (((sq((r->o.x + (t * r->d.x))) + sq((r->o.z + (t * r->d.z)))) <= 1.0));
 }
 
 void	intersect_caps_cyl(t_cylinder *cyl, t_ray *r, double *t1, double *t2)
@@ -77,19 +77,9 @@ void	intersect_caps_cyl(t_cylinder *cyl, t_ray *r, double *t1, double *t2)
 	if (fabs(r->d.y) < EPSILON)
 		return ;
 	t = (cyl->min - r->o.y) / r->d.y;
-	if (check_cap(r, t))
-	{
-		if (*t1 == -INFINITY)
-			*t1 = t;
-		else if (*t2 == -INFINITY)
-			*t2 = t;
-	}
+	if (check_cap(r, t) && (*t1 == -INFINITY))
+		*t1 = t;
 	t = (cyl->max - r->o.y) / r->d.y;
-	if (check_cap(r, t))
-	{
-		if (*t1 == -INFINITY)
-			*t1 = t;
-		else if (*t2 == -INFINITY)
-			*t2 = t;
-	}
+	if (check_cap(r, t) && (*t2 == -INFINITY))
+		*t2 = t;
 }
