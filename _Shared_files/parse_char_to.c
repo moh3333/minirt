@@ -6,7 +6,7 @@
 /*   By: mthamir <mthamir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/26 16:15:33 by mthamir           #+#    #+#             */
-/*   Updated: 2025/02/26 16:16:00 by mthamir          ###   ########.fr       */
+/*   Updated: 2025/03/05 21:49:20 by mthamir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ t_tuple	*char_to_vec(char *cam_line, int type)
 	while (cord && cord[i])
 	{
 		if (!is_float(cord[i]))
-			return(print_error(INVALID_CORD), NULL);
+			return (print_error(INVALID_CORD), NULL);
 		arr[i] = char_to_double(cord[i]);
 		i++;
 	}
@@ -48,10 +48,16 @@ t_color	*char_to_color(char *s)
 			return (print_error(INVALID_COLOR), NULL);
 		arr[i] = char_to_double(col[i]);
 		if (arr[i] < 0 || arr[i] > 255)
-			return (print_error(COLOR_OUT_OF_RANG),NULL);
+			return (print_error(COLOR_OUT_OF_RANG), NULL);
 		i++;
 	}
 	return (new_color ((arr[0] / 255.0), (arr[1] / 255.0), (arr[2] / 255.0)));
+}
+
+static void	check_overflow(double num)
+{
+	if (num > 2147483647)
+		return (print_error(BIG_NUMBER));
 }
 
 double	char_to_double(char *s)
@@ -75,6 +81,7 @@ double	char_to_double(char *s)
 		if (*s == '.' && s++)
 			check_floating_point = 1;
 		result = (result * 10.0) + (*s - 48);
+		check_overflow (result);
 		if (check_floating_point)
 			i++;
 		s++;

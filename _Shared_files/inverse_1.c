@@ -6,7 +6,7 @@
 /*   By: mthamir <mthamir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/26 16:17:51 by mthamir           #+#    #+#             */
-/*   Updated: 2025/02/26 16:18:12 by mthamir          ###   ########.fr       */
+/*   Updated: 2025/03/05 20:34:01 by mthamir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,21 +40,17 @@ t_3_3	*sub_m3(t_matrix *a, int row, int col)
 	return (d);
 }
 
-/* is the determinant of a 3*3 submatrix after removing a row and col */
 double	ft_minor(t_3_3 *a, int row, int col)
 {
 	return (det_2(sub_m2(a, row, col)));
 }
 
-/* get the cofactor sign depending on 
-the case the row and col removed share in the matrix */
 double	cof_sign(int r, int c)
 {
 	if ((!(r % 2) && (c % 2)) || ((r % 2) && (!(c % 2))))
 		return (-1);
 	return (1);
 }
-/* gettin the cofactor of the 3*3 matrix */
 
 double	cof_3(t_3_3 *a, int row, int col )
 {

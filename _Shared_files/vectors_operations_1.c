@@ -6,7 +6,7 @@
 /*   By: mthamir <mthamir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/26 16:04:07 by mthamir           #+#    #+#             */
-/*   Updated: 2025/02/26 16:05:33 by mthamir          ###   ########.fr       */
+/*   Updated: 2025/03/05 20:47:55 by mthamir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,8 +36,6 @@ t_tuple	*tpl_o(t_tuple a, t_tuple b, double (*f)(double p1, double p2))
 	return (cpv(f(a.x, b.x), f(a.y, b.y), f(a.z, b.z), f(a.w, b.w)));
 }
 
-/*get the opposite vector if the given is 
-from a to b it will return the vector from b to a */
 void	opp(t_tuple *a)
 {
 	a->x *= -1.0;
@@ -45,8 +43,6 @@ void	opp(t_tuple *a)
 	a->z *= -1.0;
 }
 
-/* normalization its nedded when we have an arbitry
- vector mean a vector that u have the choise where it will goes */
 void	normalize(t_tuple *a)
 {
 	double	v;

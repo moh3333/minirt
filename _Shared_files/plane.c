@@ -6,7 +6,7 @@
 /*   By: mthamir <mthamir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/26 16:09:43 by mthamir           #+#    #+#             */
-/*   Updated: 2025/02/26 16:10:10 by mthamir          ###   ########.fr       */
+/*   Updated: 2025/03/05 20:39:06 by mthamir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,6 @@ t_plane	*plane(int id, t_matrix *tr)
 	pl->transform = tr;
 	pl->inverse_m = inverse(tr);
 	pl->transpose_inverse = transpose(pl->inverse_m);
-	pl->normalv = cpv(0,1,0,0);
+	pl->normalv = cpv(0, 1, 0, 0);
 	return (pl);
 }

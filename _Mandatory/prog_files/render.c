@@ -6,7 +6,7 @@
 /*   By: mthamir <mthamir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/06 16:22:21 by mthamir           #+#    #+#             */
-/*   Updated: 2025/02/25 14:44:08 by mthamir          ###   ########.fr       */
+/*   Updated: 2025/03/05 22:38:38 by mthamir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ void	handle_mlx_window(t_rt *rt, mlx_image_t *image)
 	mlx_key_hook(rt->cam->mlx, handle_keys, rt->cam->mlx);
 	mlx_loop(rt->cam->mlx);
 	mlx_terminate(rt->cam->mlx);
-	ft_malloc(0, FREE);
+	exit(0);
 }
 
 void	render(t_rt *rt)
@@ -62,7 +62,6 @@ void	render(t_rt *rt)
 	}
 	handle_mlx_window(rt, image);
 }
-
 
 int	main(int ac, char **av)
 {

@@ -6,7 +6,7 @@
 /*   By: mthamir <mthamir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/26 16:15:01 by mthamir           #+#    #+#             */
-/*   Updated: 2025/02/26 16:15:18 by mthamir          ###   ########.fr       */
+/*   Updated: 2025/03/05 21:47:09 by mthamir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,23 +21,20 @@ void	print_error(char *error)
 	while (error[i])
 		write (2, &error[i++], 1);
 	write (2, "\n", 1);
-	ft_malloc(0, FREE);
+	exit(0);
 }
-
 
 void	*ft_malloc(size_t size, int flag)
 {
-	static char bl[BLOCK_SIZE];
+	static char		bl[BLOCK_SIZE];
 	static t_pool	head;
 	void			*ret;
 
-	if (flag == FREE)
-		exit(0);
 	if (flag == INIT)
 		head.block = bl;
 	if (head.offset + size > BLOCK_SIZE)
-		return (print_error(MALLOC_FAILS), ft_malloc(0, FREE), NULL);
+		return (print_error(MALLOC_FAILS), exit(0), NULL);
 	ret = head.block + head.offset;
-	head.offset +=  size;
+	head.offset += size;
 	return (ret);
 }

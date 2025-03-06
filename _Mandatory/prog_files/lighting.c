@@ -6,7 +6,7 @@
 /*   By: mthamir <mthamir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/06 16:35:03 by mthamir           #+#    #+#             */
-/*   Updated: 2025/03/02 21:16:16 by mthamir          ###   ########.fr       */
+/*   Updated: 2025/03/05 20:03:25 by mthamir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,8 +33,8 @@ t_material	*material(void)
 t_color	*shade_hit(t_world *w, t_comps *comp)
 {
 	t_material	*m;
-	t_color *ambiant;
-	t_color *diffuse;
+	t_color		*ambiant;
+	t_color		*diffuse;
 
 	if (!comp)
 		return (new_color(0, 0, 0));

@@ -6,7 +6,7 @@
 /*   By: mthamir <mthamir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/26 16:13:12 by mthamir           #+#    #+#             */
-/*   Updated: 2025/02/26 16:13:37 by mthamir          ###   ########.fr       */
+/*   Updated: 2025/03/05 20:37:54 by mthamir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,8 @@ void	check_extension(char *file_name)
 		return (print_error(VALID_NAME));
 	while (file_name[i])
 		i++;
-	if (!(file_name[i-1] == 't' && file_name[i-2] == 'r' && file_name[i-3] == '.'))
+	if (!(file_name[i - 1] == 't' \
+		&& file_name[i - 2] == 'r' && file_name[i - 3] == '.'))
 		return (print_error(VALID_NAME));
 }
 

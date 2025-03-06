@@ -6,7 +6,7 @@
 /*   By: mthamir <mthamir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/06 16:31:21 by mthamir           #+#    #+#             */
-/*   Updated: 2025/02/26 15:05:06 by mthamir          ###   ########.fr       */
+/*   Updated: 2025/03/05 18:25:10 by mthamir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,6 @@ t_intersect	*world_intersection(t_world *world, t_ray *r)
 	t_intersect	*inter;
 	int			i;
 
-
 	i = 0;
 	inter = NULL;
 	head = NULL;
@@ -54,5 +53,3 @@ t_intersect	*world_intersection(t_world *world, t_ray *r)
 	}
 	return (get_first_intersect(head, r));
 }
-
-

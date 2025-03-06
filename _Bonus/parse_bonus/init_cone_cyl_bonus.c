@@ -6,7 +6,7 @@
 /*   By: mthamir <mthamir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/02 21:23:19 by mthamir           #+#    #+#             */
-/*   Updated: 2025/03/03 14:45:09 by mthamir          ###   ########.fr       */
+/*   Updated: 2025/03/05 22:46:07 by mthamir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,7 @@ void	init_cylinder(char **line, t_rt *rt, int id)
 		return (print_error(INVALID_CYL_DATA));
 	centre = char_to_vec(line[1], 1);
 	normal = char_to_vec(line[2], 0);
+	check_normal_range(normal);
 	normalize(normal);
 	if (!is_float(line[3]) || !is_float(line[4]))
 		return (print_error(INVALID_CYL_D_H));
@@ -63,6 +64,7 @@ void	init_cone(char **line, t_rt *rt, int id)
 		return (print_error(INVALID_CO_DATA));
 	centre = char_to_vec(line[1], 1);
 	normal = char_to_vec(line[2], 0);
+	check_normal_range(normal);
 	normalize(normal);
 	if (!is_float(line[3]) || !is_float(line[4]))
 		return (print_error(INVALID_CO_DATA));

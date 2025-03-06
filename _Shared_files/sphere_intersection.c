@@ -6,7 +6,7 @@
 /*   By: mthamir <mthamir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/26 16:08:09 by mthamir           #+#    #+#             */
-/*   Updated: 2025/02/26 16:08:38 by mthamir          ###   ########.fr       */
+/*   Updated: 2025/03/05 22:01:24 by mthamir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,6 @@ static double	*eq_inter(t_ray *ray1, double arr[])
 	return (arr);
 }
 
-/* check intersection between a ray and a spher */
 t_intersect	*intersect(t_ray *ray, t_spher *sph)
 {
 	t_intersect	*inter;
@@ -31,7 +30,7 @@ t_intersect	*intersect(t_ray *ray, t_spher *sph)
 	ray1 = transform(ray, sph->inverse_m);
 	eq_inter(ray1, arr);
 	inter = new_intersect();
-	if (!inter || arr[3] < EPSILON)
+	if (!inter || arr[3] < 0.0)
 		return (NULL);
 	arr[4] = (2 * (arr[0]));
 	arr[5] = sqrt(arr[3]);

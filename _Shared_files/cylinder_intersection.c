@@ -6,7 +6,7 @@
 /*   By: mthamir <mthamir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/26 16:20:45 by mthamir           #+#    #+#             */
-/*   Updated: 2025/03/03 16:13:25 by mthamir          ###   ########.fr       */
+/*   Updated: 2025/03/05 22:36:58 by mthamir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,10 +37,10 @@ void	*intersect_between_bounds(double arr[4], t_ray *r_ob_space, \
 	if (ret->t[0] > ret->t[1])
 		swap(&ret->t[0], &ret->t[1]);
 	in_bounds[0] = r_ob_space->o.y + ret->t[0] * r_ob_space->d.y;
-	if (!(cyl->min <= in_bounds[0] && in_bounds[0] <= cyl->max))
+	if (!(cyl->min < in_bounds[0] && in_bounds[0] < cyl->max))
 		ret->t[0] = -INFINITY;
 	in_bounds[1] = r_ob_space->o.y + ret->t[1] * r_ob_space->d.y;
-	if (!(cyl->min <= in_bounds[1] && in_bounds[1] <= cyl->max))
+	if (!(cyl->min < in_bounds[1] && in_bounds[1] < cyl->max))
 		ret->t[1] = -INFINITY;
 	return ("OK");
 }
@@ -67,7 +67,8 @@ t_intersect	*cyl_intersect(t_ray *r, t_cylinder *cyl)
 
 int	check_cap(t_ray *r, double t)
 {
-	return (((sq((r->o.x + (t * r->d.x))) + sq((r->o.z + (t * r->d.z)))) <= 1.0));
+	return (((sq((r->o.x + (t * r->d.x))) \
+		+ sq((r->o.z + (t * r->d.z)))) <= 1.0));
 }
 
 void	intersect_caps_cyl(t_cylinder *cyl, t_ray *r, double *t1, double *t2)

@@ -6,7 +6,7 @@
 /*   By: mthamir <mthamir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/26 15:49:45 by mthamir           #+#    #+#             */
-/*   Updated: 2025/03/03 21:14:01 by mthamir          ###   ########.fr       */
+/*   Updated: 2025/03/06 20:14:37 by mthamir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ void	init_ambiant(char **line, int exist, t_rt *rt)
 void	init_camera(char **line, int exist, t_rt *rt)
 {
 	double	fov;
-	t_tuple *vec;
+	t_tuple	*vec;
 	t_tuple	*ori;
 
 	if (exist)
@@ -43,13 +43,12 @@ void	init_camera(char **line, int exist, t_rt *rt)
 	if (!is_float(line[3]))
 		return (print_error(INVALID_FOV));
 	vec = char_to_vec(line[2], 1);
-	if (magnitude(*vec) != 1)
-		normalize(vec);
+	normalize(vec);
 	fov = char_to_double(line[3]);
 	ori = char_to_vec(line[1], 1);
 	if (fov < 0.0 || fov >= 180.0)
 		return (print_error(INVALID_FOV));
-	rt->cam = new_camera(1200, 600, radians(fov), \
+	rt->cam = new_camera(WIDTH, HIGHT, radians(fov), \
 		view_transformation (ori, vec, cpv(0, 1, 0, 0)));
 	rt->cam->origine = ori;
 }

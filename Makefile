@@ -6,7 +6,7 @@
 #    By: mthamir <mthamir@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/12/12 17:40:42 by mthamir           #+#    #+#              #
-#    Updated: 2025/03/05 16:23:15 by mthamir          ###   ########.fr        #
+#    Updated: 2025/03/05 20:48:39 by mthamir          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -31,7 +31,7 @@ _Shared_files/parse_split.c _Shared_files/parse_utils_0.c \
 _Shared_files/parse_utils_1.c _Shared_files/plane_intersction.c \
 _Shared_files/plane.c _Shared_files/rays_operations.c \
 _Shared_files/sphere_intersection.c _Shared_files/sphere.c \
-_Shared_files/vectors_operation_2.c _Shared_files/vectors_operations_0.c \
+_Shared_files/vectors_operations_2.c _Shared_files/vectors_operations_0.c \
 _Shared_files/vectors_operations_1.c
 
 SRC :=  _Mandatory/parse/check_identfier.c _Mandatory/parse/init_lighting.c \
@@ -58,17 +58,17 @@ OBJ_BONUS := $(SRC_BONUS:bonus.c=bonus.o) $(OBJ_SH)
 MLXF	=	-framework Cocoa -framework OpenGL -framework IOKit -lglfw -L/Users/$(shell whoami)/.brew/opt/glfw/lib 
 
 
-STRUCT_HEADER := _Shared_files/includes/structs.h
+STRUCT_HEADER := ./_Shared_files/includes/structs.h
 
-MACROS_HEADER := _Shared_files/includes/macros.h
+MACROS_HEADER := ./_Shared_files/includes/macros.h
 
-UTILS_HEADER := _Shared_files/includes/minirt_utils.h
+UTILS_HEADER := ./_Shared_files/includes/minirt_utils.h
 
 SH_HEADERS := $(STRUCT_HEADER) $(MACROS_HEADER) $(UTILS_HEADER)
 
-HEADER :=   _Shared_files/includes/minirt_utils.h
+HEADER :=  ./_Shared_files/includes/minirt_utils.h
 
-HEADER_BONUS := _Bonus/includes_bonus/minirt_bonus.h
+HEADER_BONUS := ./_Bonus/includes_bonus/minirt_bonus.h
 
 all : $(NAME)
 
@@ -84,10 +84,10 @@ $(NAME_BONUS) : $(OBJ_BONUS) $(HEADER_BONUS) $(SH_HEADERS)
 	make -C MlX42
 	$(CC) $(FLAGS) $(MLXF) $(OBJ_BONUS) $(MLX) -o $(NAME_BONUS)
 
-%.o : %.c 
+%.o : %.c $(HEADER) $(SH_HEADERS)
 	$(CC) $(FLAGS) -c $< -o $@
 
-%bonus.o : %bonus.c $(HEADER_BONUS)
+%bonus.o : %bonus.c $(HEADER_BONUS) $(SH_HEADERS)
 	$(CC) $(FLAGS) -c $< -o $@
 
 clean :

@@ -6,7 +6,7 @@
 /*   By: mthamir <mthamir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/26 16:17:11 by mthamir           #+#    #+#             */
-/*   Updated: 2025/02/26 16:17:34 by mthamir          ###   ########.fr       */
+/*   Updated: 2025/03/05 20:34:18 by mthamir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,6 @@ t_2_2	*sub_m2(t_3_3 *a, int row, int col)
 	return (d);
 }
 
-/* get determinant of 2*2 matrix */
 double	det_2(t_2_2 *a)
 {
 	return (sub(mul(a->matrix[0][0], a->matrix[1][1]), \

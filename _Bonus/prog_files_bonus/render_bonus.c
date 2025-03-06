@@ -6,7 +6,7 @@
 /*   By: mthamir <mthamir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/06 16:22:21 by mthamir           #+#    #+#             */
-/*   Updated: 2025/03/05 16:23:07 by mthamir          ###   ########.fr       */
+/*   Updated: 2025/03/05 22:09:10 by mthamir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,12 +40,9 @@ void	handle_mlx_window(t_rt *rt, mlx_image_t *image)
 	mlx_key_hook(rt->cam->mlx, handle_keys, rt->cam->mlx);
 	mlx_loop(rt->cam->mlx);
 	mlx_terminate(rt->cam->mlx);
-	ft_malloc(0, FREE);
+	exit(0);
 }
-void f()
-{
-	system("leaks miniRT_bonus");
-}
+
 void	render(t_rt *rt)
 {
 	double			x;
@@ -79,7 +76,6 @@ int	main(int ac, char **av)
 	t_line	l;
 	t_rt	rt;
 
-	atexit(f);
 	if (ac == 2)
 	{
 		ft_malloc(0, INIT);
@@ -88,6 +84,8 @@ int	main(int ac, char **av)
 		if (!l.line[0])
 			return (1);
 		parse_init_structs(&l, &rt);
+		if (!rt.cam)
+			return (print_error(NO_CAM), 1);
 		render(&rt);
 	}
 }

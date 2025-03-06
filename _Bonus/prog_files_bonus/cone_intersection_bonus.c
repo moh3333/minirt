@@ -6,7 +6,7 @@
 /*   By: mthamir <mthamir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/16 15:51:12 by mthamir           #+#    #+#             */
-/*   Updated: 2025/03/03 17:41:15 by mthamir          ###   ########.fr       */
+/*   Updated: 2025/03/05 18:24:13 by mthamir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,24 +60,9 @@ t_intersect	*cone_intersect(t_ray *r, t_cone *co)
 		first_algo(arr, ret);
 	if (!intersect_between_co_bounds(arr, r_ob_space, co, ret))
 		return (NULL);
-	// intersect_caps_co(co, r_ob_space, &ret->t[0], &ret->t[1]);
 	ret->object.shape_co = *co;
 	ret->object.type = CONE;
 	ret->ray = r_ob_space;
 	ret->next = NULL;
 	return (ret);
-}
-
-void	intersect_caps_co(t_cone *co, t_ray *r, double *t1, double *t2)
-{
-	double	t;
-
-	if (fabs(r->d.y) < EPSILON)
-		return ;
-	t = (co->min - r->o.y) / r->d.y;
-	if (check_cap(r, t) && (*t1 == -INFINITY))
-			*t1 = t;
-	t = (co->max - r->o.y) / r->d.y;
-	if (check_cap(r, t) && (*t2 == -INFINITY))
-			*t2 = t;
 }

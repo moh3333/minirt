@@ -6,7 +6,7 @@
 /*   By: mthamir <mthamir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/26 16:22:17 by mthamir           #+#    #+#             */
-/*   Updated: 2025/03/03 20:09:48 by mthamir          ###   ########.fr       */
+/*   Updated: 2025/03/05 20:31:06 by mthamir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,8 @@
 
 t_world	*world(void)
 {
-	t_world *ret;
-	
+	t_world	*ret;
+
 	ret = ft_malloc(sizeof(t_world), 0);
 	ret->object_count = 0;
 	ret->light_count = 0;

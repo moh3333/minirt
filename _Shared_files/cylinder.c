@@ -6,7 +6,7 @@
 /*   By: mthamir <mthamir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/26 16:20:05 by mthamir           #+#    #+#             */
-/*   Updated: 2025/03/03 16:30:12 by mthamir          ###   ########.fr       */
+/*   Updated: 2025/03/05 20:32:21 by mthamir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,8 +26,6 @@ t_cylinder	*cylinder(double *trunc, int id, t_matrix *tr)
 	cyl->transpose_inverse = transpose(cyl->inverse_m);
 	return (cyl);
 }
-
-
 
 t_tuple	*normal_at_cyl(t_cylinder *cyl, t_tuple *p_)
 {

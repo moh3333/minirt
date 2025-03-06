@@ -6,7 +6,7 @@
 /*   By: mthamir <mthamir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/26 16:21:35 by mthamir           #+#    #+#             */
-/*   Updated: 2025/02/26 16:22:01 by mthamir          ###   ########.fr       */
+/*   Updated: 2025/03/05 20:32:02 by mthamir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,6 @@ uint64_t	get_col(t_color *color)
 		((uint64_t)g << 16) | ((uint64_t)b << 8) | 0xFF);
 }
 
-/* colors addition and subtraction */
 t_color	*colors_operation(t_color *a, t_color *b, \
 	double (*f) (double a, double b))
 {
@@ -45,17 +44,15 @@ t_color	*colors_operation(t_color *a, t_color *b, \
 	if (!b)
 		return (a);
 	if (!a && !b)
-		return (new_color(0,0,0));
+		return (new_color(0, 0, 0));
 	return (new_color(f(a->r, b->r), f(a->g, b->g), f(a->b, b->b)));
 }
 
-/* colors multiplication with a scalar */
 t_color	*color_s_mul(t_color *a, double scalar)
 {
 	return (new_color(mul(a->r, scalar), mul(a->g, scalar), mul(a->b, scalar)));
 }
 
-/* get teh rgba format of a color from a number */
 t_color	*to_rgba(double color)
 {
 	return (new_color((((uint64_t)color >> 16) & 0xFF) / 255.0, \

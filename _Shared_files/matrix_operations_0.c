@@ -6,7 +6,7 @@
 /*   By: mthamir <mthamir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/26 16:16:29 by mthamir           #+#    #+#             */
-/*   Updated: 2025/02/26 16:16:58 by mthamir          ###   ########.fr       */
+/*   Updated: 2025/03/05 20:34:49 by mthamir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,6 @@ t_matrix	*i_mat(double diagonal)
 	return (a);
 }
 
-/* get the translation matrix we need to translate a point */
 t_matrix	*transl_mat(double x, double y, double z)
 {
 	t_matrix	*ret;
@@ -48,7 +47,6 @@ t_matrix	*transl_mat(double x, double y, double z)
 	return (ret);
 }
 
-/* get the scalling matrix */
 t_matrix	*scal_mat(double x, double y, double z)
 {
 	t_matrix	*ret;
@@ -60,8 +58,6 @@ t_matrix	*scal_mat(double x, double y, double z)
 	return (ret);
 }
 
-/*transpose take a matrix and change 
-its rows to collomns and its collomns to rows */
 t_matrix	*transpose(t_matrix *a)
 {
 	t_matrix	*ret;
