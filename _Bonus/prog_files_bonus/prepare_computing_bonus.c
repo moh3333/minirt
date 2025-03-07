@@ -63,7 +63,7 @@ t_comps	*prepare_computing(t_intersect *list, t_ray *r)
 		comp->normalv = normal_at_cyl(&comp->object.shape_cyl, comp->point);
 	else if (comp->object.type == CONE)
 		comp->normalv = normal_at_co(&comp->object.shape_co, comp->point);
-	if (dot_p(*comp->normalv, *comp->eyev) <= 0.0)
+	if (dot_p(*comp->normalv, *comp->eyev) < 0.0)
 		opp(comp->normalv);
 	return (comp);
 }
