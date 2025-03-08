@@ -6,7 +6,7 @@
 /*   By: mthamir <mthamir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/02 21:49:50 by mthamir           #+#    #+#             */
-/*   Updated: 2025/03/05 18:24:46 by mthamir          ###   ########.fr       */
+/*   Updated: 2025/03/08 01:02:24 by mthamir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,8 +50,8 @@ t_color	*shade_hit(t_world *w, t_comps *comp, t_tuple *eyev)
 	{
 		if (!in_shadow(w, comp, i) || \
 			(comp->object.type == SPHER && (m->texter || m->bump_map)))
-			specular_diffuse = colors_operation(specular_diffuse, \
-			compute_lightning_b(&w->light[i], comp, eyev, col), add);
+				specular_diffuse = colors_operation(specular_diffuse, \
+				compute_lightning_b(&w->light[i], comp, eyev, col), add);
 		i++;
 	}
 	return (colors_operation(ambiant, specular_diffuse, add));

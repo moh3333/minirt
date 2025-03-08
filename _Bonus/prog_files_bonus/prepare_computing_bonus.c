@@ -30,16 +30,9 @@ bool	in_shadow(t_world *w, t_comps *comp, int i)
 	normalize(shadow_ray);
 	r1 = ray(*comp->point, *shadow_ray);
 	inter = world_intersection(w, r1);
-	if (inter && inter->t[0] > 0.0 && (inter->t[0] - distance) < 0.0)
+	if (inter && (distance - inter->t[0]) >= EPSILON)
 		comp->shadow = true;
 	return (comp->shadow);
-}
-
-void	is_sphere(t_comps *comp)
-{
-	comp->normalv = normal_at(&comp->object.shape, comp->point);
-	if (dot_p(*comp->normalv, *comp->eyev) < 0.0)
-		opp(comp->normalv);
 }
 
 t_comps	*prepare_computing(t_intersect *list, t_ray *r)
@@ -55,7 +48,7 @@ t_comps	*prepare_computing(t_intersect *list, t_ray *r)
 	comp->eyev = cpv(r->d.x, r->d.y, r->d.z, 0);
 	opp(comp->eyev);
 	if (comp->object.type == SPHER)
-		is_sphere(comp);
+	comp->normalv = normal_at(&comp->object.shape, comp->point);
 	else if (comp->object.type == PLANE)
 		comp->normalv = tup_mat_mul(comp->object.shape_pl.transform, \
 		comp->object.shape_pl.normalv);

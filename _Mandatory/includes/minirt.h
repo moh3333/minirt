@@ -6,7 +6,7 @@
 /*   By: mthamir <mthamir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/28 15:23:22 by mthamir           #+#    #+#             */
-/*   Updated: 2025/03/05 18:27:21 by mthamir          ###   ########.fr       */
+/*   Updated: 2025/03/07 23:23:13 by mthamir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,6 @@ t_color		*compute_lightning_m(t_material *m, \
 t_intersect	*new_intersect(void);
 t_comps		*new_comps(void);
 bool		in_shadow(t_world *w, t_comps *comp);
-void		is_sphere(t_comps *comp);
 t_comps		*prepare_computing(t_intersect *list, t_ray *r, t_world *w);
 t_color		*color_at(t_world *w, t_ray *r);
 void		handle_keys(mlx_key_data_t keydata, void *param);

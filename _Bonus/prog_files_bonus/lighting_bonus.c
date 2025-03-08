@@ -6,7 +6,7 @@
 /*   By: mthamir <mthamir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/06 16:35:03 by mthamir           #+#    #+#             */
-/*   Updated: 2025/03/03 16:39:59 by mthamir          ###   ########.fr       */
+/*   Updated: 2025/03/08 01:02:31 by mthamir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ t_color	*compute_specular(t_light *light, \
 	opp(lightv);
 	normalize(lightv);
 	reflect_dot_eye = dot_p(*reflect(*lightv, *normalv), *eyev);
-	if (reflect_dot_eye <= 0.0)
+	if (reflect_dot_eye < 0.0)
 		return (NULL);
 	factor = pow(reflect_dot_eye, 200.0);
 	return (color_s_mul(&light->color, (0.7 * factor)));

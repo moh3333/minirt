@@ -6,7 +6,7 @@
 /*   By: mthamir <mthamir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/06 16:38:09 by mthamir           #+#    #+#             */
-/*   Updated: 2025/03/06 21:11:47 by mthamir          ###   ########.fr       */
+/*   Updated: 2025/03/07 23:43:31 by mthamir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ bool	in_shadow(t_world *w, t_comps *comp)
 	normalize(shadow_ray);
 	r1 = ray(*comp->point, *shadow_ray);
 	inter = world_intersection(w, r1);
-	if (inter && inter->t[0] > 0.0 && (distance - inter->t[0]) > 0.0)
+	if (inter && inter->t[0] >= 0.0 && (distance - inter->t[0]) >= 0.0)
 		comp->shadow = true;
 	return (comp->shadow);
 }

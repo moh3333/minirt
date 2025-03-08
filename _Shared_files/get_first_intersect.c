@@ -6,7 +6,7 @@
 /*   By: mthamir <mthamir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/26 16:19:09 by mthamir           #+#    #+#             */
-/*   Updated: 2025/03/07 21:20:03 by mthamir          ###   ########.fr       */
+/*   Updated: 2025/03/08 01:14:59 by mthamir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,14 +41,14 @@ t_intersect	*get_first_intersect(t_intersect *list, t_ray *r)
 
 double	get_closest(double *t)
 {
-	if (t[0] <= 0.0 && t[1] > EPSILON)
+	if (t[0] < EPSILON && t[1] >= EPSILON)
 		return (t[1]);
-	else if (t[1] <= 0.0 && t[0] > EPSILON)
+	else if (t[1] <= EPSILON && t[0] >= EPSILON)
 		return (t[0]);
 	return (fmin(t[0], t[1]));
 }
 
 double	hit(double *arr)
 {
-	return (!(arr[0] < 0.0 && arr[1] < 0.0));
+	return ((arr[0] >= EPSILON || arr[1] >= EPSILON));
 }

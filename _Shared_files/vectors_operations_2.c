@@ -6,7 +6,7 @@
 /*   By: mthamir <mthamir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/25 20:09:20 by mthamir           #+#    #+#             */
-/*   Updated: 2025/03/06 18:10:09 by mthamir          ###   ########.fr       */
+/*   Updated: 2025/03/07 23:29:28 by mthamir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,9 +24,8 @@ t_tuple	*reflect(t_tuple in, t_tuple normal)
 
 void	check_normal_range(t_tuple *normal)
 {
-	if (!(normal->x >= 0.0 && normal->x <= 1.0) && \
-	(normal->y >= 0.0 && normal->y <= 1.0) && \
-	(normal->z >= 0.0 && normal->z <= 1.0))
+	if (!(normal->x >= -1.0 && normal->x <= 1.0) && \
+	(normal->y >= -1.0 && normal->y <= 1.0) && \
+	(normal->z >= -1.0 && normal->z <= 1.0))
 		return (print_error(INVALID_NORMAL));
-	printf("%f  %f  %f\n", normal->x, normal->y, normal->z);
 }

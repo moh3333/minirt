@@ -6,20 +6,20 @@ L 0,10,-50 0.8 255,0,0
 L -10,10,-50 0.8 0,255,0
 L 10,10,-50 0.8 0,0,255
 
-sp -14,10,-40 2 255,51,0  bump:_Textures/black_sphere_white/black-wall-white-crack-texture-600nw-2503854815.png
-co -14,10,-40 0,1,0 2  12 255,255,0
+sp -18,10,-20 2 255,51,0  
+co -18,10,-20 0,1,0 4  20 255,255,0
 
-sp -7,10,-20 2 255,51,0  bump:_Textures/black_sphere_white/black-wall-white-crack-texture-600nw-2503854815.png
-co -7,10,-20 0,1,0 2  12 255,255,0
+sp -9,10,0 2 255,51,0 
+co -9,10,0 0,1,0 4  20 255,255,0
 
-sp 0,10,0 2 255,51,0  bump:_Textures/black_sphere_white/black-wall-white-crack-texture-600nw-2503854815.png
-co 0,10,0 0,1,0 2  12 255,255,0
+sp 0,10,5 2 255,51,0  
+co 0,10,5 0,1,0 4  20 255,255,0
 
-sp 7,10,-20 2 255,51,0  bump:_Textures/black_sphere_white/black-wall-white-crack-texture-600nw-2503854815.png
-co 7,10,-20 0,1,0 2  12 255,255,0
+sp 9,10,0 2 255,51,0 
+co 9,10,0 0,1,0 4  20 255,255,0
 
-sp 14,10,-40 2 255,51,0  bump:_Textures/black_sphere_white/black-wall-white-crack-texture-600nw-2503854815.png
-co 14,10,-40 0,1,0 2  12 255,255,0
+sp 18,10,-20 2 255,51,0 
+co 18,10,-20 0,1,0 4  20 255,255,0
 
 
 sp -10,2,-20 4 255,0,0
@@ -31,4 +31,4 @@ sp 10,2,-20 4 255,0,0
 cy 30,5,-40 0,1,0 6  40 255,0,0
 cy -30,5,-40 0,1,0 6  40 255,0,0
 
-pl 0,0,-40 0,1,0 0,255,0  6 checker:0,0,255
+pl 0,0,-40 0,1,0 255,255,255 6 checker:0,0,0

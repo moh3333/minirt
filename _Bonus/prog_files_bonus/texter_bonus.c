@@ -6,7 +6,7 @@
 /*   By: mthamir <mthamir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/27 15:18:47 by mthamir           #+#    #+#             */
-/*   Updated: 2025/03/05 16:18:36 by mthamir          ###   ########.fr       */
+/*   Updated: 2025/03/08 01:41:39 by mthamir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,13 +54,21 @@ t_color	*spher_texter(t_spher *sp, t_material *m, t_comps *comp)
 	t_tuple			*obj_point;
 	int				x;
 	int				y;
+	int arr[2];
 	unsigned char	*pixel;
+	double a[2];
+
 
 	obj_point = tup_mat_mul(sp->inverse_m, comp->point);
-	x = (int) round((atan2(obj_point->z, obj_point->x) + M_PI) / (2.0 * M_PI) \
+	a[0] = (atan2(obj_point->z, obj_point->x) + M_PI) / (2.0 * M_PI);
+	a[1] = (M_PI - acos(obj_point->y)) / M_PI;
+	x = (int) round(a[0] \
 		* (m->texter->width - 1));
-	y = (int) round((1.0 - ((M_PI - acos(obj_point->y)) / M_PI)) \
-		* (m->texter->height - 1));
+	y = (int) round((1.0 - a[1]) * (m->texter->height - 1));
+	arr[0] = (int)floor(a[0]*20);
+	arr[1] = (int)floor(a[1]*20);
+	if ((arr[0] + arr[1]) % 2 == 0)
+		return new_color(0,0,0);
 	pixel = &m->texter->pixels[(y * m->texter->width + x) * 4];
 	return (new_color(pow(pixel[0] / 255.0, 2.2), \
 		pow(pixel[1] / 255.0, 2.2), pow(pixel[2] / 255.0, 2.2)));
