@@ -6,7 +6,7 @@
 /*   By: mthamir <mthamir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/26 16:07:31 by mthamir           #+#    #+#             */
-/*   Updated: 2025/03/02 21:33:01 by mthamir          ###   ########.fr       */
+/*   Updated: 2025/03/09 21:27:23 by mthamir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,8 @@ t_spher	*spher(t_tuple *center, double raduis, int id, t_matrix *tr)
 	ret->id = id;
 	ret->transform = tr;
 	ret->material = material();
+	ret->material->bump_map = NULL;
+	ret->material->texter = NULL;
 	ret->inverse_m = inverse(ret->transform);
 	ret->transpose_in = transpose(ret->inverse_m);
 	return (ret);

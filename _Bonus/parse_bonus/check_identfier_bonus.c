@@ -6,7 +6,7 @@
 /*   By: mthamir <mthamir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/06 17:27:52 by mthamir           #+#    #+#             */
-/*   Updated: 2025/02/26 17:14:59 by mthamir          ###   ########.fr       */
+/*   Updated: 2025/03/09 19:57:23 by mthamir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,9 +44,7 @@ void	init_struct(char **line, t_rt *rt)
 		(check_identifier[1])++;
 	}
 	else if (ft_strcmp(line[0], "L"))
-	{
 		init_light(line, rt);
-	}
 	else
 		init_objects(line, rt);
 }

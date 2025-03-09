@@ -6,7 +6,7 @@
 #    By: mthamir <mthamir@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/12/12 17:40:42 by mthamir           #+#    #+#              #
-#    Updated: 2025/03/05 20:48:39 by mthamir          ###   ########.fr        #
+#    Updated: 2025/03/09 21:59:12 by mthamir          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -47,7 +47,7 @@ SRC_BONUS :=  _Bonus/parse_bonus/check_identfier_bonus.c _Bonus/parse_bonus/init
 	_Bonus/prog_files_bonus/prepare_computing_bonus.c _Bonus/prog_files_bonus/render_bonus.c \
 	_Bonus/prog_files_bonus/world_intersection_bonus.c _Bonus/parse_bonus/init_ambiant_cam_bonus.c \
 	_Bonus/prog_files_bonus/texter_bonus.c _Bonus/parse_bonus/init_cone_cyl_bonus.c \
-	_Bonus/prog_files_bonus/phong_phony_bonus.c
+	_Bonus/prog_files_bonus/phong_phony_bonus.c _Bonus/parse_bonus/additional_bonus.c
 
 OBJ_SH := $(SHARED_SRC:.c=.o)
 
@@ -55,7 +55,7 @@ OBJ := $(SRC:.c=.o) $(OBJ_SH)
 
 OBJ_BONUS := $(SRC_BONUS:bonus.c=bonus.o) $(OBJ_SH)
 
-MLXF	=	-framework Cocoa -framework OpenGL -framework IOKit -lglfw -L/Users/$(shell whoami)/.brew/opt/glfw/lib 
+MLXF	=	-framework Cocoa -framework OpenGL -lglfw -L/Users/$(shell whoami)/.brew/opt/glfw/lib 
 
 
 STRUCT_HEADER := ./_Shared_files/includes/structs.h
@@ -66,7 +66,7 @@ UTILS_HEADER := ./_Shared_files/includes/minirt_utils.h
 
 SH_HEADERS := $(STRUCT_HEADER) $(MACROS_HEADER) $(UTILS_HEADER)
 
-HEADER :=  ./_Shared_files/includes/minirt_utils.h
+HEADER :=  ./_Mandatory/includes/minirt.h
 
 HEADER_BONUS := ./_Bonus/includes_bonus/minirt_bonus.h
 

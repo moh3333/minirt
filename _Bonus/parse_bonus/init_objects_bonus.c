@@ -6,7 +6,7 @@
 /*   By: mthamir <mthamir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/06 17:30:25 by mthamir           #+#    #+#             */
-/*   Updated: 2025/03/06 20:21:23 by mthamir          ###   ########.fr       */
+/*   Updated: 2025/03/09 21:57:47 by mthamir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,16 +16,22 @@ void	check_file(char **bum, t_material *m)
 {
 	if (bum && ft_strcmp (bum[0], "texter") && bum[1])
 	{
-		m->texter = mlx_load_png(bum[1]);
+		if (m->texter)
+			return (print_error(DOUBLE_TEX));
+		m->texter = mlx_load_png (bum[1]);
 		if (!m->texter)
 			print_error(BAD_INFORM_SPH);
 	}
 	else if (bum && (ft_strcmp (bum[0], "bump") && bum[1]))
 	{
+		if (m->bump_map)
+			return (print_error(DOUBLE_BUMP));
 		m->bump_map = mlx_load_png(bum[1]);
 		if (!m->bump_map)
 			print_error(BAD_INFORM_SPH);
 	}
+	else
+		return (print_error(BAD_PARAM_IN_FILE));
 }
 
 void	load_it(char **line, int i, t_material *m)
@@ -36,8 +42,11 @@ void	load_it(char **line, int i, t_material *m)
 		return ;
 	bum = split_line (line[i], ':', ':');
 	check_file (bum, m);
-	bum = split_line (line[ft_strstrlen (line) - 1], ':', ':');
-	check_file (bum, m);
+	if (ft_strstrlen(line) > i + 1)
+	{
+		bum = split_line (line[ft_strstrlen (line) - 1], ':', ':');
+		check_file (bum, m);
+	}
 }
 
 void	init_spher(char **line, t_rt *rt, int id)
@@ -63,22 +72,10 @@ void	init_spher(char **line, t_rt *rt, int id)
 		scal_mat(raduis, raduis, raduis));
 	rt->world->object[rt->world->object_count].shape = \
 		*spher(cpv(0, 0, 0, 1), 1, id, tr);
-	if (len == 6 || len == 5)
-		load_it(line, 4, \
-		rt->world->object[rt->world->object_count].shape.material);
+	if (len > 4)
+		additional_features(&rt->world->object[rt->world->object_count], line);
 	rt->world->object[rt->world->object_count].shape.material->color = *col;
 	rt->world->object_count++;
-}
-
-void	init_checker(t_plane *pl, char *scl, char *line)
-{
-	char	**lines;
-
-	lines = split_line(line, ':', ':');
-	if (ft_strstrlen(lines) != 2)
-		return (print_error(BAD_INFORM_PL_CK));
-	pl->material->checker = char_to_double(scl);
-	pl->material->pattern_color = *char_to_color(lines[1]);
 }
 
 void	init_plane(char **line, t_rt *rt, int id)
@@ -98,11 +95,11 @@ void	init_plane(char **line, t_rt *rt, int id)
 	check_normal_range(normal);
 	normalize(normal);
 	point = char_to_vec(line[1], 1);
-	rt->world->object[rt->world->object_count].type = PLANE;
-	rt->world->object[rt->world->object_count].shape_pl = *plane(id, mul_mat \
+	rt->world->object[i].type = PLANE;
+	rt->world->object[i].shape_pl = *plane(id, mul_mat \
 		(transl_mat(point->x, point->y, point->z), get_rotat_matrice(normal)));
 	if (len == 6)
-		init_checker(&rt->world->object[i].shape_pl, line[4], line[5]);
+		init_checker(&rt->world->object[i], line[4], line[5]);
 	rt->world->object[i].shape_pl.material->color = *col;
 	rt->world->object_count++;
 }

@@ -6,7 +6,7 @@
 /*   By: mthamir <mthamir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/26 14:03:27 by mthamir           #+#    #+#             */
-/*   Updated: 2025/03/06 18:23:54 by mthamir          ###   ########.fr       */
+/*   Updated: 2025/03/09 22:03:17 by mthamir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,15 +43,20 @@
 # define INVALID_AMB_N		"Invalid Ambiant Ratio Should Be a Number"
 # define INVALID_AMB_R		"Invalid Ambiant Ratio Out Of Range <<0.0 --- 1.0>>"
 # define INVALID_NORMAL		"Invalid Normal Out Of Range <<0.0 --- 1.0>>"
-# define BAD_INFORM_SPH		"Spher Bad Number Of Param"
+# define BAD_INFORM_SPH		"Spher Bad Params"
 # define INVALID_SPHERE_RD	"Invalid Spher Raduis Should Be a Positive Number "
 # define BAD_INFORM_PL		"Plane Bad Number Of Param"
 # define BAD_INFORM_PL_CK	"Plane Checker Bad Param"
+# define BAD_INFORM_SP_CK	"Spher Checker Bad Param"
+# define UKNOWN				"Uknown Feature"
 # define INVALID_CYL_DATA	"Cylinder Bad Number Of Param"
 # define INVALID_CYL_D_H	"Cylinder Hight And Diametre Should Be  Numbers"
 # define INVALID_CO_DATA	"Cone Bad Number Of Param"
 # define INVALID_CO_D_H		"Cone Hight And Diametre Should Be  Numbers"
 # define VALID_NAME			"Programe Require Filename.rt Extention File"
 # define OPEN_FAILS			"Can't Open File"
+# define BAD_PARAM_IN_FILE	"Bad Param In File"
+# define DOUBLE_BUMP		"C'ant Use More Than One Bump"
+# define DOUBLE_TEX			"C'ant Use More Than One Texture"
 
 #endif

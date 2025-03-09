@@ -48,7 +48,7 @@ t_comps	*prepare_computing(t_intersect *list, t_ray *r)
 	comp->eyev = cpv(r->d.x, r->d.y, r->d.z, 0);
 	opp(comp->eyev);
 	if (comp->object.type == SPHER)
-	comp->normalv = normal_at(&comp->object.shape, comp->point);
+		comp->normalv = normal_at(&comp->object.shape, comp->point);
 	else if (comp->object.type == PLANE)
 		comp->normalv = tup_mat_mul(comp->object.shape_pl.transform, \
 		comp->object.shape_pl.normalv);

@@ -6,7 +6,7 @@
 /*   By: mthamir <mthamir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/26 14:17:54 by mthamir           #+#    #+#             */
-/*   Updated: 2025/03/05 22:21:48 by mthamir          ###   ########.fr       */
+/*   Updated: 2025/03/09 20:43:57 by mthamir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,10 +37,7 @@ void		swap(double *a, double *b);
 void		*intersect_between_bounds(double arr[4], \
 			t_ray *r_ob_space, t_cylinder *cyl, t_intersect *ret);
 t_intersect	*cyl_intersect(t_ray *r, t_cylinder *cyl);
-int			check_cap(t_ray *r, double t);
 void		check_normal_range(t_tuple *normal);
-void		intersect_caps_cyl(t_cylinder *cyl, \
-			t_ray *r, double *t1, double *t2);
 t_cylinder	*cylinder(double *trunc, int id, t_matrix *tr);
 t_tuple		*normal_at_cyl(t_cylinder *cyl, t_tuple *p_);
 t_matrix	*inverse(t_matrix *a);

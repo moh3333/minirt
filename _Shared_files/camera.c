@@ -6,7 +6,7 @@
 /*   By: mthamir <mthamir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/26 16:22:17 by mthamir           #+#    #+#             */
-/*   Updated: 2025/03/05 20:31:06 by mthamir          ###   ########.fr       */
+/*   Updated: 2025/03/09 22:04:27 by mthamir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,6 +61,8 @@ t_matrix	*view_transformation(t_tuple *from, t_tuple *to, t_tuple *up)
 	forward = tpl_o(*to, *from, sub);
 	normalize(forward);
 	left = cross_p(*forward, *up);
+	if (!left->x && !left->y && !left->z)
+		return (up->x += EPSILON, view_transformation(from, to, up));
 	normalize(left);
 	true_up = cross_p(*left, *forward);
 	normalize(true_up);

@@ -6,7 +6,7 @@
 /*   By: mthamir <mthamir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/06 16:35:03 by mthamir           #+#    #+#             */
-/*   Updated: 2025/03/08 01:02:31 by mthamir          ###   ########.fr       */
+/*   Updated: 2025/03/09 21:59:50 by mthamir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,10 +47,18 @@ t_color	*compute_specular(t_light *light, \
 	return (color_s_mul(&light->color, (0.7 * factor)));
 }
 
-t_color	*check_pattern(t_tuple *p, t_material *m)
+t_color	*check_pattern(t_comps *comp, t_material *m, int type)
 {
-	if ((int )fabs(floor(p->x / m->checker) \
-		+ floor(p->z / m->checker)) % 2 == 0)
-		return (&m->color);
-	return (&m->pattern_color);
+	t_tuple	*p;
+
+	if (type == PLANE)
+	{
+		p = tup_mat_mul (comp->object.shape_pl.inverse_m, comp->point);
+		if ((int )fabs(floor(p->x / m->checker) \
+			+ floor(p->z / m->checker)) % 2 != 0)
+			return (&m->pattern_color);
+	}
+	else if (type == SPHER && spher_checker(&comp->object.shape, comp))
+		return (&m->pattern_color);
+	return (&m->color);
 }

@@ -6,7 +6,7 @@
 /*   By: mthamir <mthamir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/02 21:49:50 by mthamir           #+#    #+#             */
-/*   Updated: 2025/03/08 01:02:24 by mthamir          ###   ########.fr       */
+/*   Updated: 2025/03/09 22:01:34 by mthamir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,9 +25,9 @@ static void	check_object_type(t_comps *comp, t_material **m, t_color **col)
 	*col = &(*m)->color;
 	if (comp->object.type == SPHER && (*m)->texter)
 		*col = spher_texter(&comp->object.shape, *m, comp);
-	if (comp->object.type == PLANE && (*m)->checker)
-		*col = check_pattern(tup_mat_mul \
-			(comp->object.shape_pl.inverse_m, comp->point), *m);
+	else if ((comp->object.type == PLANE \
+	|| comp->object.type == SPHER) && (*m)->checker)
+		*col = check_pattern(comp, *m, comp->object.type);
 }
 
 t_color	*shade_hit(t_world *w, t_comps *comp, t_tuple *eyev)
@@ -49,9 +49,9 @@ t_color	*shade_hit(t_world *w, t_comps *comp, t_tuple *eyev)
 	while (i < w->light_count)
 	{
 		if (!in_shadow(w, comp, i) || \
-			(comp->object.type == SPHER && (m->texter || m->bump_map)))
-				specular_diffuse = colors_operation(specular_diffuse, \
-				compute_lightning_b(&w->light[i], comp, eyev, col), add);
+		(comp->object.type == SPHER && (m->texter || m->bump_map)))
+			specular_diffuse = colors_operation(specular_diffuse, \
+					compute_lightning_b(&w->light[i], comp, eyev, col), add);
 		i++;
 	}
 	return (colors_operation(ambiant, specular_diffuse, add));

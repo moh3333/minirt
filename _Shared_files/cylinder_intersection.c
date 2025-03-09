@@ -6,7 +6,7 @@
 /*   By: mthamir <mthamir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/26 16:20:45 by mthamir           #+#    #+#             */
-/*   Updated: 2025/03/05 22:36:58 by mthamir          ###   ########.fr       */
+/*   Updated: 2025/03/09 20:43:31 by mthamir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,10 +37,10 @@ void	*intersect_between_bounds(double arr[4], t_ray *r_ob_space, \
 	if (ret->t[0] > ret->t[1])
 		swap(&ret->t[0], &ret->t[1]);
 	in_bounds[0] = r_ob_space->o.y + ret->t[0] * r_ob_space->d.y;
-	if (!(cyl->min < in_bounds[0] && in_bounds[0] < cyl->max))
+	if (!(cyl->min <= in_bounds[0] && in_bounds[0] <= cyl->max))
 		ret->t[0] = -INFINITY;
 	in_bounds[1] = r_ob_space->o.y + ret->t[1] * r_ob_space->d.y;
-	if (!(cyl->min < in_bounds[1] && in_bounds[1] < cyl->max))
+	if (!(cyl->min <= in_bounds[1] && in_bounds[1] <= cyl->max))
 		ret->t[1] = -INFINITY;
 	return ("OK");
 }
@@ -57,30 +57,9 @@ t_intersect	*cyl_intersect(t_ray *r, t_cylinder *cyl)
 	if (arr[0] > 0.0)
 		if (!intersect_between_bounds(arr, r_ob_space, cyl, ret))
 			return (NULL);
-	intersect_caps_cyl(cyl, r_ob_space, &ret->t[0], &ret->t[1]);
 	ret->object.shape_cyl = *cyl;
 	ret->object.type = CYLINDER;
 	ret->ray = r_ob_space;
 	ret->next = NULL;
 	return (ret);
-}
-
-int	check_cap(t_ray *r, double t)
-{
-	return (((sq((r->o.x + (t * r->d.x))) \
-		+ sq((r->o.z + (t * r->d.z)))) <= 1.0));
-}
-
-void	intersect_caps_cyl(t_cylinder *cyl, t_ray *r, double *t1, double *t2)
-{
-	double	t;
-
-	if (fabs(r->d.y) < EPSILON)
-		return ;
-	t = (cyl->min - r->o.y) / r->d.y;
-	if (check_cap(r, t) && (*t1 == -INFINITY))
-		*t1 = t;
-	t = (cyl->max - r->o.y) / r->d.y;
-	if (check_cap(r, t) && (*t2 == -INFINITY))
-		*t2 = t;
 }
