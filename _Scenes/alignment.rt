@@ -1,0 +1,35 @@
+A 0.1 255,1,255
+
+C 0,100,500 0,-0.2,-1 130
+L 0,100,-1000 0.8 255,255,255
+L 1600,200,900 0.8 255,255,255
+L -1600,200,900 0.8 255,255,255
+L -1600,1600,900 0.8 255,255,255
+L 1600,1600,900 0.8 255,255,255
+
+sp    0,0,-100         696 255,204,0 texter:_Textures/planets/2k_sun.png bump:_Textures/planets/7358-normal.png
+sp    -579,2,-150    24 200,200,200 bump:_Textures/planets/mercurybump.png texter:_Textures/planets/mercurymap.png
+sp    -1082,2,-180    60 255,223,186 texter:_Textures/planets/ven0aaa2.png
+sp    -1496,2,-200    63 51,255,55 texter:_Textures/earth/earth.png bump:_Textures/earth/earth_grayscal.png
+sp    -1600,2,-210    17 180,180,180 texter:_Textures/moon/2k_moon.png
+sp    -2279,2,-250    34 255,102,102 texter:_Textures/planets/2k_mars.png
+sp    -7783,2,-400    699 255,178,102 texter:_Textures/planets/2k_jupiter.png
+
+sp  -14334,-10,-700   582 255,255,255 texter:_Textures/planets/2k_saturn.png
+
+
+sp  -28709,-10,-800   253 255,255,255 texter:_Textures/planets/2k_uranus.png
+
+
+sp  -44982,-10,-900   246 255,255,255 texter:_Textures/planets/2k_neptune.png
+
+
+sp   3000,-5000,-20000  1 255,255,255
+sp   -3000,5000,-20000  1 255,255,255
+sp   5000,-3000,-20000  1 255,255,255
+sp   -5000,3000,-20000  1 255,255,255
+sp   7000,-2000,-20000  1 255,255,255
+sp   -7000,2000,-20000  1 255,255,255
+sp   9000,-1000,-20000  1 255,255,255
+sp   -9000,1000,-20000  1 255,255,255
+
