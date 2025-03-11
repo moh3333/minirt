@@ -6,7 +6,7 @@
 /*   By: mthamir <mthamir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/06 16:22:21 by mthamir           #+#    #+#             */
-/*   Updated: 2025/03/09 00:30:30 by mthamir          ###   ########.fr       */
+/*   Updated: 2025/03/11 21:30:12 by mthamir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,7 +87,7 @@ int	main(int ac, char **av)
 		if (!rt.cam)
 			return (print_error(NO_CAM), 1);
 		if (!rt.world->ambiant_color)
-			return (print_error(NO_CAM), 1);
+			return (print_error(NO_AMB), 1);
 		render(&rt);
 	}
 }
