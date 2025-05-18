@@ -32,19 +32,11 @@ flowchart TD
     end
 
     subgraph Bonus
-    B --> Vector operations
-    B --> Matrix operations
-    B --> Ray operations
-    B --> Basic geometry
-    B --> Parsing utilities
+    B --> [Vector operations]
+    B --> [Matrix operations]
+    B --> [Ray operations]
+    B --> [Basic geometry]
+    B --> [Parsing utilities]
     end
 
-    classDef shared fill:#cfe2ff,stroke:#6ea8fe;
-    class B,C shared;
-
-    classDef mandatory fill:#d1e7dd,stroke:#0f5132;
-    class D,E,F,G,H,I mandatory;
-
-    classDef bonus fill:#fce5cd,stroke:#e36c09;
-    class J,K,L bonus;
 ```
