@@ -25,13 +25,7 @@ flowchart TD
     A[MiniRT] --> C[_Mandatory]
     A[MiniRT] --> D[_Bonus]
 
-    subgraph Mandatory
-        A --> B
-        A --> C
-        A --> D
-    end
-
-    subgraph Bonus
+    subgraph _Shared_files
     B --> 1[Vector operations
     Matrix operations
     Ray operations
@@ -39,13 +33,13 @@ flowchart TD
     Parsing utilities]
     end
 
-    subgraph Bonus
+    subgraph _Mandatory
     C --> 2[Basic ray tracing
     Simple shading model
     Core primitives]
     end
 
-    subgraph Bonus
+    subgraph _Bonus
     D --> 3[Advanced ray tracing
     Textures & bump maps
     Additional primitives
