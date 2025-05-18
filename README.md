@@ -32,7 +32,8 @@ flowchart TD
     end
 
     subgraph Bonus
-    B --> 1[Vector operations \n Matrix operations]
+    B --> 1[Vector operations
+     Matrix operations]
     end
 
 ```
