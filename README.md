@@ -32,11 +32,9 @@ flowchart TD
     end
 
     subgraph Bonus
-    B --> [Vector operations]
-    B --> [Matrix operations]
-    B --> [Ray operations]
-    B --> [Basic geometry]
-    B --> [Parsing utilities]
+    B --> 1[Vector operations]
+    B --> 2[Matrix operations]
+    B --> 3[Ray operations]
+    B --> 4[Basic geometry]
+    B --> 5[Parsing utilities]
     end
-
-```
