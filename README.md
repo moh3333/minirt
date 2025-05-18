@@ -46,3 +46,27 @@ flowchart TD
     Core primitives]
     end
 ```
+
+## Ray Tracing Pipeline
+
+MiniRT follows a standard ray tracing pipeline. The system traces rays from the camera through each pixel in the image plane into the scene, calculates intersections with objects, and determines the color of each pixel based on lighting, material properties, and shadows.
+
+```mermaid
+
+gantt
+    A[Scene File (.rt)] --> B[parse_file()]
+    B --> C[world()]
+    C --> D[init_camera()]
+    C --> E[init_objects()]
+    C --> F[init_light()]
+    D --> J[ray_for_pixel()]
+    J --> I[render()]
+    I --> L[For each pixel]
+    L --> P[world_intersection()]
+    F --> P
+    P --> O[get_first_intersect()]
+    O --> H[prepare_computing()]
+    O --> R[shade_hit()]
+    F --> R
+    r --> U[color_at()]
+```
