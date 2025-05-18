@@ -11,17 +11,39 @@ MiniRT is organized into two versions: a mandatory version with basic ray tracin
 
 MiniRT is organized into two versions: a mandatory version with basic ray tracing functionality and a bonus version with extended features. Both versions share common utilities and data structures but implement different rendering capabilities.
 
-```
-mermaid
-    graph TD
-    A[".rt Scene File"] --> B["Parser"]
-    B --> C["Scene Data Structures"]
-    C --> D["Ray Tracer Core"]
+```mermaid
+graph TD
+    A[.rt Scene File] --> B[Parser]
+    B --> C[Scene Data Structures]
+    C --> D[Ray Tracer Core]
     
-    D --> E["Camera Ray Generation"]
-    D --> F["Ray-Object Intersections"]
-    D --> G["Lighting & Shading"]
+    D --> E[Camera Ray Generation]
+    D --> F[Ray-Object Intersections]
+    D --> G[Lighting & Shading]
     
+    G --> H[Image Buffer]
+    H --> I[Display or Save Image]
+
+    subgraph Shared_files
+        B
+        C
+    end
+
+    subgraph Mandatory
+        D
+        E
+        F
+        G
+    end
+
+    subgraph Bonus
+        J[Texture Mapping]
+        K[Bump Mapping]
+        L[Additional Primitives]
+        J --> G
+        K --> G
+        L --> F
+    end
 ```
 
 ## Project Organization
