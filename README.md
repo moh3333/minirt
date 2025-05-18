@@ -70,3 +70,16 @@ flowchart LR
     F --> R
     R --> U["color_at()"]
 ```
+
+## Geometric Primitives
+
+MiniRT supports multiple geometric primitives, each with its own intersection logic:
+
+###1 - Spheres: 
+    -Defined by a center point and radius
+###2 - Planes: 
+    -Defined by a point and normal vector
+###3 - Cylinders: 
+    -Defined by a center axis, diameter, and height
+###4 - Cones (Bonus): 
+    -Defined by a center axis, diameter, and height
