@@ -21,9 +21,16 @@ Implements the extended features (texture mapping, bump mapping, additional prim
 ```mermaid
 
 flowchart TD
-    A[MiniRT] --> B[_Shared_files]
-    A[MiniRT] --> C[_Mandatory]
-    A[MiniRT] --> D[_Bonus]
+    A[MiniRT] -- B[_Shared_files]
+    A[MiniRT] -- C[_Mandatory]
+    A[MiniRT] -- D[_Bonus]
+
+    subgraph _Bonus
+    D --> 3[Advanced ray tracing
+    Textures & bump maps
+    Additional primitives
+    Enhanced shading]
+    end
 
     subgraph _Shared_files
     B --> 1[Vector operations
@@ -38,12 +45,4 @@ flowchart TD
     Simple shading model
     Core primitives]
     end
-
-    subgraph _Bonus
-    D --> 3[Advanced ray tracing
-    Textures & bump maps
-    Additional primitives
-    Enhanced shading]
-    end
-
 ```
