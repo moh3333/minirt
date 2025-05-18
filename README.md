@@ -53,8 +53,8 @@ MiniRT follows a standard ray tracing pipeline. The system traces rays from the 
 
 ```mermaid
 
-gantt
-    A[Scene File (.rt)] --> B[parse_file]
+erDiagram
+    A[Scene File (.rt)] --> B[parse_file()]
     B --> C[world()]
     C --> D[init_camera()]
     C --> E[init_objects()]
