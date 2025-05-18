@@ -68,5 +68,5 @@ flowchart TD
     O --> H[prepare_computing()]
     O --> R[shade_hit()]
     F --> R
-    r --> U[color_at()]
+    R --> U[color_at()]
 ```
