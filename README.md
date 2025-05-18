@@ -7,43 +7,36 @@ MiniRT is a 3D ray tracing renderer implemented in C. It renders 3D scenes defin
 
 MiniRT is organized into two versions: a mandatory version with basic ray tracing functionality and a bonus version with extended features. Both versions share common utilities and data structures but implement different rendering capabilities.
 
-## System Architecture
-
-MiniRT is organized into two versions: a mandatory version with basic ray tracing functionality and a bonus version with extended features. Both versions share common utilities and data structures but implement different rendering capabilities.
+## MiniRT Architecture
 
 ```mermaid
-graph TD
+flowchart TD
     A[.rt Scene File] --> B[Parser]
     B --> C[Scene Data Structures]
     C --> D[Ray Tracer Core]
-    
-    D --> E[Camera Ray Generation]
-    D --> F[Ray-Object Intersections]
-    D --> G[Lighting & Shading]
-    
-    G --> H[Image Buffer]
-    H --> I[Display or Save Image]
-
-    subgraph Shared_files
-        B
-        C
-    end
 
     subgraph Mandatory
-        D
-        E
-        F
-        G
+        D --> E[Camera Ray Generation]
+        D --> F[Ray-Object Intersections]
+        D --> G[Lighting & Shading]
+        G --> H[Image Buffer]
+        H --> I[Display / Save Image]
     end
 
     subgraph Bonus
-        J[Texture Mapping]
-        K[Bump Mapping]
-        L[Additional Primitives]
-        J --> G
-        K --> G
-        L --> F
+        J[Texture Mapping] --> G
+        K[Bump Mapping] --> G
+        L[Extra Primitives] --> F
     end
+
+    classDef shared fill:#cfe2ff,stroke:#6ea8fe;
+    class B,C shared;
+
+    classDef mandatory fill:#d1e7dd,stroke:#0f5132;
+    class D,E,F,G,H,I mandatory;
+
+    classDef bonus fill:#fce5cd,stroke:#e36c09;
+    class J,K,L bonus;
 ```
 
 ## Project Organization
