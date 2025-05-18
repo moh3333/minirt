@@ -54,19 +54,19 @@ MiniRT follows a standard ray tracing pipeline. The system traces rays from the 
 ```mermaid
 
 flowchart TD
-    A[Scene File (.rt)] --> B[parse_file()]
-    B --> C[world()]
-    C --> D[init_camera()]
-    C --> E[init_objects()]
-    C --> F[init_light()]
-    D --> J[ray_for_pixel()]
-    J --> I[render()]
+    A["Scene File (.rt)"] --> B["parse_file()"]
+    B --> C["world()"]
+    C --> D["init_camera()"]
+    C --> E["init_objects()"]
+    C --> F["init_light()"]
+    D --> J["ray_for_pixel()"]
+    J --> I["render()"]
     I --> L[For each pixel]
-    L --> P[world_intersection()]
+    L --> P["world_intersection()"]
     F --> P
-    P --> O[get_first_intersect()]
-    O --> H[prepare_computing()]
-    O --> R[shade_hit()]
+    P --> O["get_first_intersect()"]
+    O --> H["prepare_computing()"]
+    O --> R["shade_hit()"]
     F --> R
-    R --> U[color_at()]
+    R --> U["color_at()"]
 ```
