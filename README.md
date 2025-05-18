@@ -1,5 +1,5 @@
 
-# MiniRT
+<h2 style="color:#e63946;">🚀 MiniRT </h2>
 
 MiniRT is a 3D ray tracing renderer implemented in C. It renders 3D scenes defined in a custom scene description format (.rt files) using ray tracing techniques to produce realistic images with lighting, shadows, and surface reflections. This document provides a high-level overview of the system architecture, main components, and rendering pipeline.
 
