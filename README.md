@@ -33,7 +33,23 @@ flowchart TD
 
     subgraph Bonus
     B --> 1[Vector operations
-     Matrix operations]
+    Matrix operations
+    Ray operations
+    Basic geometry
+    Parsing utilities]
+    end
+
+    subgraph Bonus
+    C --> 2[Basic ray tracing
+    Simple shading model
+    Core primitives]
+    end
+
+    subgraph Bonus
+    D --> 3[Advanced ray tracing
+    Textures & bump maps
+    Additional primitives
+    Enhanced shading]
     end
 
 ```
