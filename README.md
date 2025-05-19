@@ -12,11 +12,14 @@ MiniRT is organized into two versions: a mandatory version with basic ray tracin
 #### The codebase is structured into three main directories:
 
 ### 1 -  _Shared_files:
-=> Contains common utilities and data structures used by both versions.
+    Contains common utilities and data structures used by both versions.
+
 ### 2 -  _Mandatory:
-=> Implements the basic ray tracing functionality.
+    Implements the basic ray tracing functionality.
+
 ### 3 - _Bonus: 
-Implements the extended features (texture mapping, bump mapping, additional primitives).
+    Implements the extended features (texture mapping, bump mapping, additional primitives).
+
 
 ```mermaid
 
@@ -75,14 +78,14 @@ flowchart LR
 
 MiniRT supports multiple geometric primitives, each with its own intersection logic:
 
-1 - Spheres: 
-    -Defined by a center point and radius
+###1 - Spheres: 
+    Defined by a center point and radius
 
-2 - Planes: 
-    -Defined by a point and normal vector
+###2 - Planes: 
+    Defined by a point and normal vector
 
-3 - Cylinders: 
-    -Defined by a center axis, diameter, and height
+###3 - Cylinders: 
+    Defined by a center axis, diameter, and height
 
-4 - Cones (Bonus): 
-    -Defined by a center axis, diameter, and height
+###4 - Cones (Bonus): 
+    Defined by a center axis, diameter, and height
