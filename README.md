@@ -76,7 +76,7 @@ flowchart LR
 
 ## Geometric Primitives:
 
-### MiniRT supports multiple geometric primitives, each with its own intersection logic:
+#### MiniRT supports multiple geometric primitives, each with its own intersection logic:
 
 1 - Spheres: Defined by a center point and radius
 
@@ -125,7 +125,7 @@ flowchart TD
     L ----> S[Closest Intersection]
 ```
 
-### The intersection testing system processes each primitive differently based on its type, but follows a common pattern:
+#### The intersection testing system processes each primitive differently based on its type, but follows a common pattern:
 
 1 - Transform the ray to object space
 2 - Calculate intersection(s)
@@ -155,10 +155,15 @@ In the bonus version, this is extended with:
  The shading system in MiniRT operates on intersection data to produce a final color for each pixel. It follows these steps:
 
 1 - Calculate properties at the intersection point (position, normal)
+
 2 - Retrieve material properties of the intersected object
+
 3 - Compute lighting effects based on the scene's light sources
+
 4 - Apply shadow calculations to determine if a point is occluded
+
 5 - Apply patterns or textures (in the bonus version)
+
 6 - Combine all components to produce the final pixel color
 
 ### Shading Pipeline:
@@ -168,9 +173,13 @@ In the bonus version, this is extended with:
  - Shading Calculation:
 
 1 - Identifies the material of the intersected object
+
 2 - Calculates ambient lighting
+
 3 - Checks if the point is in shadow
+
 4 - If not in shadow, adds diffuse lighting
+
 5 - Combines all components for the final color
 
 
@@ -190,10 +199,14 @@ flowchart LR
     G --> P
     P --> K[Return Final Color]
 ```
-#### 4 - Shadows: Areas occluded from light sources
 
-In the bonus version, this is extended with:
+## Building and Running
 
- - Texture mapping
- - Bump mapping
- - Checker patterns
+The application can be built using the Makefile:
+
+ - [make -] builds the mandatory version
+ - [make bonus] - builds the version with bonus features
+
+ To run the application, pass a scene file as a parameter:
+
+    ./miniRT scene_file.rt
