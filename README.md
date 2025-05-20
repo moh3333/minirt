@@ -128,9 +128,13 @@ flowchart TD
 #### The intersection testing system processes each primitive differently based on its type, but follows a common pattern:
 
 1 - Transform the ray to object space
+
 2 - Calculate intersection(s)
+
 3 - Validate intersection points
+
 4 - Create intersection records
+
 5 - Find the closest valid intersection
 
 ## Lighting and Shading:
