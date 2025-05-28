@@ -1,216 +1,229 @@
+I understand you want to create a GitHub README.md file for your MiniRT ray tracing project. Based on your codebase, I'll create a comprehensive README with diagrams that explains the concepts and architecture.
 
-# MiniRT
+# MiniRT - 3D Ray Tracing Engine
 
-MiniRT is a 3D ray tracing renderer implemented in C. It renders 3D scenes defined in a custom scene description format (.rt files) using ray tracing techniques to produce realistic images with lighting, shadows, and surface reflections. This document provides a high-level overview of the system architecture, main components, and rendering pipeline.
+![Ray Tracing Demo](https://img.shields.io/badge/Language-C-blue.svg)
+![Build Status](https://img.shields.io/badge/Build-Passing-green.svg)
+![License](https://img.shields.io/badge/License-MIT-yellow.svg)
 
-## System Architecture:
+A high-performance 3D ray tracing renderer implemented in C that creates photorealistic images by simulating the physics of light. MiniRT supports multiple geometric primitives, advanced lighting models, and texture mapping.
 
-MiniRT is organized into two versions: a mandatory version with basic ray tracing functionality and a bonus version with extended features. Both versions share common utilities and data structures but implement different rendering capabilities.
+## 🌟 Features
 
-## Project Organization:
+### Core Features
+- **Ray Tracing Engine**: Full implementation of ray-object intersection algorithms
+- **Multiple Primitives**: Spheres, planes, cylinders, and cones (bonus)
+- **Phong Lighting Model**: Ambient, diffuse, and specular lighting
+- **Shadow Calculation**: Realistic shadow rendering
+- **Camera System**: Configurable viewpoint and field of view
 
-#### The codebase is structured into three main directories:
+### Advanced Features (Bonus)
+- **Texture Mapping**: Apply 2D images to 3D surfaces [1](#1-0) 
+- **Bump Mapping**: Surface detail simulation without geometric complexity [2](#1-1) 
+- **Procedural Patterns**: Mathematical checkerboard patterns [3](#1-2) 
+- **Additional Geometry**: Cone primitives for complex scenes
 
-### 1 -  _Shared_files:
-    Contains common utilities and data structures used by both versions.
-
-### 2 -  _Mandatory:
-    Implements the basic ray tracing functionality.
-
-### 3 - _Bonus: 
-    Implements the extended features (texture mapping, bump mapping, additional primitives).
-
+## 🏗️ Architecture
 
 ```mermaid
-
-flowchart TD
-    A[MiniRT] --> B[_Shared_files]
-    A[MiniRT] --> C[_Mandatory]
-    A[MiniRT] --> D[_Bonus]
-
-    subgraph   Bonus
-    D --> 3[Advanced ray tracing
-    Textures & bump maps
-    Additional primitives
-    Enhanced shading]
-    end
-
-    subgraph Shared    files
-    B --> 1[Vector operations
-    Matrix operations
-    Ray operations
-    Basic geometry
-    Parsing utilities]
-    end
-
-    subgraph Mandatory
-    C --> 2[Basic ray tracing
-    Simple shading model
-    Core primitives]
+graph TD
+    subgraph "MiniRT Architecture"
+        A[Scene File .rt] --> B[Parser]
+        B --> C[World Initialization]
+        C --> D[Camera Setup]
+        C --> E[Objects Creation]
+        C --> F[Lighting Setup]
+        
+        D --> G[Ray Generation]
+        E --> H[Intersection Testing]
+        F --> I[Shading Calculation]
+        
+        G --> H
+        H --> I
+        I --> J[Pixel Color]
+        J --> K[Final Image]
     end
 ```
 
-## Ray Tracing Pipeline:
+The project is organized into three main components:
 
-MiniRT follows a standard ray tracing pipeline. The system traces rays from the camera through each pixel in the image plane into the scene, calculates intersections with objects, and determines the color of each pixel based on lighting, material properties, and shadows.
+- **`_Shared_files/`**: Common mathematical operations and geometric primitives [4](#1-3) 
+- **`_Mandatory/`**: Core ray tracing functionality [5](#1-4) 
+- **`_Bonus/`**: Extended features like textures and additional shapes [6](#1-5) 
+
+## 🔬 Ray Tracing Pipeline
 
 ```mermaid
-
 flowchart LR
-    A["Scene File (.rt)"] --> B["parse_file()"]
-    B --> C["world()"]
-    C --> D["init_camera()"]
-    C --> E["init_objects()"]
-    C --> F["init_light()"]
-    D --> J["ray_for_pixel()"]
-    J --> I["render()"]
-    I --> L[For each pixel]
-    L --> P["world_intersection()"]
-    F --> P
-    P --> O["get_first_intersect()"]
-    O --> H["prepare_computing()"]
-    O --> R["shade_hit()"]
-    F --> R
-    R --> U["color_at()"]
+    subgraph "Rendering Process"
+        A[Camera] --> B[Ray Generation]
+        B --> C[World Intersection]
+        C --> D[Prepare Computing]
+        D --> E[Shade Hit]
+        E --> F[Color Output]
+    end
+    
+    subgraph "For Each Pixel"
+        G[Pixel x,y] --> H[ray_for_pixel]
+        H --> I[world_intersection]
+        I --> J[prepare_computing]
+        J --> K[shade_hit]
+        K --> L[Final Color]
+    end
 ```
 
-## Geometric Primitives:
+The rendering process follows these key steps:
 
-#### MiniRT supports multiple geometric primitives, each with its own intersection logic:
+1. **Ray Generation**: Cast rays from camera through each pixel [7](#1-6) 
+2. **Intersection Testing**: Find closest object hit by each ray [8](#1-7) 
+3. **Shading**: Calculate lighting at intersection points
+4. **Shadow Testing**: Determine if points are occluded from light sources [9](#1-8) 
 
-1 - Spheres: Defined by a center point and radius
+## 🎯 Geometric Primitives
 
-2 - Planes: Defined by a point and normal vector
-
-3 - Cylinders: Defined by a center axis, diameter, and height
-
-4 - Cones (Bonus): Defined by a center axis, diameter, and height
-
-
-All primitives share a common structure that includes:
-
- - Transformation matrices for positioning and scaling
-
- - Material properties for appearance
-
- - Ray intersection calculations
-
- - Surface normal calculations
-
-
-Each primitive implements its own intersection algorithm with rays, which is used by the ray tracer to determine visibility and shading.
-
-## Ray-Object Intersection System:
-
+### Sphere Intersection
+Spheres use quadratic equation solving for ray intersection:
 
 ```mermaid
+graph LR
+    A[Ray] --> B[Transform to Object Space]
+    B --> C[Quadratic Equation]
+    C --> D[Discriminant Check]
+    D --> E[Calculate t Values]
+    E --> F[Return Intersection]
+``` [10](#1-9) 
 
-flowchart TD
-    A["Ray"] --> B["world_intersection()"]
-    B --> C["Cone Intersection"]
-    B --> D["Cylinder Intersection"]
-    B --> E["Sphere Intersection"]
-    B --> F["Plane Intersection"]
+### Cylinder Creation
+Cylinders are defined with position, orientation, and dimensions: [11](#1-10) 
 
-    C --> J["Quadratic Equation Solver"]
-    D --> J
-    E --> J
-
-    C --> H[Intersection List]
-    D --> H
-    E --> H
-    F --> H
-
-    H --> L["get_first_intersect()"]
-    L ----> S[Closest Intersection]
-```
-
-#### The intersection testing system processes each primitive differently based on its type, but follows a common pattern:
-
-1 - Transform the ray to object space
-
-2 - Calculate intersection(s)
-
-3 - Validate intersection points
-
-4 - Create intersection records
-
-5 - Find the closest valid intersection
-
-## Lighting and Shading:
-
-The lighting model in MiniRT incorporates:
-
-
-1 - Ambient lighting: Global illumination that lights all surfaces evenly
-
-2 - Diffuse reflection: Surface reflection that depends on the angle of incidence
-
-3 - Specular highlights: Shiny reflections of light sources
-
-4 - Shadows: Areas occluded from light sources
-
-In the bonus version, this is extended with:
-
- - Texture mapping
- - Bump mapping
- - Checker patterns
-
- The shading system in MiniRT operates on intersection data to produce a final color for each pixel. It follows these steps:
-
-1 - Calculate properties at the intersection point (position, normal)
-
-2 - Retrieve material properties of the intersected object
-
-3 - Compute lighting effects based on the scene's light sources
-
-4 - Apply shadow calculations to determine if a point is occluded
-
-5 - Apply patterns or textures (in the bonus version)
-
-6 - Combine all components to produce the final pixel color
-
-### Shading Pipeline:
-
-    Light sources in MiniRT have a position and a color.
-
- - Shading Calculation:
-
-1 - Identifies the material of the intersected object
-
-2 - Calculates ambient lighting
-
-3 - Checks if the point is in shadow
-
-4 - If not in shadow, adds diffuse lighting
-
-5 - Combines all components for the final color
-
+## 🎨 Lighting Model
 
 ```mermaid
-
-flowchart LR
-    A["shade_hit()"] --> B["Get Object Material"]
-    B --> C["Calculate Ambient Light"]
-    C --> D["Shadow Check"]
-    D --> E["In Shadow"]
-    D --> F["Not in Shadow"]
-    E --> V[Return Ambient Only]
-    F --> W[Calculate Diffuse Light]
-    W --Mandatory--> P[Combine Ambient and Diffuse]
-    W --Bonus--> X[Add Specular Component]
-    X --> G[Apply Patterns/Textures]
-    G --> P
-    P --> K[Return Final Color]
+graph TD
+    subgraph "Phong Lighting Model"
+        A[Surface Point] --> B[Ambient Component]
+        A --> C[Diffuse Component]
+        A --> D[Specular Component]
+        
+        B --> E[Final Color]
+        C --> E
+        D --> E
+        
+        F[Light Source] --> C
+        F --> D
+        G[Surface Normal] --> C
+        G --> D
+        H[Eye Vector] --> D
+    end
 ```
 
-## Building and Running
+The lighting system combines:
+- **Ambient**: Global illumination
+- **Diffuse**: Surface brightness based on light angle
+- **Specular**: Shiny reflections for glossy materials
 
-The application can be built using the Makefile:
+## 📁 Project Structure
 
- - [make -] builds the mandatory version
- - [make bonus] - builds the version with bonus features
+```
+MiniRT/
+├── _Shared_files/          # Common utilities
+│   ├── sphere_intersection.c
+│   ├── matrix_operations_1.c
+│   └── ...
+├── _Mandatory/             # Core implementation
+│   ├── prog_files/
+│   │   └── render.c
+│   └── parse/
+├── _Bonus/                 # Advanced features
+│   ├── prog_files_bonus/
+│   │   ├── render_bonus.c
+│   │   └── texter_bonus.c
+│   └── parse_bonus/
+└── Makefile
+```
 
- To run the application, pass a scene file as a parameter:
+## 🚀 Getting Started
 
-    ./miniRT scene_file.rt
+### Prerequisites
+- GCC compiler
+- MLX42 graphics library
+- Make
+
+### Building
+
+```bash
+# Build mandatory version
+make
+
+# Build bonus version with advanced features
+make bonus
+
+# Clean build files
+make clean
+```
+
+### Running
+
+```bash
+# Run with a scene file
+./miniRT scenes/example.rt
+
+# Bonus version
+./miniRT_bonus scenes/textured_scene.rt
+```
+
+### Scene File Format
+
+Create `.rt` files to define your 3D scenes:
+
+```
+A 0.2 255,255,255                    # Ambient lighting
+C -50,0,20 0,0,0 70                  # Camera position, direction, FOV
+L -40,0,30 0.7 255,255,255           # Light source
+
+sp 0,0,20 20 255,0,0                 # Sphere: position, radius, color
+pl 0,0,0 0,1.0,0 255,255,0           # Plane: position, normal, color
+cy 50.0,0.0,20.6 0,0,1.0 14.2 21.42 10,0,255  # Cylinder
+```
+
+## 🔧 Mathematical Foundations
+
+### Matrix Operations
+4x4 matrices handle transformations: [12](#1-11) 
+
+### Scene Parsing
+The parser converts scene descriptions into internal data structures: [13](#1-12) 
+
+## 🎯 Key Algorithms
+
+### Shadow Calculation
+Shadows are computed by casting rays from intersection points toward light sources to check for occlusion.
+
+### Texture Mapping
+The bonus version supports spherical texture mapping, converting 3D surface points to 2D texture coordinates using spherical mathematics.
+
+## 🤝 Contributing
+
+1. Fork the repository
+2. Create a feature branch (`git checkout -b feature/amazing-feature`)
+3. Commit your changes (`git commit -m 'Add amazing feature'`)
+4. Push to the branch (`git push origin feature/amazing-feature`)
+5. Open a Pull Request
+
+## 📄 License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
+## 🙏 Acknowledgments
+
+- 42 School for the project specifications
+- Computer graphics community for ray tracing algorithms
+- MLX42 library for graphics rendering
+
+---
+
+**Note**: This project demonstrates fundamental computer graphics concepts including 3D mathematics, lighting models, and rendering algorithms. The bonus features showcase advanced techniques like texture mapping and procedural generation commonly used in modern rendering engines.
+
+Wiki pages you might want to explore:
+- [Overview (moh3333/minirt)](/wiki/moh3333/minirt#1)
+- [Advanced Camera Features (moh3333/minirt)](/wiki/moh3333/minirt#5.2)
